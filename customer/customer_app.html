@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>내 주변 약 찾기</title>
+    <link rel="stylesheet" href="customer_style.css" />
+  </head>
+  <body>
+    <div class="mobile-frame">
+      <div class="home-button" onclick="goHome()" style="display: none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+          />
+        </svg>
+      </div>
+      <!-- Search Results Popup (Modal) -->
+      <div id="search-modal" class="popup-overlay">
+        <div class="popup-content">
+          <h2 id="search-modal-title">검색 결과</h2>
+          <div class="popup-list" id="search-modal-list">
+            <!-- Dynamic content will be inserted here -->
+          </div>
+          <div class="popup-actions">
+            <button class="btn btn-cancel" onclick="closeSearchModal()">
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alternative List Modal -->
+      <div id="alternative-list-modal" class="popup-overlay">
+        <div class="popup-content">
+          <h2>대체약 목록</h2>
+          <div class="popup-list">
+            <a href="#" onclick="updateMainScreenForDrug('게보린정')"
+              >게보린정</a
+            >
+            <a href="#" onclick="updateMainScreenForDrug('펜잘큐정')"
+              >펜잘큐정</a
+            >
+            <a href="#" onclick="updateMainScreenForDrug('사리돈에이정')"
+              >사리돈에이정</a
+            >
+          </div>
+          <div class="popup-actions">
+            <button
+              class="btn btn-cancel"
+              onclick="closeAlternativeListModal()"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <!-- Main App Screen -->
+        <div id="main-app-screen" class="app-screen">
+          <div class="app-header">
+            <h1>내 주변 약 찾기</h1>
+            <p>필요한 약을 검색하세요</p>
+          </div>
+          <div class="search-box">
+            <input type="text" placeholder="예: 타이레놀" />
+            <div class="search-button" onclick="openSearchModal()">
+              <svg fill="currentColor" viewBox="0 0 16 16">
+                <path
+                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="map-placeholder"><span>지도 영역</span></div>
+        </div>
+      </div>
+
+      <div class="bottom-panel">
+        <div class="panel-handle"></div>
+        <button
+          class="alt-search-btn"
+          onclick="openAlternativeListModal()"
+          style="display: none"
+        >
+          대체약 검색
+        </button>
+        <div class="pharmacy-list">
+          <!-- Pharmacy items will be populated dynamically -->
+        </div>
+      </div>
+      <!-- Pharmacy Detail Modal -->
+      <div id="pharmacy-detail-modal" class="popup-overlay">
+        <div class="popup-content">
+          <button class="btn-close" onclick="closePharmacyDetailModal()">
+            ×
+          </button>
+          <h2 id="pharmacy-name"></h2>
+          <div class="pharmacy-detail-content">
+            <p><strong>재고 수량:</strong> <span id="stock-level"></span></p>
+            <p><strong>상세 정보:</strong> 연중무휴, 주차 가능</p>
+            <p><strong>공지사항:</strong> 8월 15일 광복절 정상 영업합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="outside-button" onclick="openAlternativeListModal()">
+      약 없을 때
+    </button>
+
+    <script>
+      const bottomPanel = document.querySelector(".bottom-panel");
+      bottomPanel.addEventListener("click", () =>
+        bottomPanel.classList.toggle("active")
+      );
+
+      const searchModal = document.getElementById("search-modal");
+      const alternativeListModal = document.getElementById(
+        "alternative-list-modal"
+      );
+      const pharmacyDetailModal = document.getElementById(
+        "pharmacy-detail-modal"
+      );
+
+      const mainAppScreen = document.getElementById("main-app-screen");
+
+      // --- Mock Data ---
+      const drugDatabase = {
+        타이레놀: [
+          "타이레놀정 500mg",
+          "어린이용 타이레놀정 80mg",
+          "타이레놀 콜드-에스정",
+        ],
+        게보린: ["게보린정", "게보린 릴랙스 연질캡슐"],
+        펜잘: ["펜잘큐정", "펜잘이알서방정"],
+        부루펜: ["부루펜정 400mg", "어린이 부루펜 시럽"],
+      };
+
+      const pharmacyDatabase = {
+        온누리약국: {
+          distance: "0.8 km",
+          drugs: { "타이레놀정 500mg": "많음", 게보린정: "적음" },
+        },
+        늘봄약국: {
+          distance: "1.2 km",
+          drugs: { "타이레놀정 500mg": "보통", 펜잘큐정: "많음" },
+        },
+        정다운약국: {
+          distance: "1.5 km",
+          drugs: { "부루펜정 400mg": "많음", 게보린정: "보통" },
+        },
+        새로운약국: {
+          distance: "2.1 km",
+          drugs: { 펜잘큐정: "적음", "타이레놀 콜드-에스정": "많음" },
+        },
+      };
+
+      // --- App Initialization ---
+      document.addEventListener("DOMContentLoaded", () => {
+        populateMainPharmacyList();
+      });
+
+      function populateMainPharmacyList() {
+        const mainList = document.querySelector(".bottom-panel .pharmacy-list");
+        mainList.innerHTML = ""; // Clear existing list
+
+        const mainHeader = mainAppScreen.querySelector(".app-header");
+        mainHeader.innerHTML = `<h1>내 주변 약 찾기<span style="font-size: 0.7em; display: block; color: #808080;">필요한 약을 검색하세요</span></h1>`;
+
+        // Hide alt-search-btn on initial load
+        document.querySelector(".alt-search-btn").style.display = "none";
+
+        for (const pharmacyName in pharmacyDatabase) {
+          const pharmacy = pharmacyDatabase[pharmacyName];
+          const item = document.createElement("div");
+          item.className = "pharmacy-item";
+          item.onclick = () =>
+            openPharmacyDetailModal(pharmacyName, "정보 보기");
+          item.innerHTML = `<h3>${pharmacyName}</h3><span>${pharmacy.distance}</span>`;
+          mainList.appendChild(item);
+        }
+      }
+
+      function goHome() {
+        const mainHeader = mainAppScreen.querySelector(".app-header");
+        mainHeader.innerHTML = `<h1>내 주변 약 찾기<span style="font-size: 0.7em; display: block; color: #808080;">필요한 약을 검색하세요</span></h1>`;
+        populateMainPharmacyList();
+        document.querySelector(".home-button").style.display = "none"; // Hide home button
+        document.querySelector(".alt-search-btn").style.display = "none"; // Hide alt-search-btn
+      }
+
+      function updateMainScreenForDrug(drugName) {
+        const mainHeader = mainAppScreen.querySelector(".app-header");
+        mainHeader.innerHTML = `<h1>${drugName}<span style="font-size: 0.7em; display: block; color: #808080;">재고가 있는 약국</span></h1>`;
+
+        const pharmacyList = document.querySelector(
+          ".bottom-panel .pharmacy-list"
+        );
+        pharmacyList.innerHTML = ""; // Clear previous list
+
+        let found = false;
+        for (const pharmacyName in pharmacyDatabase) {
+          const pharmacy = pharmacyDatabase[pharmacyName];
+          if (pharmacy.drugs[drugName]) {
+            found = true;
+            const item = document.createElement("div");
+            item.className = "pharmacy-item";
+            item.onclick = () =>
+              openPharmacyDetailModal(pharmacyName, pharmacy.drugs[drugName]);
+            item.innerHTML = `<h3>${pharmacyName}</h3><span>${pharmacy.distance}</span>`;
+            pharmacyList.appendChild(item);
+          }
+        }
+
+        if (!found) {
+          pharmacyList.innerHTML = `<p style="text-align: center; color: #888; padding-top: 20px;">재고를 보유한 약국이 없습니다.</p>`;
+        }
+
+        // Close all modals
+        closeSearchModal();
+        gt;
+        closeAlternativeListModal();
+        document.querySelector(".home-button").style.display = "block"; // Show home button
+        document.querySelector(".alt-search-btn").style.display = "block"; // Show alt-search-btn
+      }
+
+      function openSearchModal() {
+        const searchTerm = document
+          .querySelector("#main-app-screen .search-box input")
+          .value.trim();
+        const modalTitle = document.getElementById("search-modal-title");
+        const modalList = document.getElementById("search-modal-list");
+
+        modalList.innerHTML = ""; // Clear previous results
+
+        let results = [];
+        // If search term is empty, show all drugs
+        if (!searchTerm) {
+          for (const key in drugDatabase) {
+            results = results.concat(drugDatabase[key]);
+          }
+        } else {
+          // Find drugs that include the search term
+          for (const key in drugDatabase) {
+            if (key.toLowerCase().includes(searchTerm.toLowerCase())) {
+              results = results.concat(drugDatabase[key]);
+            }
+          }
+        }
+
+        if (results.length > 0) {
+          modalTitle.textContent = searchTerm
+            ? `'${searchTerm}' 검색 결과`
+            : "전체 약품 목록";
+          results.forEach((drugName) => {
+            const link = document.createElement("a");
+            link.href = "#";
+            link.textContent = drugName;
+            link.onclick = () => updateMainScreenForDrug(drugName);
+            modalList.appendChild(link);
+          });
+        } else {
+          modalTitle.textContent = "검색 결과 없음";
+          const noResultMessage = document.createElement("p");
+          noResultMessage.textContent = `'${searchTerm}'에 대한 검색 결과가 없습니다.`;
+          modalList.appendChild(noResultMessage);
+        }
+
+        searchModal.style.display = "flex";
+      }
+
+      function closeSearchModal() {
+        searchModal.style.display = "none";
+      }
+
+      function openAlternativeListModal() {
+        alternativeListModal.style.display = "flex";
+      }
+
+      function closeAlternativeListModal() {
+        alternativeListModal.style.display = "none";
+      }
+
+      function openPharmacyDetailModal(name, stock) {
+        document.getElementById("pharmacy-name").textContent = name;
+        document.getElementById("stock-level").textContent = stock;
+        pharmacyDetailModal.style.display = "flex";
+      }
+
+      function closePharmacyDetailModal() {
+        pharmacyDetailModal.style.display = "none";
+      }
+    </script>
+  </body>
+</html>
+<section></section>

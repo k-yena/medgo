@@ -1,0 +1,303 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+/* Login & Signup Form Container */
+.form-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container h1 {
+    margin-bottom: 20px;
+}
+
+.form-container form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+textarea {
+    resize: vertical;
+}
+
+button, .btn-action {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-signup {
+    margin-top: 15px;
+    text-align: center;
+    display: block;
+}
+
+/* Main Layout */
+.main-container {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.btn-menu {
+    display: block;
+    padding: 10px 15px;
+    background-color: #ddd;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn-menu.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.content-header.text-center h2 {
+    width: 100%;
+    text-align: center;
+}
+
+.content-header .btn-action.btn-md {
+    padding: 8px 16px;
+    font-size: 14px;
+    width: auto;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.item-name-cell {
+    cursor: pointer;
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 500px;
+    text-align: center;
+}
+
+.quantity-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.quantity-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#quantity-display {
+    font-size: 20px;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.modal-actions .btn-action {
+    width: auto;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+}
+
+/* Member Info Page Styles */
+.info-view {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.info-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.info-group label {
+    font-weight: bold;
+    width: 120px;
+    color: #333;
+}
+
+.page-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.page-actions .btn-action {
+    width: auto;
+}
+
+
+.search-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    flex-grow: 1;
+    margin-right: 10px;
+    margin-top: 0; /* Override default margin */
+}
+
+.search-container .btn-action {
+    width: auto; /* Override default width */
+    margin-top: 0; /* Override default margin */
+}
+
+/* Notice Page Styles */
+.notice-list {
+    margin-top: 20px;
+}
+
+.notice-item {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.notice-header h3 {
+    margin: 0;
+}
+
+.notice-date {
+    color: #666;
+    font-size: 14px;
+}
+
+.notice-actions {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    width: auto;
+    margin-left: 5px;
+}

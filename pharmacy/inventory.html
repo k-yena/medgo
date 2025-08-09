@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입출고관리</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <h1>ㅇㅇ약국</h1>
+            <a href="main.html" class="btn-menu">메인화면</a>
+            <a href="inventory.html" class="btn-menu active">입출고관리</a>
+            <a href="notice.html" class="btn-menu">공지사항</a>
+            <a href="member.html" class="btn-menu">회원정보</a>
+        </div>
+        <div class="main-content">
+            <div class="content-header">
+                <h2>입출고 기록</h2>
+                <div class="action-buttons">
+                    <a href="drug-search.html" class="btn-action">신규 약 등록</a>
+                    <a href="drug-delete.html" class="btn-action btn-danger">약 삭제</a>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>약 코드</th>
+                        <th>약 이름</th>
+                        <th>제조사</th>
+                        <th>입고(개수)</th>
+                        <th>출고(개수)</th>
+                        <th>총 수량</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12345</td>
+                        <td>타이레놀</td>
+                        <td>얀센</td>
+                        <td>100</td>
+                        <td>20</td>
+                        <td>80</td>
+                    </tr>
+                    <tr>
+                        <td>67890</td>
+                        <td>아스피린</td>
+                        <td>바이엘</td>
+                        <td>50</td>
+                        <td>10</td>
+                        <td>40</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

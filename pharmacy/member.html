@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <h1>ㅇㅇ약국</h1>
+            <a href="main.html" class="btn-menu">메인화면</a>
+            <a href="inventory.html" class="btn-menu">입출고관리</a>
+            <a href="notice.html" class="btn-menu">공지사항</a>
+            <a href="member.html" class="btn-menu active">회원정보</a>
+        </div>
+        <div class="main-content">
+            <h2>회원정보</h2>
+            <div class="info-view">
+                <div class="info-group"><label>약국 이름</label><span>ㅇㅇ약국</span></div>
+                <div class="info-group"><label>이메일</label><span>user@example.com</span></div>
+                <div class="info-group"><label>주소</label><span>서울특별시 강남구 테헤란로</span></div>
+                <div class="info-group"><label>전화번호</label><span>02-1234-5678</span></div>
+                <div class="info-group"><label>기타 정보</label><span>평일 09:00 - 18:00, 주말 휴무</span></div>
+            </div>
+            <div class="page-actions">
+                <button class="btn-action" onclick="openPasswordModal('edit')">정보 수정</button>
+                <button class="btn-action btn-danger" onclick="openPasswordModal('delete')">회원 탈퇴</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Confirmation Modal -->
+    <div id="password-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>비밀번호 확인</h2>
+            <p>계속하려면 비밀번호를 입력하세요.</p>
+            <div class="form-group" style="text-align: left;">
+                <label for="password-check">비밀번호</label>
+                <input type="password" id="password-check" placeholder="비밀번호 입력">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-action btn-cancel" onclick="closePasswordModal()">취소</button>
+                <button class="btn-action" onclick="confirmPassword()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div id="delete-account-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>회원 탈퇴</h2>
+            <p>정말로 계정을 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.</p>
+            <div class="modal-actions">
+                <button class="btn-action btn-cancel" onclick="closeDeleteAccountModal()">취소</button>
+                <a href="login.html" class="btn-action btn-danger">탈퇴</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let actionType = ''; // 'edit' or 'delete'
+
+        function openPasswordModal(type) {
+            actionType = type;
+            document.getElementById('password-modal').style.display = 'flex';
+        }
+
+        function closePasswordModal() {
+            document.getElementById('password-modal').style.display = 'none';
+            document.getElementById('password-check').value = '';
+        }
+
+        function confirmPassword() {
+            // In a real app, you'd verify the password here.
+            closePasswordModal();
+            if (actionType === 'edit') {
+                window.location.href = 'member-edit.html';
+            } else if (actionType === 'delete') {
+                openDeleteAccountModal();
+            }
+        }
+
+        function openDeleteAccountModal() {
+            document.getElementById('delete-account-modal').style.display = 'flex';
+        }
+
+        function closeDeleteAccountModal() {
+            document.getElementById('delete-account-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

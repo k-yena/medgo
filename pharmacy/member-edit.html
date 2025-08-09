@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보 수정</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <h1>ㅇㅇ약국</h1>
+            <a href="main.html" class="btn-menu">메인화면</a>
+            <a href="inventory.html" class="btn-menu">입출고관리</a>
+            <a href="notice.html" class="btn-menu">공지사항</a>
+            <a href="member.html" class="btn-menu active">회원정보</a>
+        </div>
+        <div class="main-content">
+            <h2>회원정보 수정</h2>
+            <form id="edit-form">
+                <div class="form-group"><label for="pharmacy-name">약국 이름</label><input type="text" id="pharmacy-name" value="ㅇㅇ약국"></div>
+                <div class="form-group"><label for="email">이메일</label><input type="email" id="email" value="user@example.com" readonly></div>
+                <div class="form-group"><label for="address">주소</label><input type="text" id="address" value="서울특별시 강남구 테헤란로"></div>
+                <div class="form-group"><label for="phone">전화번호</label><input type="text" id="phone" value="02-1234-5678"></div>
+                <div class="form-group"><label for="info">기타 정보</label><textarea id="info" rows="4">평일 09:00 - 18:00, 주말 휴무</textarea></div>
+                <div class="form-group"><label for="new-password">새 비밀번호</label><input type="password" id="new-password" placeholder="변경할 경우에만 입력"></div>
+                <div class="page-actions">
+                    <a href="member.html" class="btn-action btn-cancel">취소</a>
+                    <button type="button" class="btn-action" onclick="openConfirmEditModal()">수정</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Edit Modal -->
+    <div id="confirm-edit-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>수정 확인</h2>
+            <p>정보를 정말로 수정하시겠습니까?</p>
+            <div class="modal-actions">
+                <button class="btn-action btn-cancel" onclick="closeConfirmEditModal()">취소</button>
+                <button class="btn-action" onclick="submitEdit()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openConfirmEditModal() {
+            document.getElementById('confirm-edit-modal').style.display = 'flex';
+        }
+
+        function closeConfirmEditModal() {
+            document.getElementById('confirm-edit-modal').style.display = 'none';
+        }
+
+        function submitEdit() {
+            // In a real app, you would submit the form data here.
+            closeConfirmEditModal();
+            window.location.href = 'member.html';
+        }
+    </script>
+</body>
+</html>

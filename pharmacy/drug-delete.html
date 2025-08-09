@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>약 삭제</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <h1>ㅇㅇ약국</h1>
+            <a href="main.html" class="btn-menu">메인화면</a>
+            <a href="inventory.html" class="btn-menu active">입출고관리</a>
+            <a href="notice.html" class="btn-menu">공지사항</a>
+            <a href="member.html" class="btn-menu">회원정보</a>
+        </div>
+        <div class="main-content">
+            <h2>약 삭제</h2>
+            <p>삭제할 약을 선택하세요.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>약 이름</th>
+                        <th>제조사</th>
+                        <th>현재 수량</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="item-name-cell" onclick="openDeleteModal('타이레놀')">타이레놀</td>
+                        <td>얀센</td>
+                        <td>80</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name-cell" onclick="openDeleteModal('아스피린')">아스피린</td>
+                        <td>바이엘</td>
+                        <td>40</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>삭제 확인</h2>
+            <p><strong id="delete-item-name"></strong> 약을(를) 정말 삭제하시겠습니까?</p>
+            <div class="modal-actions">
+                <button class="btn-action btn-cancel" onclick="closeDeleteModal()">취소</button>
+                <button class="btn-action btn-danger" onclick="closeDeleteModal()">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openDeleteModal(itemName) {
+            document.getElementById('delete-item-name').textContent = itemName;
+            document.getElementById('delete-modal').style.display = 'flex';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

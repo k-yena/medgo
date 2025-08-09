@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <h1>ㅇㅇ약국</h1>
+            <a href="main.html" class="btn-menu">메인화면</a>
+            <a href="inventory.html" class="btn-menu">입출고관리</a>
+            <a href="notice.html" class="btn-menu active">공지사항</a>
+            <a href="member.html" class="btn-menu">회원정보</a>
+        </div>
+        <div class="main-content">
+            <div class="content-header text-center">
+                <h2>공지사항</h2>
+                <button class="btn-action btn-md" onclick="openWriteModal()">글쓰기</button>
+            </div>
+            <div class="notice-list">
+                <!-- Sample Notice Item 1 -->
+                <div class="notice-item">
+                    <div class="notice-header">
+                        <h3>중요 공지: 하계 휴무 안내</h3>
+                        <span class="notice-date">2025-08-01</span>
+                    </div>
+                    <p>안녕하세요. ㅇㅇ약국입니다. 8월 15일부터 17일까지 하계 휴무입니다. 방문에 참고해주시기 바랍니다. 감사합니다.</p>
+                    <div class="notice-actions">
+                        <button class="btn-action btn-sm" onclick="openEditModal('중요 공지: 하계 휴무 안내', '안녕하세요. ㅇㅇ약국입니다. 8월 15일부터 17일까지 하계 휴무입니다. 방문에 참고해주시기 바랍니다. 감사합니다.')">수정</button>
+                        <button class="btn-action btn-sm btn-danger" onclick="openDeleteConfirmModal('중요 공지: 하계 휴무 안내')">삭제</button>
+                    </div>
+                </div>
+                <!-- Sample Notice Item 2 -->
+                <div class="notice-item">
+                    <div class="notice-header">
+                        <h3>마스크 재고 입고 안내</h3>
+                        <span class="notice-date">2025-07-28</span>
+                    </div>
+                    <p>KF94 마스크가 대량 입고되었습니다. 필요하신 분들은 방문하여 구매해주시기 바랍니다. 1인당 구매 수량 제한은 없습니다.</p>
+                    <div class="notice-actions">
+                        <button class="btn-action btn-sm" onclick="openEditModal('마스크 재고 입고 안내', 'KF94 마스크가 대량 입고되었습니다. 필요하신 분들은 방문하여 구매해주시기 바랍니다. 1인당 구매 수량 제한은 없습니다.')">수정</button>
+                        <button class="btn-action btn-sm btn-danger" onclick="openDeleteConfirmModal('마스크 재고 입고 안내')">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Write/Edit Modal -->
+    <div id="write-edit-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-title">글쓰기</h2>
+            <form>
+                <div class="form-group">
+                    <label for="notice-title">제목</label>
+                    <input type="text" id="notice-title" placeholder="제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="notice-content">내용</label>
+                    <textarea id="notice-content" rows="8" placeholder="내용을 입력하세요"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-action btn-cancel" onclick="closeWriteEditModal()">취소</button>
+                    <button type="submit" class="btn-action">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirm-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>삭제 확인</h2>
+            <p><strong id="delete-notice-title"></strong> 공지를 정말 삭제하시겠습니까?</p>
+            <div class="modal-actions">
+                <button class="btn-action btn-cancel" onclick="closeDeleteConfirmModal()">취소</button>
+                <button class="btn-action btn-danger" onclick="closeDeleteConfirmModal()">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Write/Edit Modal Functions
+        function openWriteModal() {
+            document.getElementById('modal-title').textContent = '글쓰기';
+            document.getElementById('notice-title').value = '';
+            document.getElementById('notice-content').value = '';
+            document.getElementById('write-edit-modal').style.display = 'flex';
+        }
+
+        function openEditModal(title, content) {
+            document.getElementById('modal-title').textContent = '글 수정';
+            document.getElementById('notice-title').value = title;
+            document.getElementById('notice-content').value = content;
+            document.getElementById('write-edit-modal').style.display = 'flex';
+        }
+
+        function closeWriteEditModal() {
+            document.getElementById('write-edit-modal').style.display = 'none';
+        }
+
+        // Delete Confirmation Modal Functions
+        function openDeleteConfirmModal(title) {
+            document.getElementById('delete-notice-title').textContent = `'${title}'`;
+            document.getElementById('delete-confirm-modal').style.display = 'flex';
+        }
+
+        function closeDeleteConfirmModal() {
+            document.getElementById('delete-confirm-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
