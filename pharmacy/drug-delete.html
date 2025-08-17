@@ -5,40 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>약 삭제</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="main-container">
-        <div class="sidebar">
-            <h1>ㅇㅇ약국</h1>
-            <a href="main.html" class="btn-menu">메인화면</a>
-            <a href="inventory.html" class="btn-menu active">입출고관리</a>
-            <a href="notice.html" class="btn-menu">공지사항</a>
-            <a href="member.html" class="btn-menu">회원정보</a>
-        </div>
+    <div id="header-placeholder"></div>
+    <div class="content-wrapper">
+        <div id="sidebar-placeholder"></div>
         <div class="main-content">
             <h2>약 삭제</h2>
+            <p class="page-description">등록된 약품 정보를 삭제합니다.</p>
             <p>삭제할 약을 선택하세요.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>약 이름</th>
-                        <th>제조사</th>
-                        <th>현재 수량</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="item-name-cell" onclick="openDeleteModal('타이레놀')">타이레놀</td>
-                        <td>얀센</td>
-                        <td>80</td>
-                    </tr>
-                    <tr>
-                        <td class="item-name-cell" onclick="openDeleteModal('아스피린')">아스피린</td>
-                        <td>바이엘</td>
-                        <td>40</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>약 이름</th>
+                            <th>제조사</th>
+                            <th>현재 수량</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="item-name-cell" onclick="openDeleteModal('타이레놀')">타이레놀</td>
+                            <td>얀센</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td class="item-name-cell" onclick="openDeleteModal('아스피린')">아스피린</td>
+                            <td>바이엘</td>
+                            <td>40</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+              <a href="#">&laquo;</a>
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">&raquo;</a>
+            </div>
         </div>
     </div>
 
@@ -54,6 +60,7 @@
         </div>
     </div>
 
+    <script src="script.js"></script>
     <script>
         function openDeleteModal(itemName) {
             document.getElementById('delete-item-name').textContent = itemName;
