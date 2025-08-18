@@ -9,3 +9,4 @@ node_modules/
 bin/
 target/
 *.log
+**/.DS_Store
