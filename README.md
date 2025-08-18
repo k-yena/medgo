@@ -17,6 +17,16 @@
 
 
 ## 📂 폴더 구조
-
-- customer: 고객이 볼 수 있는 화면의 html코드가 들어있습니다
-- pharmacy: 약국이 볼 수 있는 화면의 html코드가 들어있습니다. 랜딩페이지는 login.html 입니다.
+```bash
+src/main/webapp/
+├─ assets/
+|   └─ css/
+|   └─ js/
+├─ main/
+|  └─ index.jsp
+├─ pharmacy : 약국이 볼 수 있는 화면의 html코드가 들어있습니다.
+|             랜딩페이지는 login.html 입니다.
+├─ fragment
+|  └─ header.jsp
+└─ customer : 고객이 볼 수 있는 화면의 html코드가 들어있습니다
+```
