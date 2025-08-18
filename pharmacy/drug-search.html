@@ -1,94 +1,170 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>신규 약 등록</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body>
     <div id="header-placeholder"></div>
     <div class="content-wrapper">
-        <div id="sidebar-placeholder"></div>
-        <div class="main-content">
-            <h2>신규 약 등록</h2>
-            <p class="page-description">식약청에 등록된 약품을 검색하고 신규 약품을 등록합니다.</p>
-            <div class="search-container">
-                <input type="text" placeholder="식약청 등록 약 검색...">
-                <button class="btn-action">검색</button>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>약 이름</th>
-                            <th>제조사</th>
-                            <th>성분</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="item-name-cell" onclick="openQuantityModal('게보린', 0)">게보린</td>
-                            <td>삼진제약</td>
-                            <td>아세트아미노펜 등</td>
-                        </tr>
-                        <tr>
-                            <td class="item-name-cell" onclick="openQuantityModal('펜잘', 0)">펜잘</td>
-                            <td>종근당</td>
-                            <td>아세트아미노펜 등</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination">
-              <a href="#">&laquo;</a>
-              <a href="#" class="active">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">&raquo;</a>
-            </div>
+      <div id="sidebar-placeholder"></div>
+      <div class="main-content">
+        <h2>신규 약 등록</h2>
+        <p class="page-description">
+          식약청에 등록된 약품을 검색하고 신규 약품을 등록합니다.
+        </p>
+        <div class="filter-container">
+          <div class="search-container">
+            <input type="text" placeholder="식약청 등록 약 검색..." />
+            <button class="btn-action"><i class="fas fa-search"></i></button>
+          </div>
         </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>약 이름</th>
+                <th>제조사</th>
+                <th>성분</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  class="item-name-cell"
+                  onclick="openQuantityModal('게보린', 0)"
+                >
+                  게보린
+                </td>
+                <td>삼진제약</td>
+                <td>아세트아미노펜 등</td>
+              </tr>
+              <tr>
+                <td
+                  class="item-name-cell"
+                  onclick="openQuantityModal('펜잘', 0)"
+                >
+                  펜잘
+                </td>
+                <td>종근당</td>
+                <td>아세트아미노펜 등</td>
+              </tr>
+              <tr>
+                <td
+                  class="item-name-cell"
+                  onclick="openQuantityModal('펜잘', 0)"
+                >
+                  펜잘
+                </td>
+                <td>종근당</td>
+                <td>아세트아미노펜 등</td>
+              </tr>
+              <tr>
+                <td
+                  class="item-name-cell"
+                  onclick="openQuantityModal('펜잘', 0)"
+                >
+                  펜잘
+                </td>
+                <td>종근당</td>
+                <td>아세트아미노펜 등</td>
+              </tr>
+              <tr>
+                <td
+                  class="item-name-cell"
+                  onclick="openQuantityModal('펜잘', 0)"
+                >
+                  펜잘
+                </td>
+                <td>종근당</td>
+                <td>아세트아미노펜 등</td>
+              </tr>
+              <tr>
+                <td
+                  class="item-name-cell"
+                  onclick="openQuantityModal('펜잘', 0)"
+                >
+                  펜잘
+                </td>
+                <td>종근당</td>
+                <td>아세트아미노펜 등</td>
+              </tr>
+              <tr>
+                <td
+                  class="item-name-cell"
+                  onclick="openQuantityModal('펜잘', 0)"
+                >
+                  7번쨰
+                </td>
+                <td>종근당</td>
+                <td>아세트아미노펜 등</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <a href="#">&laquo;</a>
+          <a href="#" class="active">1</a>
+          <a href="#">2</a>
+          <a href="#">3</a>
+          <a href="#">&raquo;</a>
+        </div>
+      </div>
     </div>
 
     <!-- Quantity Modal -->
     <div id="quantity-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 id="modal-item-name"></h2>
-            <p><strong>약 상세정보:</strong> 등록할 약의 수량을 입력하세요.</p>
-            <div class="quantity-control">
-                <button class="quantity-btn" onclick="adjustQuantity(-5)">-5</button>
-                <button class="quantity-btn" onclick="adjustQuantity(-1)">-1</button>
-                <div id="quantity-display">0</div>
-                <button class="quantity-btn" onclick="adjustQuantity(1)">+1</button>
-                <button class="quantity-btn" onclick="adjustQuantity(5)">+5</button>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-action btn-cancel" onclick="closeQuantityModal()">취소</button>
-                <button class="btn-action" onclick="closeQuantityModal()">확인</button>
-            </div>
+      <div class="modal-content">
+        <h2 id="modal-item-name"></h2>
+        <p><strong>약 상세정보:</strong> 등록할 약의 수량을 입력하세요.</p>
+        <div class="quantity-control">
+          <button class="quantity-btn" onclick="adjustQuantity(-5)">-5</button>
+          <button class="quantity-btn" onclick="adjustQuantity(-1)">-1</button>
+          <div id="quantity-display">0</div>
+          <button class="quantity-btn" onclick="adjustQuantity(1)">+1</button>
+          <button class="quantity-btn" onclick="adjustQuantity(5)">+5</button>
         </div>
+        <div class="modal-actions">
+          <button class="btn-action btn-cancel" onclick="closeQuantityModal()">
+            취소
+          </button>
+          <button class="btn-action" onclick="closeQuantityModal()">
+            확인
+          </button>
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>
     <script>
-        let currentQuantity = 0;
+      let currentQuantity = 0;
 
-        function openQuantityModal(itemName, quantity) {
-            currentQuantity = quantity;
-            document.querySelector('#quantity-modal #modal-item-name').textContent = itemName;
-            document.querySelector('#quantity-modal #quantity-display').textContent = currentQuantity;
-            document.getElementById('quantity-modal').style.display = 'flex';
-        }
+      function openQuantityModal(itemName, quantity) {
+        currentQuantity = quantity;
+        document.querySelector("#quantity-modal #modal-item-name").textContent =
+          itemName;
+        document.querySelector(
+          "#quantity-modal #quantity-display"
+        ).textContent = currentQuantity;
+        document.getElementById("quantity-modal").style.display = "flex";
+      }
 
-        function closeQuantityModal() {
-            document.getElementById('quantity-modal').style.display = 'none';
-        }
+      function closeQuantityModal() {
+        document.getElementById("quantity-modal").style.display = "none";
+      }
 
-        function adjustQuantity(amount) {
-            currentQuantity = Math.max(0, currentQuantity + amount); // Prevent negative quantity
-            document.querySelector('#quantity-modal #quantity-display').textContent = currentQuantity;
-        }
+      function adjustQuantity(amount) {
+        currentQuantity = Math.max(0, currentQuantity + amount); // Prevent negative quantity
+        document.querySelector(
+          "#quantity-modal #quantity-display"
+        ).textContent = currentQuantity;
+      }
     </script>
-</body>
+  </body>
 </html>

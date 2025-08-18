@@ -1,0 +1,11 @@
+# Node / VS Code
+node_modules/
+.vscode/
+
+# Eclipse
+/.classpath
+/.project
+/.settings/
+bin/
+target/
+*.log

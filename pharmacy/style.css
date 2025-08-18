@@ -247,22 +247,23 @@ body.login-page {
 .input-with-button {
   display: flex;
   align-items: center;
+  position: relative;
 }
-
 .input-with-button input {
-  flex-grow: 1;
-}
-
-.merged-button input {
   border-right: none;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  flex-grow: 1;
 }
 
-.merged-button button {
+.input-with-button button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   margin-left: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
 }
 
 .btn-check,
@@ -306,7 +307,6 @@ button,
   border-radius: 3px;
   cursor: pointer;
   width: 100%;
-  margin-top: 10px;
   font-size: 18px;
 }
 
@@ -324,8 +324,20 @@ button,
   align-items: center;
   justify-content: space-between; /* Pushes items to ends */
   height: 70px; /* Fixed header height */
+  position: relative;
 }
 
+/* 헤더 아래 얇은 그림자 라인 */
+.header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px; /* 헤더 바로 밑에 붙이기 */
+  height: 6px; /* 그림자 번짐 정도 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  pointer-events: none; /* 클릭 이벤트 막지 않음 */
+}
 .user-menu {
   position: relative;
   display: inline-block;
@@ -630,7 +642,10 @@ h4 {
   border-radius: 5px;
   text-align: left;
 }
-
+.btn-menu:hover {
+  background-color: #14b3ae;
+  color: #fff;
+}
 .btn-menu i {
   display: inline-block;
   width: 25px;
@@ -671,17 +686,12 @@ h4 {
   font-size: 14px;
   width: auto;
 }
-.content-header .btn-action {
-  margin: 0;
-}
 
 .action-buttons {
   display: flex;
   gap: 10px;
-}
-
-.btn-danger {
-  background-color: #f72d37;
+  margin-bottom: 10px;
+  font-size: 1em;
 }
 
 .table-container {
@@ -690,7 +700,7 @@ h4 {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 table {
@@ -701,7 +711,7 @@ table {
 th,
 td {
   border: 1px solid #ccc;
-  padding: 15px;
+  padding: 14px;
   text-align: left;
 }
 
@@ -710,7 +720,7 @@ th {
 }
 
 tr:nth-child(even) {
-  background-color: #e0f0f0;
+  background-color: #daf0ef;
 }
 
 .item-name-cell {
@@ -751,11 +761,16 @@ tr:nth-child(even) {
   padding: 10px 20px;
   margin: 0 10px;
   background-color: #ddd;
+  color: #333;
   border: none;
   cursor: pointer;
   font-size: 16px;
 }
 
+.quantity-btn:hover {
+  background-color: #7b7b7b;
+  color: #ddd;
+}
 #quantity-display {
   font-size: 20px;
   font-weight: bold;
@@ -774,10 +789,26 @@ tr:nth-child(even) {
   width: auto;
 }
 
+.btn-action:hover {
+  background-color: #11938f;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #e74444;
+}
+
+.btn-danger:hover {
+  background-color: #b31419;
+}
+
 .btn-cancel {
   background-color: #9299a0;
 }
 
+.btn-cancel:hover {
+  background-color: #666b71;
+}
 /* Member Info Page Styles */
 .info-view {
   background: #fff;
@@ -811,19 +842,23 @@ tr:nth-child(even) {
 }
 
 .search-container {
-  display: flex;
-  margin-bottom: 20px;
+  width: 80%;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .search-container input {
-  flex-grow: 1;
   margin-right: 10px;
   margin-top: 0; /* Override default margin */
+  padding-right: 60px;
 }
 
 .search-container .btn-action {
   width: auto; /* Override default width */
   margin-top: 0; /* Override default margin */
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 /* Notice Page Styles */
@@ -891,6 +926,10 @@ tr:nth-child(even) {
   border-radius: 4px;
 }
 
+.pagination a {
+  background-color: #fff;
+}
+
 .pagination a.active {
   background-color: #14b3ae;
   color: white;
@@ -899,4 +938,56 @@ tr:nth-child(even) {
 
 .pagination a:hover:not(.active) {
   background-color: #ddd;
+}
+
+.filter-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-btn {
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1em;
+  height: 100%;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  min-width: 120px;
+  z-index: 100;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-menu a:hover {
+  background-color: #eee;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  align-content: baseline;
+}
+
+.search-container .action-buttons .btn-action {
+  color: red;
 }

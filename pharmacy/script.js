@@ -44,35 +44,10 @@ function closeDropdown() {
   document.querySelector(".dropdown-content").classList.remove("show");
 }
 
-const ctx = document.getElementById("myChart").getContext("2d");
-const myChart = new Chart(ctx, {
-  type: "line", // 또는 'bar'
-  data: {
-    labels: ["1일차", "2일차", "3일차", "4일차", "5일차"], // 날짜 데이터
-    datasets: [
-      {
-        label: "입고량",
-        data: [10, 15, 7, 12, 20], // 입고량 데이터
-        borderColor: "#00a896",
-        fill: "origin",
-        backgroundColor: "#00a89734",
-        tension: 0.4,
-      },
-      {
-        label: "출고량",
-        data: [5, 8, 3, 10, 15], // 출고량 데이터
-        borderColor: "#ffbc42",
-        fill: "origin",
-        backgroundColor: "#ffbd426a",
-        tension: 0.4,
-      },
-    ],
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
+const filterBtn = document.querySelector(".filter-btn");
+const dropdown = document.querySelector(".dropdown-menu");
+
+filterBtn.addEventListener("click", () => {
+  console.log(dropdown);
+  dropdown.classList.toggle("show");
 });
