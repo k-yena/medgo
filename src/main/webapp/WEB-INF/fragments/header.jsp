@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <div class="header">
   <div class="header-left">
     <h1><i class="fas fa-pills"></i>ㅇㅇ약국 관리 시스템</h1>
@@ -7,11 +9,12 @@
   </div>
   <div class="user-menu">
     <button class="user-menu-btn">
-      {관리자이름} <i class="fas fa-caret-down"></i>
+      ㅇㅇ약국 <i class="fas fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a href="member.html"><i class="fas fa-user"></i> 회원정보</a>
-      <a href="login.html"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+      <a href="/medgo/pharmacy/member.jsp"><i class="fas fa-user"></i> 회원정보</a>
+      <a href="/medgo/pharmacy/login.jsp"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
     </div>
   </div>
 </div>
+

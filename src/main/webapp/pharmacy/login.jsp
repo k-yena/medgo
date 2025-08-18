@@ -6,7 +6,7 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>로그인</title>
-	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="/medgo/assets/css/style.css" />
 </head>
 <body class="login-page">
     <div class="login-container">
@@ -31,7 +31,7 @@
       </div>
       <div class="login-form">
         <h1>반가워요!</h1>
-        <form action="/medgo/pharmacy/main.jsp" method="get">
+        <form action="/medgo/main/main.jsp" method="get">
           <div class="form-group">
             <label for="email">이메일</label>
             <input type="email" id="email" name="email" required />

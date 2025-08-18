@@ -1,41 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>입출고관리</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/medgo/assets/css/style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
   </head>
   <body>
-    <div id="header-placeholder"></div>
+    <jsp:include page="/WEB-INF/fragments/header.jsp" />
     <div class="content-wrapper">
-      <div id="sidebar-placeholder"></div>
+      <jsp:include page="/WEB-INF/fragments/sidebar.jsp" />
       <div class="main-content">
         <div class="content-header">
           <h2>입출고 기록</h2>
+          <div class="action-buttons">
+            <a href="/medgo/pharmacy/drug-search.jsp" class="btn-action"> 약 등록</a>
+            <a href="/medgo/pharmacy/drug-delete.jsp" class="btn-action btn-danger">약 삭제</a>
+          </div>
         </div>
         <p class="page-description">
           약품의 입고 및 출고 기록을 관리하고 현재 재고를 확인합니다.
         </p>
-        <div class="filter-container">
-          <div class="search-container">
-            <input type="text" placeholder="약품 검색..." />
-            <button class="btn-action"><i class="fas fa-search"></i></button>
-          </div>
-          <div class="filter-dropdown">
-            <button class="filter-btn">
-              보기 선택 <i class="fas fa-caret-down"></i>
-            </button>
-            <div class="dropdown-menu">
-              <a href="#">전체보기</a>
-              <a href="#">입고만 보기</a>
-              <a href="#">출고만 보기</a>
-            </div>
-          </div>
+        <div class="search-container">
+          <input type="text" placeholder="약품 검색..." />
+          <button class="btn-action"><i class="fas fa-search"></i></button>
         </div>
         <div class="table-container">
           <table>
@@ -74,38 +68,6 @@
                 <td>10</td>
                 <td>40</td>
               </tr>
-              <tr>
-                <td>4444444</td>
-                <td>이부프로펜</td>
-                <td>바이엘</td>
-                <td>50</td>
-                <td>10</td>
-                <td>40</td>
-              </tr>
-              <tr>
-                <td>5555555</td>
-                <td>이부프로펜</td>
-                <td>바이엘</td>
-                <td>50</td>
-                <td>10</td>
-                <td>40</td>
-              </tr>
-              <tr>
-                <td>666666</td>
-                <td>이부프로펜</td>
-                <td>바이엘</td>
-                <td>50</td>
-                <td>10</td>
-                <td>40</td>
-              </tr>
-              <tr>
-                <td>777777</td>
-                <td>이부프로펜</td>
-                <td>바이엘</td>
-                <td>50</td>
-                <td>10</td>
-                <td>40</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -118,6 +80,6 @@
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script src="/medgo/assets/js/script.js"></script>
   </body>
 </html>

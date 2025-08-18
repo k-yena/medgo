@@ -1,35 +1,28 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%><!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>재고현황</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/medgo/assets/css/style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
   </head>
   <body>
-    <div id="header-placeholder"></div>
+    <jsp:include page="/WEB-INF/fragments/header.jsp" />
     <div class="content-wrapper">
-      <div id="sidebar-placeholder"></div>
+      <jsp:include page="/WEB-INF/fragments/sidebar.jsp" />
       <div class="main-content">
-        <div class="content-header">
-          <h2>재고 현황</h2>
-        </div>
+        <h2>재고현황</h2>
         <p class="page-description">
           현재 약국 재고 현황을 한눈에 확인하고 관리합니다.
         </p>
-        <div class="filter-container">
-          <div class="search-container">
-            <input type="text" placeholder="약품 검색..." />
-            <button class="btn-action"><i class="fas fa-search"></i></button>
-          </div>
-          <div class="action-buttons">
-            <a href="drug-search.html" class="btn-action"> 약 등록</a>
-            <a href="drug-delete.html" class="btn-action btn-danger">약 삭제</a>
-          </div>
+        <div class="search-container">
+          <input type="text" placeholder="약품 검색..." />
+          <button class="btn-action"><i class="fas fa-search"></i></button>
         </div>
         <div class="table-container">
           <table>
@@ -61,51 +54,13 @@
                 <td>데이터 2-4</td>
                 <td>데이터 2-5</td>
               </tr>
-              <tr>
-                <td class="item-name-cell" onclick="openModal('약 이름 1', 10)">
-                  데이터 3-1
-                </td>
-                <td>데이터 3-2</td>
-                <td>데이터 3-3</td>
-                <td>데이터 3-4</td>
-                <td>데이터 3-5</td>
-              </tr>
-              <tr>
-                <td class="item-name-cell" onclick="openModal('약 이름 1', 10)">
-                  데이터 4-1
-                </td>
-                <td>데이터 4-2</td>
-                <td>데이터 4-3</td>
-                <td>데이터 4-4</td>
-                <td>데이터 4-5</td>
-              </tr>
-              <tr>
-                <td class="item-name-cell" onclick="openModal('약 이름 1', 10)">
-                  데이터 5-1
-                </td>
-                <td>데이터 5-2</td>
-                <td>데이터 5-3</td>
-                <td>데이터 5-4</td>
-                <td>데이터 5-5</td>
-              </tr>
-              <tr>
-                <td class="item-name-cell" onclick="openModal('약 이름 1', 10)">
-                  데이터 6-1
-                </td>
-                <td>데이터 6-2</td>
-                <td>데이터 6-3</td>
-                <td>데이터 6-4</td>
-                <td>데이터 6-5</td>
-              </tr>
-              <tr>
-                <td class="item-name-cell" onclick="openModal('약 이름 1', 10)">
-                  데이터 7-1
-                </td>
-                <td>데이터 7-2</td>
-                <td>데이터 7-3</td>
-                <td>데이터 7-4</td>
-                <td>데이터 7-5</td>
-              </tr>
+              <td class="item-name-cell" onclick="openModal('약 이름 1', 10)">
+                데이터 3-1
+              </td>
+              <td>데이터 3-2</td>
+              <td>데이터 3-1</td>
+              <td>데이터 3-4</td>
+              <td>데이터 3-5</td>
             </tbody>
           </table>
         </div>
@@ -147,7 +102,7 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/medgo/assets/js/script.js"></script>
     <script>
       let currentQuantity = 0;
 

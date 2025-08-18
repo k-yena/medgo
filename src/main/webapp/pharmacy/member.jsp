@@ -1,16 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원정보</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/medgo/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div id="header-placeholder"></div>
+    <jsp:include page="/WEB-INF/fragments/header.jsp" />
     <div class="content-wrapper">
-        <div id="sidebar-placeholder"></div>
+        <jsp:include page="/WEB-INF/fragments/sidebar.jsp" />
         <div class="main-content">
             <h2>회원정보</h2>
         <p class="page-description">등록된 회원 정보를 조회하고 관리합니다.</p>
@@ -51,12 +53,12 @@
             <p>정말로 계정을 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.</p>
             <div class="modal-actions">
                 <button class="btn-action btn-cancel" onclick="closeDeleteAccountModal()">취소</button>
-                <a href="login.html" class="btn-action btn-danger">탈퇴</a>
+                <a href="login.jsp" class="btn-action btn-danger">탈퇴</a>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/medgo/assets/js/script.js"></script>
     <script>
         let actionType = ''; // 'edit' or 'delete'
 
@@ -74,11 +76,12 @@
             // In a real app, you'd verify the password here.
             closePasswordModal();
             if (actionType === 'edit') {
-                window.location.href = 'member-edit.html';
+                window.location.href = 'member-edit.jsp';
             } else if (actionType === 'delete') {
                 openDeleteAccountModal();
             }
         }
+       
 
         function openDeleteAccountModal() {
             document.getElementById('delete-account-modal').style.display = 'flex';
