@@ -17,6 +17,7 @@
 
 
 ## 📂 폴더 구조
+```bash
 src/main/webapp/
 ├─ assets/
 |   └─ css/
@@ -28,3 +29,4 @@ src/main/webapp/
 ├─ fragment
 |  └─ header.jsp
 └─ customer : 고객이 볼 수 있는 화면의 html코드가 들어있습니다
+```
