@@ -186,7 +186,7 @@
           item.className = "pharmacy-item";
           item.onclick = () =>
             openPharmacyDetailModal(pharmacyName, "정보 보기");
-          item.innerHTML = `<h3>${pharmacyName}</h3><span>${pharmacy.distance}</span>`;
+          item.innerHTML = `<h3>\${pharmacyName}</h3><span>\${pharmacy.distance}</span>`;
           mainList.appendChild(item);
         }
       }
@@ -201,7 +201,7 @@
 
       function updateMainScreenForDrug(drugName) {
         const mainHeader = mainAppScreen.querySelector(".app-header");
-        mainHeader.innerHTML = `<h1>${drugName}<span style="font-size: 0.7em; display: block; color: #808080;">재고가 있는 약국</span></h1>`;
+        mainHeader.innerHTML = `<h1>\${drugName}<span style="font-size: 0.7em; display: block; color: #808080;">재고가 있는 약국</span></h1>`;
 
         const pharmacyList = document.querySelector(
           ".bottom-panel .pharmacy-list"
@@ -217,7 +217,7 @@
             item.className = "pharmacy-item";
             item.onclick = () =>
               openPharmacyDetailModal(pharmacyName, pharmacy.drugs[drugName]);
-            item.innerHTML = `<h3>${pharmacyName}</h3><span>${pharmacy.distance}</span>`;
+            item.innerHTML = `<h3>\${pharmacyName}</h3><span>\${pharmacy.distance}</span>`;
             pharmacyList.appendChild(item);
           }
         }
