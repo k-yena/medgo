@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>내 주변 약 찾기</title>
-    <link rel="stylesheet" href="/medgo/assets/customer_style.css" />
+    <link rel="stylesheet" href="/medgo/assets/css/customer_style.css" />
   </head>
   <body>
     <div class="mobile-frame">
