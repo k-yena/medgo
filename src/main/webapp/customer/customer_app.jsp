@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -26,15 +26,11 @@
       </div>
       <!-- Search Results Popup (Modal) -->
       <div id="search-modal" class="popup-overlay">
-        <div class="popup-content">
+        <div class="popup-content alt-list">
+          <button class="btn-close" onclick="closeSearchModal()">×</button>
           <h2 id="search-modal-title">검색 결과</h2>
           <div class="popup-list" id="search-modal-list">
             <!-- Dynamic content will be inserted here -->
-          </div>
-          <div class="popup-actions">
-            <button class="btn btn-cancel" onclick="closeSearchModal()">
-              닫기
-            </button>
           </div>
         </div>
       </div>
@@ -42,6 +38,9 @@
       <!-- Alternative List Modal -->
       <div id="alternative-list-modal" class="popup-overlay">
         <div class="popup-content">
+          <button class="btn-close" onclick="closeAlternativeListModal()">
+            ×
+          </button>
           <h2>대체약 목록</h2>
           <div class="popup-list">
             <a href="#" onclick="updateMainScreenForDrug('게보린정')"
@@ -53,14 +52,6 @@
             <a href="#" onclick="updateMainScreenForDrug('사리돈에이정')"
               >사리돈에이정</a
             >
-          </div>
-          <div class="popup-actions">
-            <button
-              class="btn btn-cancel"
-              onclick="closeAlternativeListModal()"
-            >
-              닫기
-            </button>
           </div>
         </div>
       </div>
@@ -82,7 +73,7 @@
               </svg>
             </div>
           </div>
-          <div class="map-placeholder"><span>지도 영역</span></div>
+          <div id="map-placeholder"></div>
         </div>
       </div>
 
@@ -110,6 +101,7 @@
             <p><strong>재고 수량:</strong> <span id="stock-level"></span></p>
             <p><strong>상세 정보:</strong> 연중무휴, 주차 가능</p>
             <p><strong>공지사항:</strong> 8월 15일 광복절 정상 영업합니다.</p>
+            <p><strong>연락처:</strong> 02-1234-5678</p>
           </div>
         </div>
       </div>
@@ -117,8 +109,67 @@
     <button class="outside-button" onclick="openAlternativeListModal()">
       약 없을 때
     </button>
-
+    <!-- API 키 넣는 곳 -->
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=여기에 API키를 넣어주세요"
+    ></script>
     <script>
+      window.onload = () => {
+        // 카카오 맵 그리기
+        const mapPlaceholder = document.getElementById("map-placeholder");
+        const options = {
+          center: new kakao.maps.LatLng(37.583853, 126.999958),
+          level: 2,
+        };
+
+        const map = new kakao.maps.Map(mapPlaceholder, options);
+
+        var positions = [
+          {
+            title: "온누리약국",
+            latlng: new kakao.maps.LatLng(37.584014, 127.000173),
+          },
+          {
+            title: "늘봄약국",
+            latlng: new kakao.maps.LatLng(37.584133, 126.999597),
+          },
+          {
+            title: "정다운약국",
+            latlng: new kakao.maps.LatLng(37.583201, 126.999209),
+          },
+          {
+            title: "새로운약국",
+            latlng: new kakao.maps.LatLng(37.583471, 127.000181),
+          },
+        ];
+
+        var imageSrc =
+            "https://velog.velcdn.com/images/jw01987/post/5e9f1302-ffb5-4767-832b-6d37e8bd0946/image.png",
+          imageSize = new kakao.maps.Size(65, 70),
+          imageOption = { offset: new kakao.maps.Point(27, 69) };
+
+        for (var i = 0; i < positions.length; i++) {
+          // 마커 이미지를 생성합니다
+          var markerImage = new kakao.maps.MarkerImage(
+            imageSrc,
+            imageSize,
+            imageOption
+          );
+
+          // 마커를 생성합니다
+          var marker = new kakao.maps.Marker({
+            map: map, // 마커를 표시할 지도
+            position: positions[i].latlng, // 마커를 표시할 위치
+            title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+            image: markerImage, // 마커 이미지
+          });
+        }
+      };
+
+      const mainAppScreen = document.getElementById("main-app-screen");
+
+      // 하단 슬라이드 패널
       const bottomPanel = document.querySelector(".bottom-panel");
       bottomPanel.addEventListener("click", () =>
         bottomPanel.classList.toggle("active")
@@ -131,8 +182,6 @@
       const pharmacyDetailModal = document.getElementById(
         "pharmacy-detail-modal"
       );
-
-      const mainAppScreen = document.getElementById("main-app-screen");
 
       // --- Mock Data ---
       const drugDatabase = {
@@ -163,6 +212,18 @@
           distance: "2.1 km",
           drugs: { 펜잘큐정: "적음", "타이레놀 콜드-에스정": "많음" },
         },
+        정다운약국1: {
+          distance: "1.5 km",
+          drugs: { "부루펜정 400mg": "많음", 게보린정: "보통" },
+        },
+        정다운약국2: {
+          distance: "1.5 km",
+          drugs: { "부루펜정 400mg": "많음", 게보린정: "보통" },
+        },
+        정다운약국3: {
+          distance: "1.5 km",
+          drugs: { "부루펜정 400mg": "많음", 게보린정: "보통" },
+        },
       };
 
       // --- App Initialization ---
@@ -186,7 +247,7 @@
           item.className = "pharmacy-item";
           item.onclick = () =>
             openPharmacyDetailModal(pharmacyName, "정보 보기");
-          item.innerHTML = `<h3>\${pharmacyName}</h3><span>\${pharmacy.distance}</span>`;
+          item.innerHTML = `<h3>${pharmacyName}</h3><span>${pharmacy.distance}</span>`;
           mainList.appendChild(item);
         }
       }
@@ -201,7 +262,7 @@
 
       function updateMainScreenForDrug(drugName) {
         const mainHeader = mainAppScreen.querySelector(".app-header");
-        mainHeader.innerHTML = `<h1>\${drugName}<span style="font-size: 0.7em; display: block; color: #808080;">재고가 있는 약국</span></h1>`;
+        mainHeader.innerHTML = `<h1>${drugName}<span style="font-size: 0.7em; display: block; color: #808080;">재고가 있는 약국</span></h1>`;
 
         const pharmacyList = document.querySelector(
           ".bottom-panel .pharmacy-list"
@@ -217,7 +278,7 @@
             item.className = "pharmacy-item";
             item.onclick = () =>
               openPharmacyDetailModal(pharmacyName, pharmacy.drugs[drugName]);
-            item.innerHTML = `<h3>\${pharmacyName}</h3><span>\${pharmacy.distance}</span>`;
+            item.innerHTML = `<h3>${pharmacyName}</h3><span>${pharmacy.distance}</span>`;
             pharmacyList.appendChild(item);
           }
         }
@@ -228,7 +289,6 @@
 
         // Close all modals
         closeSearchModal();
-        gt;
         closeAlternativeListModal();
         document.querySelector(".home-button").style.display = "block"; // Show home button
         document.querySelector(".alt-search-btn").style.display = "block"; // Show alt-search-btn

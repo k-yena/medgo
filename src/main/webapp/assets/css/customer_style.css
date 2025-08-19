@@ -1,4 +1,8 @@
 /* Basic Reset & Background */
+::-webkit-scrollbar {
+  display: none;
+}
+
 body,
 html {
   margin: 0;
@@ -72,6 +76,7 @@ html {
   display: flex;
   margin-bottom: 30px;
   align-items: center;
+  z-index: 10;
 }
 
 .search-box input {
@@ -85,13 +90,13 @@ html {
 
 .search-box input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #14b3ae;
 }
 
 .search-button {
   cursor: pointer;
   padding: 10px;
-  background: #007bff;
+  background: #14b3ae;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -105,20 +110,10 @@ html {
 }
 
 /* Map Placeholder */
-.map-placeholder {
-  flex-grow: 2; /* Increased from 1 to make the map larger */
-  background-color: #f0f0f0;
+#map-placeholder {
   border-radius: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #aaa;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
   height: 400px;
 }
-
 /* Bottom Panel */
 .bottom-panel {
   position: absolute;
@@ -134,6 +129,7 @@ html {
   transform: translateY(calc(100% - 80px));
   transition: transform 0.4s ease-in-out; /* Smooth slide animation */
   cursor: pointer;
+  z-index: 1000;
 }
 
 .bottom-panel.active {
@@ -146,6 +142,14 @@ html {
   background-color: #ccc;
   border-radius: 2.5px;
   margin: 0 auto 15px;
+  flex-shrink: 0; /* Added */
+  cursor: pointer; /* Added cursor here */
+}
+
+.pharmacy-list {
+  flex-grow: 1; /* Fill available space */
+  min-height: 0; /* Flexbox bug fix */
+  overflow-y: auto; /* Use auto to show scrollbar only when needed */
 }
 
 .pharmacy-item {
@@ -167,7 +171,7 @@ html {
 
 .pharmacy-item span {
   font-size: 14px;
-  color: #007bff;
+  color: #14b3ae;
   font-weight: bold;
 }
 
@@ -213,10 +217,18 @@ html {
   background: #fff;
   padding: 25px;
   border-radius: 15px;
-  width: 85%;
+  width: 80%;
   max-width: 350px;
   text-align: center;
   position: relative; /* For positioning the close button */
+}
+
+.alt-list {
+  height: 60%;
+}
+.popup-list {
+  overflow-y: scroll;
+  height: 80%;
 }
 
 .popup-content h2 {
@@ -238,7 +250,7 @@ html {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .popup-actions .btn {
@@ -249,7 +261,7 @@ html {
 }
 
 .btn-confirm {
-  background: #007bff;
+  background: #14b3ae;
   color: white;
 }
 
@@ -262,7 +274,7 @@ html {
 .outside-button {
   margin-top: 20px;
   padding: 12px 25px;
-  background-color: #ff4d4d;
+  background-color: #e74444;
   color: white;
   border: none;
   border-radius: 10px;
@@ -289,7 +301,7 @@ html {
   width: 100%;
   margin-bottom: 15px; /* Adjusted margin */
   padding: 12px; /* Adjusted padding */
-  background: #7bc28c;
+  background: #14b3ae;
   color: #fff;
   border: 1px solid #e0e0e0; /* Lighter border */
   text-align: center;
@@ -331,4 +343,8 @@ html {
   overflow-y: auto; /* Enable scrolling for the list */
   padding: 0 25px 25px; /* Add some padding */
   height: 40%; /* Give it a fixed height */
+}
+.pharmacy-list {
+  height: 80%;
+  overflow-y: scroll;
 }
