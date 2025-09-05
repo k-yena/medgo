@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  // 임시 비밀번호
+  // 임시 비밀번호 
   const tempPsw = "1234";
 
   // --- 마이페이지 입장시 나오는 모달 ---

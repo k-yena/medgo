@@ -11,19 +11,19 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
 	rel="stylesheet" />
-<link rel="stylesheet" href="/dist/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="/resources/dist/assets/css/bootstrap.css" />
 
 <link rel="stylesheet"
-	href="/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+	href="/resources/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
 <link rel="stylesheet"
-	href="/dist/assets/vendors/bootstrap-icons/bootstrap-icons.css" />
-<link rel="stylesheet" href="/dist/assets/css/app.css" />
-<link rel="shortcut icon" href="/dist/assets/images/favicon.svg"
+	href="/resources/dist/assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="/resources/dist/assets/css/app.css" />
+<link rel="shortcut icon" href="/resources/dist/assets/images/favicon.svg"
 	type="image/x-icon" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 <!-- 여기까지 헤더 붙이기 -->
-<link rel="stylesheet" href="/dist/assets/css/pages/auth.css" />
+<link rel="stylesheet" href="/resources/dist/assets/css/pages/auth.css" />
 </head>
 <body>
 	<div id="auth">
@@ -72,6 +72,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="/dist/assets/js/pages/auth.js"></script>
+	<script src="/resources/dist/assets/js/pages/auth.js"></script>
 </body>
 </html>
