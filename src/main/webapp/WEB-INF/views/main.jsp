@@ -10,7 +10,7 @@
 <body>
 	<div id="app">
 		<aside class="sidebar-placeholder">
-		<%@ include file="/WEB-INF/views/common/sidebar.jsp"%>
+			<%@ include file="/WEB-INF/views/common/sidebar.jsp"%>
 		</aside>
 		<div id="main">
 			<header class="mb-3">
