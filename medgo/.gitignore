@@ -1,0 +1,105 @@
+# ===== OS (macOS/Windows) =====
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+Desktop.ini
+
+# ===== Node / JavaScript =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+.bun-*
+coverage/
+.nyc_output/
+.eslintcache
+.stylelintcache
+
+# Bundlers / Frameworks
+.vite/
+.rollup.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.svelte-kit/
+storybook-static/
+out/
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# ===== Java / Spring =====
+# Build outputs
+target/
+build/
+logs/
+*.log
+hs_err_pid*
+replay_pid*
+
+# Maven/Gradle
+.gradle/
+dependency-reduced-pom.xml
+# (주의) Maven Wrapper는 커밋 권장 -> .mvn은 무시하지 않습니다.
+# .mvn/wrapper/maven-wrapper.jar 는 커밋 유지
+
+# Bytecode
+*.class
+
+# Packaged apps (대체로 target/로 커버되지만 혹시 몰라 추가)
+*.war
+*.ear
+
+# ===== IDE / Editor =====
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse / STS
+.project
+.classpath
+.settings/
+.factorypath
+.apt_generated/
+.apt_generated_test/
+.springBeans
+.sts4-cache/
+.recommenders/
+bin/
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# ===== App-specific =====
+# 환경변수 파일 (샘플은 커밋)
+.env
+.env.*
+!.env.example
+
+# DB / 캐시 / 업로드
+*.sqlite
+*.db
+*.h2.db
+*.mv.db
+uploads/
+**/uploads/
+
+# 서버 런타임(톰캣 등) 로컬 디렉터리
+**/work/
+**/logs/
+.metadata/

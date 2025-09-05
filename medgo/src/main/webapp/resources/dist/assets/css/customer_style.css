@@ -1,0 +1,348 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+@font-face {
+  font-family: "NanumHuman";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFRegular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+body,
+html {
+  font-family: "NanumHuman", sans-serif !important;
+  color: #555;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #e9e9e9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 모바일 화면 프레임 */
+.mobile-frame {
+  height: 85vh;
+  width: calc(85vh * (420 / 844));
+  max-width: 420px;
+  max-height: 844px;
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid #111;
+  position: relative;
+}
+
+/* 앱 화면 콘텐츠 */
+.app-screen {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* 내용이 넘치는 것을 방지 */
+}
+
+.header-container {
+  display: none;
+  position: relative;
+  z-index: 20;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 30px 30px 10px;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.home-button {
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 22px;
+  color: #555;
+}
+
+.app-header:disabled {
+  background-color: inherit;
+  border: none;
+  color: #212529bf;
+  margin-bottom: 3px;
+}
+
+.search-box {
+  position: absolute;
+  top: 20px;
+  left: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  border-radius: 10px;
+  padding: 10px 15px;
+  background-color: #fff;
+}
+
+.search-box:focus-within {
+  border-color: #14b3ae;
+}
+
+#search-back-button {
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 22px;
+  color: #555;
+}
+
+.search-box input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 0;
+  font-size: 16px;
+  background-color: transparent;
+  /* 모든 시각적 스타일 제거 */
+}
+
+/* 메인 콘텐츠 영역 */
+.main-content {
+  flex-grow: 1;
+  position: relative;
+}
+
+#map-placeholder,
+#search-results-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#map-controls-container {
+  position: absolute;
+  right: 15px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 현재 위치 버튼과 확대/축소 버튼 사이의 간격 */
+}
+
+#current-location-btn {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 18px;
+  border: 1px solid #ddd;
+}
+
+#zoom-controls {
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+}
+
+#zoom-controls hr {
+  margin: 0 5px;
+  border-color: #ddd;
+}
+
+#zoom-controls .btn {
+  border: none;
+  padding: 8px 10px;
+  font-size: 16px;
+}
+
+#capsule-strip-container {
+  position: absolute;
+  top: 4.5em;
+  left: 15px;
+  right: 15px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+#capsule-strip {
+  display: flex;
+  overflow-x: scroll;
+  padding: 10px 0;
+  cursor: grab;
+  user-select: none;
+}
+
+#capsule-strip.active {
+  cursor: grabbing;
+}
+
+.capsule-item {
+  padding: 8px 16px;
+  margin: 0 2px;
+  box-shadow: 0 0.125rem 0.25rem #11111147;
+  background-color: #fff !important;
+  font-size: 0.9rem;
+}
+
+.capsule-item:hover {
+  background-color: #e0e0e0;
+}
+
+#search-results-container {
+  background-color: #fff;
+  overflow-y: auto;
+  padding-top: 80px; /* 검색창 아래로 콘텐츠를 밀어냄 */
+}
+
+.search-result-item {
+  padding: 15px 25px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-result-item:hover {
+  background-color: #f7f7f7;
+}
+
+/* 하단 패널 */
+.bottom-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 300px;
+  background-color: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+  padding: 10px 25px;
+  transform: translateY(calc(100% - 80px));
+  transition: transform 0.4s ease-in-out;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-panel.active {
+  transform: translateY(0);
+}
+
+.panel-handle {
+  width: 40px;
+  height: 5px;
+  background-color: #ccc;
+  border-radius: 2.5px;
+  margin: 0 auto 15px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.bottom-panel .pharmacy-list {
+  flex-grow: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin-bottom: 2em;
+}
+
+.pharmacy-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.pharmacy-item h3 {
+  font-size: 1.2em;
+  color: #14b3ae;
+  margin: 0px;
+}
+.bi {
+  color: #888;
+}
+.panel-title {
+  text-align: center;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.pharmacy-detail-content h2 {
+  font-weight: bold;
+  color: #14b3ae;
+  margin-bottom: 20px;
+}
+.pharmacy-list {
+  margin-top: 10px;
+}
+.landing-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  margin: 40px 0 10px 0;
+}
+.landing-img {
+  width: 13em;
+}
+@font-face {
+  font-family: "SBAggroB";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff")
+    format("woff");
+  font-style: normal;
+}
+.landing-title {
+  font-family: "SBAggroB";
+  color: #14b3ae;
+  margin: 0;
+  font-size: 2em;
+  font-weight: 300;
+}
+.alt-search-btn {
+  border: 1px solid #14b3ae;
+  color: #14b3ae;
+}
+.alt-search-btn:hover {
+  background-color: #14b3ae;
+  border: none;
+}
+.sticky-bottom-btn-container {
+  position: fixed;
+  bottom: 1%;
+
+  position: fixed;
+  left: 50%;
+  transform: translate(-46%, -50%);
+}
+
+.pharmacy-detail-content h2 span {
+  font-size: 1rem;
+}
+
+.text-bg-danger {
+  background-color: #c42727ca !important;
+}
+.text-bg-success {
+  background-color: #14b3ae !important;
+}
+.text-bg-warning {
+  background-color: #ffbd07e8 !important;
+}
+#current-location-btn:hover {
+  background-color: #dadada !important;
+}
+#current-location-btn i {
+  color: #14b3ae;
+}
+
+#zoom-controls .btn:hover {
+  background-color: #dadada !important;
+}

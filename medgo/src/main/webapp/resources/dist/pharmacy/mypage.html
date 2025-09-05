@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>약찾GO</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/dist/assets/css/bootstrap.css" />
+
+    <link
+      rel="stylesheet"
+      href="/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/dist/assets/vendors/bootstrap-icons/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="/dist/assets/css/app.css" />
+    <link
+      rel="shortcut icon"
+      href="/dist/assets/images/favicon.svg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!-- 여기까지 헤더 붙이기 -->
+        <link rel="stylesheet" href="/dist/assets/vendors/toastify/toastify.css" />
+  </head>
+
+  <body>
+    <!-- 정보 수정 모달 -->
+    <div
+      class="modal fade"
+      id="infoEdit"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+        role="document"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">
+              회원정보 수정
+            </h5>
+           <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+            </button>
+          </div>
+          <section id="multiple-column-form">
+            <div class="row match-height">
+              <div class="col-12">
+                <div class="card" style="margin-bottom: 1em">
+                  <div class="card-content">
+                    <div class="card-body">
+                      <form class="form">
+                        <div class="row">
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="first-name-column">이름</label>
+                              <input
+                                type="text"
+                                id="first-name-column"
+                                class="form-control"
+                                value="약사이름"
+                                name="fname-column"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="fname">약국 이름</label>
+                              <input
+                                type="text"
+                                id="fname"
+                                class="form-control"
+                                value="ㅇㅇ약국"
+                                name="fname"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label for="city-column">주소</label>
+                              <input
+                                type="text"
+                                id="city-column"
+                                class="form-control"
+                                value="서울특별시 종로구 창경궁로 254"
+                                name="city-column"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="email-id-column">이메일</label>
+                              <input
+                                type="email"
+                                id="email-id-column"
+                                class="form-control"
+                                name="email-id-column"
+                                value="abc@gmail.com"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="lcnum">면허번호</label>
+                              <input
+                                type="text"
+                                id="lcnum"
+                                class="form-control"
+                                value="LC24298520"
+                                placeholder="면허번호"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label for="company-column">상세정보</label>
+                              <input
+                                type="text"
+                                id="company-column"
+                                class="form-control"
+                                name="company-column"
+                                value="평일 09:00 - 17:00 영업합니다. 반려동물 약 판매합니다."
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-light-secondary"
+              data-bs-dismiss="modal"
+            >
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">닫기</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary ml-1 edit-user-info-btn"
+              data-bs-dismiss="modal"
+            >
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">수정</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 회원 탈퇴 경고 모달 -->
+    <div
+      class="modal fade text-left modal-borderless"
+      id="withdraw"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel1"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        role="document"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">
+              회원 탈퇴를 하시려면 비밀번호를 입력해주세요
+            </h4>
+             <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="비밀번호를 입력하세요"
+              name="password"
+            />
+          </div>
+          <div class="modal-footer">
+           <button
+              type="button"
+              class="btn btn-light-secondary"
+              data-bs-dismiss="modal"
+            >
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">취소</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-danger ml-1"
+              data-bs-dismiss="modal"
+              onclick="location.href='/dist/pharmacy/login.html'"
+            >
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">탈퇴</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 모달구역 -->
+
+    <div id="app">
+      <aside class="sidebar-placeholder"></aside>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+        <div class="page-heading">
+          <div class="page-title">
+            <div class="row">
+              <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>회원정보</h3>
+                <p class="text-subtitle text-muted">회원 정보를 수정하거나..</p>
+              </div>
+              <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav
+                  aria-label="breadcrumb"
+                  class="breadcrumb-header float-start float-lg-end"
+                >
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                      <a href="main.html">메인화면</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                      회원정보
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 비밀번호가 맞으면 아래의 코드를 보여줍니다 -->
+        <div class="page-content protected-content">
+          <section id="multiple-column-form">
+            <div class="row match-height">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">회원정보</h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <form class="form">
+                        <div class="row">
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="name">이름</label>
+                              <input
+                                type="text"
+                                id="name"
+                                class="form-control"
+                                value="약사이름"
+                                name="name"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="last-name-column">약국 이름</label>
+                              <input
+                                type="text"
+                                id="last-name-column"
+                                class="form-control"
+                                value="ㅇㅇ약국"
+                                name="lname-column"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label for="address">주소</label>
+                              <input
+                                type="text"
+                                id="address"
+                                class="form-control"
+                                value="서울특별시 종로구 창경궁로 254"
+                                name="address"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="email">이메일</label>
+                              <input
+                                type="email"
+                                id="email"
+                                class="form-control"
+                                name="email"
+                                value="abc@gmail.com"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="country-floating">면허번호</label>
+                              <input
+                                type="text"
+                                id="country-floating"
+                                class="form-control"
+                                value="LC24298520"
+                                placeholder="Country"
+                                disabled
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label for="info">상세정보</label>
+                              <input
+                                type="text"
+                                id="info"
+                                class="form-control"
+                                name="info"
+                                value="평일 09:00 - 17:00 영업합니다. 반려동물 약 판매합니다."
+                                disabled
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12 d-flex justify-content-end">
+                            <button
+                              type="button"
+                              class="btn btn-primary me-1 mb-1"
+                              data-bs-toggle="modal"
+                              data-bs-target="#infoEdit"
+                            >
+                              수정
+                            </button>
+                            <button
+                              type="reset"
+                              class="btn btn-outline-secondary me-1 mb-1 bottom-right"
+                              data-bs-toggle="modal"
+                              data-bs-target="#withdraw"
+                            >
+                              회원탈퇴
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+    </div>
+
+    <!-- 여기부터 script.html -->
+    <script src="/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/dist/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/assets/vendors/simple-datatables/simple-datatables.js"></script>
+    <script src="/dist/assets/js/main.js"></script>
+    <!-- 여기까지 script.html -->
+    <script src="/dist/assets/vendors/toastify/toastify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/dist/assets/js/pages/mypage.js"></script>
+  </body>
+</html>
