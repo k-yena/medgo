@@ -3,37 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>약찾GO</title>
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/resources/dist/assets/css/bootstrap.css" />
-
-    <link
-      rel="stylesheet"
-      href="/resources/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/resources/dist/assets/vendors/bootstrap-icons/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="/resources/dist/assets/css/app.css" />
-    <link
-      rel="shortcut icon"
-      href="/resources/dist/assets/images/favicon.svg"
-      type="image/x-icon"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
+    <%@ include file="/WEB-INF/views/common/header.jsp"%>
     <!-- 여기까지 헤더 붙이기 -->
-    <link rel="stylesheet" href="/resources/dist/assets/css/pages/auth.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/assets/css/pages/auth.css" />
   </head>
 
   <body>
@@ -46,7 +18,7 @@
               이메일로 새로운 비밀번호를 보냅니다.
             </p>
 
-            <form action="main.html">
+            <form action="/medgo/login" method="post">
               <div class="form-group position-relative has-icon-left mb-4">
                 <input
                   type="email"
@@ -64,7 +36,7 @@
             <div class="text-center mt-5 text-lg fs-4">
               <p class="text-gray-600">
                 계정이 있으신가요?
-                <a href="login.html" class="font-bold">로그인</a>.
+                <a href="/medgo/login" class="font-bold">로그인</a>.
               </p>
             </div>
           </div>

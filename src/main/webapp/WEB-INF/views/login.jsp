@@ -1,29 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html> 
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>약찾GO</title>
-
-<link rel="preconnect" href="https://fonts.gstatic.com" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet" />
-<link rel="stylesheet" href="/resources/dist/assets/css/bootstrap.css" />
-
-<link rel="stylesheet"
-	href="/resources/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet"
-	href="/resources/dist/assets/vendors/bootstrap-icons/bootstrap-icons.css" />
-<link rel="stylesheet" href="/resources/dist/assets/css/app.css" />
-<link rel="shortcut icon" href="/resources/dist/assets/images/favicon.svg"
-	type="image/x-icon" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 <!-- 여기까지 헤더 붙이기 -->
-<link rel="stylesheet" href="/resources/dist/assets/css/pages/auth.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/assets/css/pages/auth.css" />
 </head>
 <body>
 	<div id="auth">
@@ -33,7 +15,7 @@
 					<h1 class="auth-title">Log in.</h1>
 					<p class="auth-subtitle mb-5">의약품 재고관리를 시작하세요</p>
 
-					<form action="/medgo/main.jsp" method="post">
+					<form action="/medgo/main" method="post">
 						<div class="form-group position-relative has-icon-left mb-4">
 							<input type="email" name="email"
 								class="form-control form-control-xl" placeholder="이메일" />
@@ -58,13 +40,14 @@
 							로그인</button>
 					</form>
 					<div class="text-center mt-5 text-lg fs-4">
-						<p class="text-gray-600"> 
-							계정이 없으신가요? <a href="/medgo/fragment/register.jsp" class="font-bold">회원가입</a>.
+						<p class="text-gray-600">
+							계정이 없으신가요? <a href="/medgo/register" class="font-bold">회원가입</a>.
 						</p>
 						<p>
-							<a class="font-bold" href="/medgo/fragment/forgot-password.jsp">비밀번호를 잊으셨나요?</a>
-						</p> 
-					</div> 
+							<a class="font-bold" href="/medgo/forgotpw">비밀번호를
+								잊으셨나요?</a>
+						</p>
+					</div>
 				</div>
 			</div>
 			<div class="col-lg-7 d-none d-lg-block">
@@ -72,6 +55,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="/resources/dist/assets/js/pages/auth.js"></script>
+	<%@ include file="/WEB-INF/views/common/script.jsp"%>
+	<script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/auth.js"></script>
 </body>
 </html>
