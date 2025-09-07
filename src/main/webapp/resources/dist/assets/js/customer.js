@@ -253,13 +253,13 @@ function centerMapOnUserLocation() {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         const userLocation = new kakao.maps.LatLng(lat, lon);
-        const currentImg = "/dist/assets/images/myLoc.svg";
+        const currentImg = contextPath + "/resources/dist/assets/images/myLoc.svg";
         const currentImgSize = new kakao.maps.Size(30, 30);
         const currentMarkerImage = new kakao.maps.MarkerImage(
           currentImg,
           currentImgSize
         );
-        // 사용자 위치 마커가 이미 있으면 위치를 업데이트하고, 없으면 새로 생성합니다.
+        // 사용자 위치 	마커가 이미 있으면 위치를 업데이트하고, 없으면 새로 생성합니다.
         if (userLocationMarker) {
           userLocationMarker.setPosition(userLocation);
         } else {
@@ -284,7 +284,7 @@ function centerMapOnUserLocation() {
 
 // 모든 마커를 기본 상태(작은 아이콘)로 되돌리고 선택을 해제합니다.
 function resetAllMarkers() {
-  const normalImg = "/dist/assets/images/markerS.svg";
+  const normalImg = contextPath +  "/resources/dist/assets/images/markerS.svg";
   const normalImgSize = new kakao.maps.Size(40, 40);
   const normalMarkerImage = new kakao.maps.MarkerImage(
     normalImg,
@@ -306,7 +306,7 @@ function selectMarkerById(pharmacyId) {
 
   // 이전에 선택된 마커가 있다면 원래 이미지로 되돌립니다.
   if (selectedMarker && selectedMarker !== targetMarker) {
-    const normalImg = "/dist/assets/images/markerS.svg";
+    const normalImg =  contextPath + "/resources/dist/assets/images/markerS.svg";
     const normalImgSize = new kakao.maps.Size(40, 40);
     selectedMarker.setImage(
       new kakao.maps.MarkerImage(normalImg, normalImgSize)
@@ -314,7 +314,7 @@ function selectMarkerById(pharmacyId) {
   }
 
   // 현재 클릭된 마커의 이미지를 변경합니다.
-  const clickImg = "/dist/assets/images/markerL.svg";
+  const clickImg =  contextPath + "/resources/dist/assets/images/markerL.svg";
   const clickImgSize = new kakao.maps.Size(80, 80);
   targetMarker.setImage(new kakao.maps.MarkerImage(clickImg, clickImgSize));
   selectedMarker = targetMarker;
@@ -336,9 +336,9 @@ function initializeMap() {
   map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
   // 마커 이미지 크기 설정
-  var normalImg = "/dist/assets/images/markerS.svg";
+  var normalImg =  contextPath + "/resources/dist/assets/images/markerS.svg";
   var normalImgSize = new kakao.maps.Size(40, 40);
-  var clickImg = "/dist/assets/images/markerL.svg";
+  var clickImg =  contextPath + "/resources/dist/assets/images/markerL.svg";
   var clickImgSize = new kakao.maps.Size(80, 80);
 
   // 약국 데이터베이스를 기반으로 마커를 생성합니다.
@@ -353,7 +353,7 @@ function initializeMap() {
         position: pharmacy.latlng,
         title: pharmacyName,
         image: new kakao.maps.MarkerImage(
-          "/dist/assets/images/markerS.svg",
+        		 contextPath + "/resources/dist/assets/images/markerS.svg",
           new kakao.maps.Size(40, 40)
         ),
       });
