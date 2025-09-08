@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pioneer.medgo.dao.StockDAO">
+	<select id="stockList" parameterType="long"
+		resultType="com.pioneer.medgo.domain.StockDTO">
+		SELECT s.medicine_id AS medicineId,
+		s.pharmacy_id AS pharmacyId,
+		s.med_count AS medCount,
+		m.product_name AS productName,
+		m.manufacturer_name AS manufacturerName,
+		m.main_code as mainCode
+		FROM
+		pharmacy_stock s
+		JOIN medicine m
+		ON s.medicine_id = m.id
+		WHERE s.pharmacy_id = #{pharmacyId}
+	</select>
+	<!-- <select id="stockList" resultType="com.pioneer.medgo.domain.StockDTO"> 
+		select * from pharmacy_stock </select> -->
+
+
+</mapper> 
+
+
+
+
+
+
+
+
