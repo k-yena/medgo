@@ -43,7 +43,7 @@ public class TestController {
 	}
 
 	// 로그인
-	@RequestMapping("/login")
+	@RequestMapping("/login1")
 	public String main() {
 		return "login";
 	}

@@ -15,7 +15,7 @@
 					<h1 class="auth-title">Log in.</h1>
 					<p class="auth-subtitle mb-5">의약품 재고관리를 시작하세요</p>
 
-					<form action="/medgo/main" method="post">
+					<form action="/medgo/login" method="post">
 						<div class="form-group position-relative has-icon-left mb-4">
 							<input type="email" name="email"
 								class="form-control form-control-xl" placeholder="이메일" />
