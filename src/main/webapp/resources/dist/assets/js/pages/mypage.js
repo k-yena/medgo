@@ -40,7 +40,7 @@ const askPassword = () => {
       document.querySelector(".protected-content").style.display = "block";
     } else if (result.isDismissed) {
       // 취소 시 메인 페이지로 이동
-      window.location.href = "main.html";
+      window.location.href = "/medgo/main";
     }
   });
 };

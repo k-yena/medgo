@@ -47,6 +47,7 @@ public class TestController {
 	//로그인
 	@RequestMapping("/login")
 	public String main() {
+		System.out.println("로그인");
 		return "login";
 	}
 
