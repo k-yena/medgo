@@ -7,7 +7,7 @@
 					<a href="/medgo/main"><img src="${pageContext.request.contextPath}/resources/dist/assets/images/logo/logo.png" alt="Logo" srcset="" /> <span id="logo-title">약찾GO</span> </a>
 				</div>
 				<div class="toggler">
-					<a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+					<a href="#" id="sidebar" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
 				</div>
 			</div>
 		</div>

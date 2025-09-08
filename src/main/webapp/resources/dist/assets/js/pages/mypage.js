@@ -1,11 +1,11 @@
 onload = () => {
   // 임시 비밀번호
-  const tempPsw = "1234";
   askPassword();
 };
 
 // --- 마이페이지 입장시 나오는 모달 ---
 const askPassword = () => {
+  const tempPsw = "1234";
   Swal.fire({
     title: "비밀번호를 입력하세요",
     input: "password",

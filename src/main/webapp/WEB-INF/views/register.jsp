@@ -71,7 +71,6 @@
 			</div>
 		</div>
 	</div>
-	<%@ include file="/WEB-INF/views/common/script.jsp"%>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/auth.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/register.js"></script>
