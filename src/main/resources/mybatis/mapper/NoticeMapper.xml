@@ -4,25 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pioneer.medgo.dao.NoticeDAO">
   <select id="getNoticesByPharmacyId" resultType="NoticeDTO" parameterType="int">
-        SELECT * FROM notices WHERE pharmacyid = #{pharmacyid} ORDER BY id DESC
+        SELECT * FROM PHARMACY_BOARD WHERE pharmacyid = #{pharmacyid} ORDER BY id DESC
     </select>
 
     <select id="getNoticeByNoticeId" resultType="NoticeDTO" parameterType="int">
-        SELECT * FROM notices WHERE id = #{noticeid}
+        SELECT * FROM PHARMACY_BOARD WHERE id = #{noticeid}
     </select>
 
     <insert id="insertNotice" parameterType="NoticeDTO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO notices (pharmacyid, title, content)
+        INSERT INTO PHARMACY_BOARD (pharmacyid, title, content)
         VALUES (#{pharmacyid}, #{title}, #{content})
     </insert>
 
     <update id="updateNotice" parameterType="NoticeDTO">
-        UPDATE notices
+        UPDATE PHARMACY_BOARD
         SET title = #{title}, content = #{content}
         WHERE id = #{noticeid}
     </update>
     <delete id="deleteNotice" parameterType="int">
-        DELETE FROM notices WHERE id = #{noticeid}
+        DELETE FROM PHARMACY_BOARD WHERE id = #{noticeid}
     </delete>
 
 </mapper>
