@@ -55,7 +55,6 @@
 			</div>
 		</div>
 	</div>
-	<%@ include file="/WEB-INF/views/common/script.jsp"%>
 	<script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/auth.js"></script>
 </body>
 </html>

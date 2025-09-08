@@ -1,11 +1,11 @@
 onload = () => {
   // 임시 비밀번호
-  const tempPsw = "1234";
   askPassword();
 };
 
 // --- 마이페이지 입장시 나오는 모달 ---
 const askPassword = () => {
+  const tempPsw = "1234";
   Swal.fire({
     title: "비밀번호를 입력하세요",
     input: "password",
@@ -28,7 +28,7 @@ const askPassword = () => {
         Swal.showValidationMessage("비밀번호를 입력해주세요!");
         return false;
       }
-      //입력 비밀번호 value와 비교하는 API요청 보내기
+      // 입력 비밀번호 value와 비교하는 API요청 보내기
       if (value !== tempPsw) {
         Swal.showValidationMessage("비밀번호가 틀렸습니다!");
         return false;
@@ -52,7 +52,7 @@ const editBtn = document.querySelector(".edit-user-info-btn");
 
 editBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  //회원정보를 수정하는 API
+  // 회원정보를 수정하는 API
   infoEditModal.hide();
 
   Toastify({
