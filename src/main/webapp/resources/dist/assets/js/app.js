@@ -84,11 +84,4 @@ onload = () => {
     });
   }
 
-  const logoutButton = document.querySelector("#logout-button");
-  if (logoutButton) {
-    logoutButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.location.href = "login.html";
-    });
-  }
 };

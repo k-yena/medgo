@@ -33,7 +33,7 @@
 			<AppenderRef ref="Out" />	<!-- out이라는 이름의 로고 : Console 출력 -->
 			<AppenderRef ref="SqlFile" /> <!-- SqlFile이라는 이름의 로고 : RollingFile 출력 -->
 		</Logger>
-		<Logger name="com.pioneer.medgo" level="info" additivity="false"> <!--  additivity="false"> -->
+		<Logger name="com.pioneer.medgo" level="debug" additivity="false"> <!--  additivity="false"> -->
 			<AppenderRef ref="Out" />
 			<AppenderRef ref="AccessFile" />
 		</Logger> 
