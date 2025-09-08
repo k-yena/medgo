@@ -84,6 +84,9 @@
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		const contextPath = "${pageContext.request.contextPath}";
+	</script>
 	<script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/auth.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/register.js"></script>
 </body>
