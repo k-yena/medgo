@@ -37,7 +37,7 @@ function checkDuplicateEmail(userEmail) {
       text: "이메일을 확인해 주세요",
       input: "text",
       inputPlaceholder: "임시 코드는 1234입니다",
-      imageUrl: "/dist/assets/images/pages/email.gif",
+      imageUrl: `${contextPath}/resources/dist/assets/images/pages/email.gif`,
       imageWidth: 200,
       imageHeight: 200,
       confirmButtonColor: "#14b3ae",

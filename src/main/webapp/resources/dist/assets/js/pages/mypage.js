@@ -1,7 +1,6 @@
-onload = () => {
-  // 임시 비밀번호
+window.addEventListener('load', () => {     
   askPassword();
-};
+});
 
 // --- 마이페이지 입장시 나오는 모달 ---
 const askPassword = () => {
@@ -68,3 +67,14 @@ editBtn.addEventListener("click", (e) => {
     },
   }).showToast();
 });
+
+// ---회원 탈퇴 버튼 ---
+
+const withdrawalBtn = document.querySelector(".withdrawal-btn");
+
+withdrawalBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  //탈퇴 API
+  window.location = "/medgo/login";
+});
+

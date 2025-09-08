@@ -392,21 +392,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const registerBtn = document.querySelector(".register-notice-btn");
 
   registerBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    // 공지사항 등록 API
-    makeNoticeModal.hide();
+	    e.preventDefault();
+	    // TODO: 공지사항 등록 API 호출
+	    makeNoticeModal.hide();
+	    localStorage.setItem("noticeRegistered", "true");
 
-    Toastify({
-      text: "공지사항이 등록되었습니다.",
-      duration: 3000,
-      close: true,
-      gravity: "bottom",
-      position: "right",
-      backgroundColor: "#14b3ae",
-      style: {
-        zIndex: 99999,
-        overflow: "hidden",
-      },
-    }).showToast();
-  });
-});
+	    // 페이지 리로드
+	    location.reload();
+	  });
+
+	  // --- 새로고침 후 토스트 띄우기 ---
+	  if (localStorage.getItem("noticeRegistered") === "true") {
+	    Toastify({
+	      text: "공지사항이 등록되었습니다.",
+	      duration: 3000,
+	      close: true,
+	      gravity: "bottom",
+	      position: "right",
+	      backgroundColor: "#14b3ae",
+	      style: {
+	        zIndex: 99999,
+	        overflow: "hidden",
+	      },
+	    }).showToast();
+
+	    localStorage.removeItem("noticeRegistered");
+	  }
+	});

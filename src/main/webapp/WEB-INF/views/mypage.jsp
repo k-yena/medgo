@@ -122,9 +122,8 @@
 						<i class="bx bx-x d-block d-sm-none"></i> <span
 							class="d-none d-sm-block">취소</span>
 					</button>
-					<button type="button" class="btn btn-outline-danger ml-1"
-						data-bs-dismiss="modal"
-						onclick="location.href='/resources/dist/pharmacy/login.html'">
+					<button type="button" class="btn withdrawal-btn  btn-outline-danger ml-1"
+						data-bs-dismiss="modal">
 						<i class="bx bx-check d-block d-sm-none"></i> <span
 							class="d-none d-sm-block">탈퇴</span>
 					</button>
@@ -155,7 +154,7 @@
 							<nav aria-label="breadcrumb"
 								class="breadcrumb-header float-start float-lg-end">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="main.html">메인화면</a></li>
+									<li class="breadcrumb-item"><a href="/medgo/main">메인화면</a></li>
 									<li class="breadcrumb-item active" aria-current="page">
 										회원정보</li>
 								</ol>
@@ -249,5 +248,6 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script
 			src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/mypage.js"></script>
-</body>
+		
+</body>	
 </html>
