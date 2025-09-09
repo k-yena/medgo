@@ -1,40 +1,3 @@
-// --- 테이블 구축 ---
-// 테이블에 표시할 데이터
-const data = [
-  ["TYL-001", "타이레놀정 500mg", "한국얀센", "150", "입고"],
-  ["BRF-002", "부루펜정 200mg", "삼일제약", "80", "출고"],
-  ["ASP-003", "아스피린 프로텍트정 100mg", "바이엘코리아", "200", "입고"],
-  ["GBR-004", "게보린정", "삼진제약", "120", "출고"],
-  ["ISD-005", "인사돌플러스정", "동국제약", "50", "입고"],
-  ["OMD-006", "오메가드 연질캡슐", "종근당", "300", "입고"],
-  ["VTC-007", "고려은단 비타민C 1000", "고려은단", "450", "출고"],
-  ["MGS-008", "마그비 연질캡슐", "유한양행", "250", "입고"],
-  ["LTN-009", "루테인 지아잔틴 164", "안국약품", "180", "출고"],
-  ["PPS-010", "프로폴리스 필름", "한국콜마", "70", "입고"],
-  ["CAL-011", "칼트레이트 플러스 디", "화이자", "110", "입고"],
-  ["ZRT-012", "지르텍정", "한국유씨비제약", "95", "출고"],
-  ["WSD-013", "우루사정 100mg", "대웅제약", "220", "입고"],
-  ["FGL-014", "후시딘연고", "동화약품", "130", "출고"],
-  ["MDC-015", "마데카솔케어연고", "동국제약", "140", "입고"],
-  ["PZR-016", "판피린큐액", "동아제약", "280", "출고"],
-  ["PCL-017", "판콜에이내복액", "동화약품", "260", "입고"],
-  ["BCR-018", "백초시럽 플러스", "동성제약", "40", "출고"],
-  ["WCH-019", "위청수 에프액", "광동제약", "60", "입고"],
-  ["GMS-020", "겔포스엠현탁액", "보령제약", "190", "출고"],
-  ["SMT-021", "스멕타 현탁액", "대웅제약", "85", "입고"],
-  ["LCT-022", "락토핏 생유산균 골드", "종근당건강", "500", "출고"],
-  ["BFL-023", "비오플250캡슐", "건일제약", "75", "입고"],
-  ["CNT-024", "센트룸 포 맨", "화이자", "320", "출고"],
-  ["BHN-025", "비판텐 연고", "바이엘코리아", "115", "입고"],
-  ["DRN-026", "듀오락 얌얌", "쎌바이오텍", "410", "출고"],
-  ["TRV-027", "트라벡 연고", "신신제약", "90", "입고"],
-  ["KFP-028", "케펨 플라스타", "제일헬스사이언스", "160", "출고"],
-  ["SJW-029", "소화잘되는약", "한미약품", "210", "입고"],
-  ["DCS-030", "닥터스초이스", "한국인삼공사", "100", "출고"],
-  ["HMD-031", "훼마틴-에이 시럽", "조아제약", "55", "입고"],
-  ["TCS-032", "탁센 연질캡슐", "녹십자", "170", "출고"],
-  ["EZN-033", "이지엔6 이브 연질캡슐", "대웅제약", "195", "입고"],
-];
 
 let table1 = document.querySelector("#table1");
 let dataTable = new simpleDatatables.DataTable(table1, {
@@ -44,13 +7,14 @@ let dataTable = new simpleDatatables.DataTable(table1, {
     info: "총 {rows}건 중 {start} - {end} 표시", // Info text
   },
   data: {
-    headings: ["코드", "이름", "제조사", "재고", "입/출고"],
+    headings: ["코드", "이름", "제조사", "변동량", "입/출고","입/출고일"],
     data: data,
   },
 });
 
-const dataTableSearch = document.querySelector(".dataTable-search");
-const dataTableDrop = document.querySelector(".dataTable-dropdown");
+
+const dataTableSearch = document.querySelector(".datatable-search");
+const dataTableDrop = document.querySelector(".datatable-dropdown");
 
 if (dataTableSearch) {
   const newDrop = `<div class="filter-drop">
@@ -74,9 +38,16 @@ if (dataTableSearch) {
   wrapper.appendChild(dataTableSearch);
   wrapper.appendChild(filterDrop);
 
-  const labelTags = dataTableDrop.getElementsByTagName("label");
-  labelTags[0].classList.add("dropdown-label");
-  labelTags[0].innerText = "개 보기";
+  const label = dataTableDrop.querySelector("label");
+
+  label.childNodes.forEach((node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      node.remove();
+    }
+  });
+
+  label.append(" 개 보기");
+  label.classList.add("dropdown-label");
 
   // 드롭다운 메뉴 클릭 시 검색 적용
   document.querySelectorAll(".filter-drop .dropdown-item").forEach((item) => {

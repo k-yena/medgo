@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <!-- 나중에 헤더 붙이기 -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/dist/assets/vendors/toastify/toastify.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/assets/vendors/toastify/toastify.css" />
 </head>
 <body>
 	<div id="app">
@@ -15,8 +14,7 @@
 		</aside>
 		<div id="main">
 			<header class="mb-3">
-				<a href="#" class="burger-btn d-block d-xl-none"> <i
-					class="bi bi-justify fs-3"></i>
+				<a href="#" class="burger-btn d-block d-xl-none"> <i class="bi bi-justify fs-3"></i>
 				</a>
 			</header>
 			<div class="page-heading">
@@ -24,16 +22,13 @@
 					<div class="row">
 						<div class="col-12 col-md-6 order-md-1 order-last">
 							<h3>입출고 관리</h3>
-							<p class="text-subtitle text-muted">약품의 입고 및 출고 기록을 관리하고 현재
-								재고를 확인합니다.</p>
+							<p class="text-subtitle text-muted">약품의 입고 및 출고 기록을 관리하고 현재 재고를 확인합니다.</p>
 						</div>
 						<div class="col-12 col-md-6 order-md-2 order-first">
-							<nav aria-label="breadcrumb"
-								class="breadcrumb-header float-start float-lg-end">
+							<nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="/medgo/main">메인화면</a></li>
-									<li class="breadcrumb-item active" aria-current="page">
-										입출고 관리</li>
+									<li class="breadcrumb-item"><a href="/medgo/pharmacy/">메인화면</a></li>
+									<li class="breadcrumb-item active" aria-current="page">입출고 관리</li>
 								</ol>
 							</nav>
 						</div>
@@ -49,12 +44,13 @@
 										<th>코드</th>
 										<th>이름</th>
 										<th>제조사</th>
-										<th>주성분</th>
-										<th>재고</th>
+										<th>변동량</th>
+										<th>입/출고</th>
+										<th>입/출고일</th>
 									</tr>
 								</thead>
 								<tbody>
-									<!-- Data will be inserted here dynamically -->
+
 								</tbody>
 							</table>
 						</div>
@@ -65,14 +61,12 @@
 	</div>
 
 	<!--약 상세정보 모달-->
-	<div class="modal fade" id="drugInfoModal" tabindex="-1"
-		aria-labelledby="drugInfoModalLabel" aria-hidden="true">
+	<div class="modal fade" id="drugInfoModal" tabindex="-1" aria-labelledby="drugInfoModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="drugInfoModalLabel">약품 상세 정보</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="table-responsive">
@@ -103,17 +97,11 @@
 						</table>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<div>
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-danger delete-stock-btn">
-							삭제</button>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
+	<script > 
+	const data= ${histories}</script>
 
 	<!-- 여기부터 script.html -->
 	<%@ include file="/WEB-INF/views/common/script.jsp"%>
