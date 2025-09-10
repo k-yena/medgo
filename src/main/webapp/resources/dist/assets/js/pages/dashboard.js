@@ -66,10 +66,12 @@ let optionsVisitorsProfile = {
   },
 };
 
+//월간 판매율
 var chartProfileVisit = new ApexCharts(
   document.querySelector("#chart-profile-visit"),
   optionsProfileVisit
 );
+//판매율 3대 약
 var chartVisitorsProfile = new ApexCharts(
   document.getElementById("chart-visitors-profile"),
   optionsVisitorsProfile

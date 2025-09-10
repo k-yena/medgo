@@ -1,0 +1,41 @@
+package com.pioneer.medgo.dao;
+
+
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.pioneer.medgo.dto.MainDTO;
+
+
+@Mapper
+public interface MainDAO {
+    // 1번: 입출고 차트 (한달)
+    List<MainDTO> getMonthlyTransactionData(int pharmacyid);
+
+    // 2번: 오늘 입고
+    MainDTO getTodayInTransactions(int pharmacyid);
+
+    // 2번: 오늘 출고
+    MainDTO getTodayOutTransactions(int pharmacyid);
+
+    // 3번: 현재 의약품 수
+    MainDTO getCurrentMedicineCount(int pharmacyid);
+
+    // 4번: 이번 달 출고
+    MainDTO getMonthlyOutTransactions(int pharmacyid);
+
+    // 5번: 최근 입출고 기록 (약 이름 포함)
+    List<MainDTO> getRecentStockHistory(int pharmacyid);
+
+    // 6번: 이번달 판매량 높은 약
+    List<MainDTO> getTopSellingMedicines(int pharmacyid);
+
+    // 7번: 공지사항
+    MainDTO getLatestNotice(int pharmacyid);
+
+    // 8번: 월간 판매율 (최근 12개월)
+    List<MainDTO> getMonthlySalesData(int pharmacyid);
+
+}

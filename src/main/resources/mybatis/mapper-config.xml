@@ -8,5 +8,6 @@
 	
 	<typeAliases>
 		<typeAlias alias="NoticeDTO" type="com.pioneer.medgo.dto.NoticeDTO"/>
+		<typeAlias alias="MainDTO" type="com.pioneer.medgo.dto.MainDTO"/>
 	</typeAliases>
 </configuration>
