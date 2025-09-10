@@ -42,8 +42,6 @@ public class NoticeController {
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
 
-		System.out.println(allNotices);
-
 		return "notice";
 	}
 
@@ -53,7 +51,6 @@ public class NoticeController {
 		// @SessionAttribute("pharmacyid") int pharmacyid
 		int pharmacyid = 1; // 임시아이디
 		notice.setPharmacyid(pharmacyid);
-		System.out.println(notice);
 		int rows = noticeDAO.insertNotice(notice);
 		if (rows > 0) {
 			redirectAttributes.addFlashAttribute("successMessage", "공지사항이 등록되었습니다.");
@@ -70,10 +67,9 @@ public class NoticeController {
 		int pharmacyid = 1; // 임시아이디
 		notice.setPharmacyid(pharmacyid);
 		notice.setNoticeid(noticeid);
-		System.out.println("#######이거 받아온 아이텐:" + notice);
 		int rows = noticeDAO.updateNotice(notice);
 		if (rows > 0) {
-			System.out.println("successMessage" + "공지사항이 수정되었습니다.");
+			redirectAttributes.addFlashAttribute("successMessage" + "공지사항이 수정되었습니다.");
 		} else {
 			redirectAttributes.addFlashAttribute("errorMessage", "공지사항 수정에 실패했습니다.");
 		}
@@ -84,7 +80,6 @@ public class NoticeController {
 	@PostMapping("/notice/delete/{noticeid}")
 	public String deleteNotice(@ModelAttribute NoticeDTO notice, @PathVariable int noticeid,
 			RedirectAttributes redirectAttributes) {
-		System.out.println(noticeid);
 		int pharmacyid = 1; // 임시아이디
 		notice.setPharmacyid(pharmacyid);
 		int rows = noticeDAO.deleteNotice(noticeid);
