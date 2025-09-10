@@ -8,9 +8,13 @@ import com.pioneer.medgo.dto.NoticeDTO;
 
 @Mapper
 public interface NoticeDAO {
-    List<NoticeDTO> getNoticesByPharmacyId(int pharmacyid);
-    NoticeDTO getNoticeByNoticeId(int noticeid);
-    int insertNotice(NoticeDTO notice);
-    int updateNotice(NoticeDTO notice);
-    int deleteNotice(int noticeid);
+	List<NoticeDTO> getNoticesByPharmacyId(int pharmacyid);
+
+	NoticeDTO getNoticeByNoticeId(int noticeid);
+
+	int insertNotice(NoticeDTO notice);
+
+	int updateNotice(NoticeDTO notice);
+
+	int deleteNotice(int noticeid);
 }

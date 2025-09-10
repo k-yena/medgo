@@ -63,7 +63,7 @@
 								</thead>
 								<tbody id="notice-container">
 									<c:forEach var="notice" items="${notices}">
-										<tr class="notice-row" data-id="${notice.id}" data-title="${notice.title}" data-content="${notice.content}" data-bs-toggle="modal" data-bs-target="#showNotice">
+										<tr class="notice-row" data-id="${notice.noticeid}" data-title="${notice.title}" data-content="${notice.content}" data-bs-toggle="modal" data-bs-target="#showNotice">
 											<td class="col-3">
 												<div class="d-flex align-items-center">
 													<p class="font-bold ms-3 mb-0">${notice.title}</p>
@@ -80,7 +80,7 @@
 												</c:choose>
 											</td>
 											<td class="col-auto">
-												<p class="mb-0">${notice.date}</p>
+												<p class="mb-0">${notice.createdat}</p>
 											</td>
 										</tr>
 									</c:forEach>
@@ -178,11 +178,9 @@
 											</div>
 										</div>
 										<div class="modal-footer notice-btns">
-											<button type="submit" class="btn btn-outline-secondary edit-btn">수정</button>
+											<button type="button" class="btn btn-outline-secondary edit-btn">수정</button>
 											<button type="button" class="btn btn-outline-danger delete-btn">삭제</button>
 										</div>
-									</form>
-									<form id="deleteNoticeForm" method="POST">
 									</form>
 								</div>
 							</div>
