@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@ taglib
 	prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -80,7 +81,7 @@
 												</c:choose>
 											</td>
 											<td class="col-auto">
-												<p class="mb-0">${notice.createdat}</p>
+												<p class="mb-0"><fmt:formatDate value="${notice.createdat}" pattern="yyyy-MM-dd HH:mm" /></p>
 											</td>
 										</tr>
 									</c:forEach>
