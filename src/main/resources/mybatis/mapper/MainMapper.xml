@@ -9,15 +9,15 @@
     SELECT PHARMACY_NAME FROM PHARMACY WHERE ID = #{pharmacyid}
 </select>
 
-<!-- 입출고 차트 (한달, 입출고) -->
+<!-- 입출고 차트 (입출고) -->
 <select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.dto.MonthlyTransactionDTO" parameterType="int">
   <![CDATA[
     WITH days AS (
-        SELECT TRUNC(ADD_MONTHS(SYSDATE, 0), 'MM') + LEVEL - 1 AS transaction_date
+        SELECT TRUNC(SYSDATE) - LEVEL + 1 AS transaction_date
         FROM dual
-        CONNECT BY LEVEL <= TO_NUMBER(LAST_DAY(SYSDATE) - TRUNC(SYSDATE, 'MM')) + 1
+        CONNECT BY LEVEL <= 7
     )
-    SELECT d.transaction_date,
+    SELECT TO_CHAR(d.transaction_date, 'MM-DD') AS transaction_date,
            NVL(SUM(CASE WHEN sh.TRANSACTION_TYPE = '입고' THEN sh.QUANTITY ELSE 0 END), 0) AS total_in,
            NVL(SUM(CASE WHEN sh.TRANSACTION_TYPE = '출고' THEN sh.QUANTITY ELSE 0 END), 0) AS total_out
     FROM days d
