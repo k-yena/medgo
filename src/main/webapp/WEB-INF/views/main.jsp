@@ -145,7 +145,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                             <td>
                               <c:choose>
                                 <c:when
-                                  test="${record.transactionType == 'IN'}"
+                                  test="${record.transactionType == '입고'}"
                                 >
                                   입고
                                 </c:when>

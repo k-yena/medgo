@@ -9,7 +9,7 @@
     SELECT PHARMACY_NAME FROM PHARMACY WHERE ID = #{pharmacyid}
 </select>
 
-<!-- 입출고 차트 (한달-->
+<!-- 입출고 차트 (한달, 입출고) -->
 <select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.dto.MonthlyTransactionDTO" parameterType="int">
   <![CDATA[
     WITH days AS (
@@ -97,7 +97,7 @@
     FETCH FIRST 1 ROWS ONLY
 </select>
 
-<!-- 월간 판매율 월별로 출고율-->
+<!-- 월간 판매율(출고)-->
 <select id="getMonthlySalesData" resultType="com.pioneer.medgo.dto.MonthlySalesDTO" parameterType="int">
   <![CDATA[
     WITH months AS (
