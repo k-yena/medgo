@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="KO">
   <head>
@@ -29,7 +30,7 @@ pageEncoding="UTF-8"%>
             <div class="row">
               <div class="col-12 col-xl-6 card welcome-box">
                 <div class="welcome-text">
-                  <p>환영합니다, 우리 약국 관리자님!</p>
+                  <p>환영합니다, ${pharmacyName} 관리자님!</p>
                   <p>우리 약국의 현황을 한눈에 확인하세요.</p>
                 </div>
                 <div class="background-shapes">
@@ -61,7 +62,7 @@ pageEncoding="UTF-8"%>
                       </div>
                       <div class="col-md-8">
                         <h6 class="text-muted font-semibold">오늘의 입고</h6>
-                        <h6 class="font-extrabold mb-0">11,000</h6>
+                        <h6 class="font-extrabold mb-0">${todayIn}</h6>
                       </div>
                     </div>
                   </div>
@@ -78,7 +79,7 @@ pageEncoding="UTF-8"%>
                       </div>
                       <div class="col-md-8">
                         <h6 class="text-muted font-semibold">오늘의 출고</h6>
-                        <h6 class="font-extrabold mb-0">18,000</h6>
+                        <h6 class="font-extrabold mb-0">${todayOut}</h6>
                       </div>
                     </div>
                   </div>
@@ -95,7 +96,9 @@ pageEncoding="UTF-8"%>
                       </div>
                       <div class="col-md-8">
                         <h6 class="text-muted font-semibold">현재 의약품</h6>
-                        <h6 class="font-extrabold mb-0">280,000</h6>
+                        <h6 class="font-extrabold mb-0">
+                          ${currentMedicineCount}
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -112,7 +115,7 @@ pageEncoding="UTF-8"%>
                       </div>
                       <div class="col-md-8">
                         <h6 class="text-muted font-semibold">이번 달 출고</h6>
-                        <h6 class="font-extrabold mb-0">12,345</h6>
+                        <h6 class="font-extrabold mb-0">${monthlyOut}</h6>
                       </div>
                     </div>
                   </div>
@@ -135,7 +138,22 @@ pageEncoding="UTF-8"%>
                         </tr>
                       </thead>
                       <tbody>
-                        <!-- Data will be inserted here dynamically -->
+                        <c:forEach var="record" items="${recentStockHistory}">
+                          <tr>
+                            <td>${record.medicineName}</td>
+                            <td>${record.quantity}</td>
+                            <td>
+                              <c:choose>
+                                <c:when
+                                  test="${record.transactionType == 'IN'}"
+                                >
+                                  입고
+                                </c:when>
+                                <c:otherwise>출고</c:otherwise>
+                              </c:choose>
+                            </td>
+                          </tr>
+                        </c:forEach>
                       </tbody>
                     </table>
                   </div>
@@ -145,10 +163,8 @@ pageEncoding="UTF-8"%>
                     <h4>현재 공지사항</h4>
                   </div>
                   <div class="card-body">
-                    <p>
-                      추석 연휴 기간 동안 약국 운영 시간이 변경됩니다. 방문 전
-                      확인 부탁드립니다.
-                    </p>
+                    <h5>${latestNotice.title}</h5>
+                    <p>${latestNotice.content}</p>
                   </div>
                 </div>
               </div>
@@ -181,73 +197,11 @@ pageEncoding="UTF-8"%>
         </div>
       </div>
     </div>
-    <script>
-      const monthlyTransactions = ${monthlyTransactions != null ? monthlyTransactions : '[]'};
-        const todayIn = ${todayIn != null ? todayIn : '{}'};
-        const todayOut = ${todayOut != null ? todayOut : '{}'};
-        const currentMedicineCount = ${currentMedicineCount != null ? currentMedicineCount : '{}'};
-        const monthlyOut = ${monthlyOut != null ? monthlyOut : '{}'};
-        const recentStockHistory = ${recentStockHistory != null ? recentStockHistory : '[]'};
-        const topSelling = ${topSelling != null ? topSelling : '[]'};
-        const latestNotice = ${latestNotice != null ? latestNotice : '{}'};
-        const monthlySales = ${monthlySales != null ? monthlySales : '[]'};
-
-        console.log("monthlyTransactions:", monthlyTransactions);
-        console.log("todayIn:", todayIn);
-        console.log("todayOut:", todayOut);
-        console.log("currentMedicineCount:", currentMedicineCount);
-        console.log("monthlyOut:", monthlyOut);
-        console.log("recentStockHistory:", recentStockHistory);
-        console.log("topSelling:", topSelling);
-        console.log("latestNotice:", latestNotice);
-        console.log("monthlySales:", monthlySales);
-    </script>
     <!-- 여기부터 script.html -->
     <%@ include file="/WEB-INF/views/common/script.jsp"%>
     <!-- 여기까지 script.html -->
     <script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/ui-chartjs.js"></script>
     <script src="${pageContext.request.contextPath}/resources/dist/assets/vendors/apexcharts/apexcharts.js"></script>
     <script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/dashboard.js"></script>
-    <script>
-      // 테이블에 표시할 데이터
-      const data = [
-        ["타이레놀정 500mg", "150", "입고"],
-        ["부루펜정 200mg", "80", "입고"],
-        ["아스피린 프로텍트정 100mg", "200", "출고"],
-      ];
-
-      let table1 = document.querySelector("#table1");
-      let dataTable = new simpleDatatables.DataTable(table1, {
-        searchable: false, // 검색창 숨기기
-        sortable: false, // 정렬 기능 숨기기
-        paging: false, // 페이징 숨기기
-        fixedHeight: true, // 표 높이 고정 (info 영역 제거 효과)
-        data: {
-          headings: ["이름", "판매량", "입/출고"],
-          data: data,
-        },
-      });
-
-      const dataTableTop = document.querySelector(".dataTable-top");
-      const dataTableDrop = document.querySelector(".dataTable-dropdown");
-      const dataTableSearch = document.querySelector(".dataTable-search");
-
-      if (dataTableTop && dataTableDrop && dataTableSearch) {
-        const leftContainer = document.createElement("div");
-        leftContainer.classList.add("dataTable-left");
-
-        const newDrop = `<button class="btn btn-outline-secondary dropdown-toggle" type="button"data-bs-toggle="dropdown" aria-expanded="false" style="border: 1px solid #dce7f1;">필터</button>
-                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">전체보기</a></li>
-                             <li><a class="dropdown-item" href="#">입고만 보기</a></li> 
-                            <li><a class="dropdown-item" href="#">출고만 보기</a></li>
-                           </ul>`;
-
-        leftContainer.innerHTML = newDrop;
-        leftContainer.appendChild(dataTableDrop);
-
-        dataTableTop.insertBefore(leftContainer, dataTableSearch);
-      }
-    </script>
   </body>
 </html>
