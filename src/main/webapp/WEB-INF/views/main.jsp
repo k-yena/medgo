@@ -45,7 +45,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     <h4 class="card-title">입출고 차트</h4>
                   </div>
                   <div class="card-body">
-                    <canvas id="line"></canvas>
+                    <canvas id="chart-recent-stock-history"></canvas>
                   </div>
                 </div>
               </div>
@@ -175,7 +175,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       <h4>판매율 Top3 의약품</h4>
                     </div>
                     <div class="card-body">
-                      <div id="chart-visitors-profile"></div>
+                      <div id="chart-top-selling"></div>
                     </div>
                   </div>
                 </div>
@@ -188,7 +188,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     <h4>월간 판매율</h4>
                   </div>
                   <div class="card-body">
-                    <div id="chart-profile-visit"></div>
+                    <div id="chart-monthly-sales"></div>
                   </div>
                 </div>
               </div>
@@ -200,7 +200,6 @@ uri="http://java.sun.com/jsp/jstl/core"%>
     <!-- 여기부터 script.html -->
     <%@ include file="/WEB-INF/views/common/script.jsp"%>
     <!-- 여기까지 script.html -->
-    <script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/ui-chartjs.js"></script>
     <script src="${pageContext.request.contextPath}/resources/dist/assets/vendors/apexcharts/apexcharts.js"></script>
     <script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/dashboard.js"></script>
   </body>
