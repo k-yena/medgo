@@ -1,77 +1,59 @@
-// @GetMapping("/api/monthly-sales")
-// public List<MainDTO> getMonthlySalesData() {
-//     //@SessionAttribute("pharmacyid") int pharmacyid
-//     int pharmacyid = 1; // 임시 데이터
-//     return mainDAO.getMonthlySalesData(pharmacyid); // 월간 판매 데이터 리턴
-// }
-
-// @GetMapping("/api/top-selling")
-// public List<MainDTO> getTopSellingMedicines() {
-//     //@SessionAttribute("pharmacyid") int pharmacyid
-//     int pharmacyid = 1; // 임시 데이터
-//     return mainDAO.getTopSellingMedicines(pharmacyid); // 판매율 Top3
-// }
-
-// @GetMapping("/api/recent-stock-history")
-// public List<MainDTO> getRecentStockHistory() {
-//     //@SessionAttribute("pharmacyid") int pharmacyid
-//     int pharmacyid = 1; // 임시 데이터
-//     return mainDAO.getRecentStockHistory(pharmacyid); // 최근 입출고 내역
-// }
-
 fetch("/medgo/pharmacy/api/monthly-sales")
   .then((response) => response.json())
   .then((data) => {
-    console.log("월간 데이터");
+    console.log("월간 데이터"); 
+    console.log('data:', data);
     console.log(data.map((item) => item.sales)); // API에서 받은 데이터 확인
     console.log(data.map((item) => item.month)); // API에서 받은 데이터 확인
     console.log("--------");
-    // 차트 데이터 업데이트
-    chartMonthlySales.updateSeries([
-      {
-        name: "sales",
-        data: data.map((item) => item.sales), // API에서 받은 데이터로 업데이트
-      },
-    ]);
-    // x축 카테고리 업데이트 (월)
-    chartMonthlySales.updateOptions({
-      xaxis: {
-        categories: data.map((item) => item.month),
-      },
-    });
-    // 차트 다시 렌더링
-    chartMonthlySales.render();
+    // // 차트 데이터 업데이트
+    // chartMonthlySales.updateSeries([
+    //   {
+    //     name: "sales",
+    //     data: data.map((item) => item.sales), // API에서 받은 데이터로 업데이트
+    //   },
+    // ]);
+    // // x축 카테고리 업데이트 (월)
+    // chartMonthlySales.updateOptions({
+    //   xaxis: {
+    //     categories: data.map((item) => item.month),
+    //   },
+    // });
+    // // 차트 다시 렌더링
+    // chartMonthlySales.render();
   });
 
 fetch("/medgo/pharmacy/api/top-selling")
   .then((response) => response.json())
   .then((data) => {
     console.log("3의약품 데이터");
+    console.log('data:', data);
     console.log(data.map((item) => item.medicineName)); // API에서 받은 데이터 확인
     console.log(data.map((item) => item.totalSold)); // API에서 받은 데이터 확인
     console.log("--------");
-    // 차트 데이터 업데이트
-    chartTopSelling.updateSeries(data.map((item) => item.totalSold));
-    chartTopSelling.updateOptions({
-      labels: data.map((item) => item.medicineName),
-    });
-    // 차트 다시 렌더링
-    chartTopSelling.render();
+    // // 차트 데이터 업데이트
+    // chartTopSelling.updateSeries(data.map((item) => item.totalSold));
+    // chartTopSelling.updateOptions({
+    //   labels: data.map((item) => item.medicineName),
+    // });
+    // // 차트 다시 렌더링
+    // chartTopSelling.render();
   });
 
 fetch("/medgo/pharmacy/api/recent-stock-history")
   .then((response) => response.json())
   .then((data) => {
     console.log("입출고 데이터");
-    console.log(data.map((item) => item.transactionDate)); // API에서 받은 데이터 확인
-    console.log(data.map((item) => item.inQuantity)); // API에서 받은 데이터 확인
+    console.log('data:', data);
+    console.log(data.map((item) => item.medicineName)); // API에서 받은 데이터 확인
+    console.log(data.map((item) => item.quantity)); // API에서 받은 데이터 확인
     console.log(data.map((item) => item.outQuantity)); // API에서 받은 데이터 확인
-    console.log("월간 데이터");
+    console.log("=========");
     // 차트 데이터 업데이트
-    myline.data.labels = data.map((item) => item.transactionDate);
-    myline.data.datasets[0].data = data.map((item) => item.inQuantity);
-    myline.data.datasets[1].data = data.map((item) => item.outQuantity);
-    myline.update(); // 차트 업데이트
+    // myline.data.labels = data.map((item) => item.transactionDate);
+    // myline.data.datasets[0].data = data.map((item) => item.inQuantity);
+    // myline.data.datasets[1].data = data.map((item) => item.outQuantity);
+    // myline.update(); // 차트 업데이트
   });
 
 // --- 메인화면 차트 ---

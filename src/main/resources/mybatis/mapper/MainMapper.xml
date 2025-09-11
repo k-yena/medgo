@@ -10,7 +10,7 @@
 </select>
 
 <!-- 입출고 차트 (한달-->
-<select id="getMonthlyTransactionData" resultType="MainDTO" parameterType="int">
+<select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.dto.MonthlyTransactionDTO" parameterType="int">
   <![CDATA[
     WITH days AS (
         SELECT TRUNC(ADD_MONTHS(SYSDATE, 0), 'MM') + LEVEL - 1 AS transaction_date
@@ -64,11 +64,11 @@
 </select>   
 
 <!-- 최근 입출고기록(5개) -->
-<select id="getRecentStockHistory" resultType="MainDTO" parameterType="int">
+<select id="getRecentStockHistory" resultType="com.pioneer.medgo.dto.RecentStockHistoryDTO" parameterType="int">
     SELECT M.PRODUCT_NAME AS medicine_name,
            SH.QUANTITY AS quantity, SH.TRANSACTION_TYPE AS transaction_type
     FROM STOCK_HISTORY SH
-    JOIN MEDICINE M ON SH.MEDICINE_ID = M.ID
+    JOIN MEDICINE M ON SH.MEDICINE_ID = M.ID 
     WHERE SH.PHARMACY_ID = #{pharmacyid}
     ORDER BY SH.TRANSACTION_DATE DESC
     FETCH FIRST 5 ROWS ONLY
@@ -76,7 +76,7 @@
 
 
 <!--이번달 판매율(출고) 높은 약 3개 -->
-<select id="getTopSellingMedicines" resultType="MainDTO" parameterType="int">
+<select id="getTopSellingMedicines" resultType="com.pioneer.medgo.dto.TopSellingMedicinesDTO" parameterType="int">
     SELECT M.PRODUCT_NAME AS medicine_name, SUM(SH.QUANTITY) AS total_sold
     FROM STOCK_HISTORY SH
     JOIN MEDICINE M ON SH.MEDICINE_ID = M.ID
@@ -89,7 +89,7 @@
 </select>
 
 <!-- 맨 마지막 공지사항 1개-->
-<select id="getLatestNotice" resultType="MainDTO" parameterType="int">
+<select id="getLatestNotice" resultType="NoticeDTO" parameterType="int">
     SELECT TITLE AS title, CONTENT AS content, CREATED_AT AS createdat
     FROM PHARMACY_BOARD
     WHERE PHARMACY_ID = #{pharmacyid}
@@ -98,7 +98,7 @@
 </select>
 
 <!-- 월간 판매율 월별로 출고율-->
-<select id="getMonthlySalesData" resultType="MainDTO" parameterType="int">
+<select id="getMonthlySalesData" resultType="com.pioneer.medgo.dto.MonthlySalesDTO" parameterType="int">
   <![CDATA[
     WITH months AS (
         SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -LEVEL+1), 'YYYY-MM') AS month
@@ -114,7 +114,7 @@
           AND sh.TRANSACTION_TYPE = '출고'
     GROUP BY m.month
     ORDER BY m.month ASC
-  ]]>
+  ]]> 
 </select>
 
 </mapper>

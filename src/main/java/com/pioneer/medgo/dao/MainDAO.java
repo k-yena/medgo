@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.pioneer.medgo.dto.MainDTO;
+import com.pioneer.medgo.dto.MonthlySalesDTO;
+import com.pioneer.medgo.dto.MonthlyTransactionDTO;
+import com.pioneer.medgo.dto.NoticeDTO;
+import com.pioneer.medgo.dto.RecentStockHistoryDTO;
+import com.pioneer.medgo.dto.TopSellingMedicinesDTO;
 
 @Mapper
 public interface MainDAO {
@@ -12,7 +16,7 @@ public interface MainDAO {
 	String getPharmacyName(int pharmacyid);
 
 	// 1번: 입출고 차트 (한달)
-	List<MainDTO> getMonthlyTransactionData(int pharmacyid);
+	List<MonthlyTransactionDTO> getMonthlyTransactionData(int pharmacyid);
 
 	// 2번: 오늘 입고
 	int getTodayInTransactions(int pharmacyid);
@@ -27,15 +31,15 @@ public interface MainDAO {
 	int getMonthlyOutTransactions(int pharmacyid);
 
 	// 5번: 최근 입출고 기록 (약 이름 포함)
-	List<MainDTO> getRecentStockHistory(int pharmacyid);
+	List<RecentStockHistoryDTO> getRecentStockHistory(int pharmacyid);
 
 	// 6번: 이번달 판매량 높은 약
-	List<MainDTO> getTopSellingMedicines(int pharmacyid);
+	List<TopSellingMedicinesDTO> getTopSellingMedicines(int pharmacyid);
 
 	// 7번: 공지사항
-	MainDTO getLatestNotice(int pharmacyid);
+	NoticeDTO getLatestNotice(int pharmacyid);
 
 	// 8번: 월간 판매율 (최근 12개월)
-	List<MainDTO> getMonthlySalesData(int pharmacyid);
+	List<MonthlySalesDTO> getMonthlySalesData(int pharmacyid);
 
 }
