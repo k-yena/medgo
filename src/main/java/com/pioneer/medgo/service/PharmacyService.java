@@ -1,13 +1,11 @@
 package com.pioneer.medgo.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pioneer.medgo.dao.HistoryDAO;
 import com.pioneer.medgo.dao.StockDAO;
 import com.pioneer.medgo.domain.HistoryDTO;
@@ -28,38 +26,33 @@ public class PharmacyService {
 	}
 
 	public List<StockDTO> stockList(Long pharmacyId) {
-		List<StockDTO> list = new ArrayList<>();
-		if (pharmacyId == null) {
-			return list;
-		}
 
-		list = stockDAO.stockList(pharmacyId);
+		return stockDAO.findByPharmacyId(pharmacyId);
+	}
+
+	public List<HistoryDTO> historyList(Long pharmacyId) {
+
+		return historyDAO.listAll(pharmacyId);
+
+	}
+
+	public int stockListCount(Long pharmacyId, String keyword) {
+
+		return stockDAO.countByPharmacyIdAndKeyword(pharmacyId, keyword);
+	}
+
+	public List<StockDTO> stockListForDelete(Long pharmacyId, String keyword, String sort, String order, int offset,
+			int size) {
+		List<StockDTO> list = new ArrayList<>();
+
+		list = stockDAO.findByPharmacyIdAndKeyword(pharmacyId, keyword, sort, order, offset, size);
 
 		return list;
 	}
 
-	
-	public String historyList(Long pharmacyId) {
-		//pharmacyId가 없으면 비어있는 Json반환
-		if (pharmacyId == null) {
-			return "[]";
-		}
-		
-		List<HistoryDTO>list = historyDAO.listAll(pharmacyId);
-		
-		//SimpleDataTable 사용을 위한 2중 리스트
-		List<List<Object>> dtoToList = new ArrayList<>(list.size());
-		for (HistoryDTO h : list) {
-			dtoToList.add(Arrays.asList(h.getMainCode(), h.getProductName(), h.getManufacturerName(), h.getQuantity(),
-					h.getTransactionType(), h.getTransactionDate()));
-		}
+	public int deleteByMedicineId(Long pharmacyId, Long medicineId) {
 
-		try {
-			return new ObjectMapper().writeValueAsString(dtoToList);
-		} catch (Exception e) {
-			throw new RuntimeException("JSON 직렬화 실패", e);
-		}
-
+		return stockDAO.deleteByMedicineId(pharmacyId, medicineId);
 	}
 
 }

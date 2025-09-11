@@ -4,23 +4,96 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pioneer.medgo.dao.StockDAO">
-	<select id="stockList" parameterType="long"
+	<select id="findByPharmacyId" parameterType="long"
 		resultType="com.pioneer.medgo.domain.StockDTO">
-		SELECT s.medicine_id AS medicineId,
-		s.pharmacy_id AS pharmacyId,
+		SELECT
+		s.medicine_id AS medicineId,
+		s.pharmacy_id AS
+		pharmacyId,
 		s.med_count AS medCount,
 		m.product_name AS productName,
 		m.manufacturer_name AS manufacturerName,
-		m.main_code as mainCode
+		m.main_code as
+		mainCode
 		FROM
 		pharmacy_stock s
 		JOIN medicine m
-		ON s.medicine_id = m.id
-		WHERE s.pharmacy_id = #{pharmacyId}
+		ON
+		s.medicine_id = m.id
+		WHERE
+		s.pharmacy_id = #{pharmacyId}
 	</select>
-	<!-- <select id="stockList" resultType="com.pioneer.medgo.domain.StockDTO"> 
-		select * from pharmacy_stock </select> -->
 
+	<select id="countByPharmacyIdAndKeyword" resultType="int">
+		SELECT COUNT(*)
+		FROM pharmacy_stock s
+		JOIN medicine m ON s.medicine_id =
+		m.id
+		WHERE s.pharmacy_id = #{pharmacyId}
+		<if test="keyword != null and keyword != ''">
+			AND (
+			m.main_code LIKE '%' || #{keyword} || '%'
+			OR
+			m.product_name LIKE '%' || #{keyword} || '%'
+			OR m.manufacturer_name
+			LIKE '%' || #{keyword} || '%'
+			)
+		</if>
+	</select>
+
+	<select id="findByPharmacyIdAndKeyword"
+		resultType="com.pioneer.medgo.domain.StockDTO">
+		SELECT
+		s.medicine_id AS medicineId,
+		s.pharmacy_id AS pharmacyId,
+		s.med_count AS medCount,
+		m.product_name AS productName,
+		CASE
+		WHEN
+		LENGTH(m.product_name) > 30 THEN
+		SUBSTR(m.product_name,1,30)||'...'
+		ELSE m.product_name
+		END As viewProductName,
+		m.manufacturer_name AS
+		manufacturerName,
+		m.main_code AS mainCode
+		FROM pharmacy_stock s
+		JOIN
+		medicine m ON s.medicine_id = m.id
+		WHERE s.pharmacy_id = #{pharmacyId}
+		<if test="keyword != null and keyword != ''">
+			AND (
+			m.main_code LIKE '%' || #{keyword} || '%'
+			OR
+			m.product_name LIKE '%' || #{keyword} || '%'
+			OR m.manufacturer_name
+			LIKE '%' || #{keyword} || '%'
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="sort == 'productName'"> m.product_name </when>
+			<when test="sort == 'manufacturerName'"> m.manufacturer_name </when>
+			<when test="sort == 'medCount'"> s.med_count </when>
+			<otherwise> m.product_name </otherwise>
+		</choose>
+		<choose>
+			<when test="order == 'desc'"> DESC </when>
+			<otherwise> ASC </otherwise>
+		</choose>
+		OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+
+	</select>
+
+	<delete id="deleteByMedicineId">
+		DELETE
+		FROM
+		pharmacy_stock
+		WHERE
+		pharmacy_id = #{pharmacyId}
+		AND
+		medicine_id = #{medicineId}
+	</delete>
 
 </mapper> 
 

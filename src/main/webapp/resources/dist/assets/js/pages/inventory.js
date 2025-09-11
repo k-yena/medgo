@@ -52,6 +52,7 @@ const data = [
     "195",
   ],
 ];
+
 let table1 = document.querySelector("#table1");
 let dataTable = new simpleDatatables.DataTable(table1, {
   data: {
@@ -65,44 +66,218 @@ let dataTable = new simpleDatatables.DataTable(table1, {
     info: "총 {rows}건 중 {start} - {end} 표시",
   },
 });
+*/
+document.addEventListener('DOMContentLoaded', function () {
+  // ---- 유틸 ----
+  function byId(id) { return document.getElementById(id); }
+  function qs(sel, root) { return (root || document).querySelector(sel); }
+  function qsa(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function esc(s) {
+    return (s == null ? '' : String(s))
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
 
-const dataTableDrop = document.querySelector(".dataTable-dropdown");
-if (dataTableDrop) {
-  const labelTags = dataTableDrop.getElementsByTagName("label");
-  labelTags[0].classList.add("dropdown-label");
-  labelTags[0].innerText = "개 보기";
-}
+  // ---- 폼/상태 ----
+  var form   = byId('searchForm');
+  if (!form) return;
 
-const drugInfoModal = new bootstrap.Modal(
-  document.getElementById("drugInfoModal")
-);
-const tableBody = document.querySelector("#table1 tbody");
+  var action = form.getAttribute('action') || location.pathname;
+  var pageI  = qs('input[name="page"]', form);
+  var sizeS  = qs('select[name="size"]', form);
+  var kwI    = qs('input[name="keyword"]', form);
+  var sortI  = qs('input[name="sort"]', form);
+  var orderI = qs('input[name="order"]', form);
 
-if (tableBody) {
-  tableBody.addEventListener("click", function (event) {
-    const row = event.target.closest("tr");
-    if (!row) return;
+  var curPage = parseInt((pageI && pageI.value) || '1', 10) || 1;
+  var size    = (sizeS && sizeS.value) || '10';
+  var kw      = (kwI && kwI.value) || '';
+  var sort    = (sortI && sortI.value) || 'productName';
+  var order   = (orderI && orderI.value) || 'asc';
 
-    //- 데이터 베이스 의약품 모달 -//
-    const code = row.cells[0].textContent;
-    const name = row.cells[1].textContent;
-    const manufacturer = row.cells[2].textContent;
-    const ingredient = row.cells[3].textContent;
-    const stock = row.cells[4].textContent;
+  // ---- size 변경: 즉시 적용 + page=1 ----
+  if (sizeS) {
+    sizeS.addEventListener('change', function () {
+      if (pageI) pageI.value = 1;
+      form.submit();
+    });
+  }
 
-    // 모달 내용 채우기
-    document.getElementById("modal-code").textContent = code;
-    document.getElementById("modal-name").textContent = name;
-    document.getElementById("modal-manufacturer").textContent = manufacturer;
-    document.getElementById("modal-ingredient").textContent = ingredient;
-    document.getElementById("modal-stock").textContent = stock;
+  // ---- 검색 Enter: page=1 후 제출 ----
+  if (kwI) {
+    kwI.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (pageI) pageI.value = 1;
+        form.submit();
+      }
+    });
+  }
 
-    // 모달 띄우기
-    drugInfoModal.show();
+  // ---- 정렬 헤더: 링크/아이콘 생성 (AJAX X) ----
+  qsa('th.sortable').forEach(function (th) {
+    var col = th.getAttribute('data-sort');
+    if (!col) return;
+
+    var newOrder = (sort === col && order === 'asc') ? 'desc' : 'asc';
+    var href = action
+      + '?page=1'
+      + '&size='    + encodeURIComponent(size)
+      + '&keyword=' + encodeURIComponent(kw || '')
+      + '&sort='    + encodeURIComponent(col)
+      + '&order='   + encodeURIComponent(newOrder);
+
+    var label = th.textContent.trim();
+    var iconSpanHtml = '<span class="sort-icon"></span>';
+    var anchorClass = 'text-decoration-none text-body d-inline-flex align-items-center';
+    if (th.classList.contains('text-end')) {
+      anchorClass += ' w-100 justify-content-end';
+    }
+
+    th.innerHTML =
+      '<a class="' + anchorClass + '" href="' + href + '">' + esc(label) + '</a>' +
+      iconSpanHtml;
+
+    if (sort === col) {
+      var icon = (order === 'asc') ? '<i class="bi bi-caret-up-fill ms-1"></i>'
+                                   : '<i class="bi bi-caret-down-fill ms-1"></i>';
+      var iconSpan = qs('.sort-icon', th);
+      if (iconSpan) iconSpan.innerHTML = icon;
+    }
   });
-}
 
-document.addEventListener("DOMContentLoaded", () => {
+  // ---- 페이지네이션 (논리적 … 표시) ----
+  var pagerWrap = byId('pagerWrap');
+  var pagerUl   = byId('pager');
+  if (pagerWrap && pagerUl) {
+    var totalPages = parseInt(pagerWrap.getAttribute('data-total-pages') || '1', 10) || 1;
+
+    function hrefFor(p) {
+      return action
+        + '?page='   + encodeURIComponent(p)
+        + '&size='   + encodeURIComponent(size)
+        + '&keyword='+ encodeURIComponent(kw || '')
+        + '&sort='   + encodeURIComponent(sort)
+        + '&order='  + encodeURIComponent(order);
+    }
+    function li(label, href, active, disabled) {
+      if (disabled) {
+        return '<li class="page-item disabled"><span class="page-link border-0 px-2">' + label + '</span></li>';
+      }
+      return '<li class="page-item' + (active ? ' active' : '') + '">'
+           +   '<a class="page-link border-0 px-2" ' + (active ? 'aria-current="page"' : '')
+           +   ' href="' + href + '">' + label + '</a>'
+           + '</li>';
+    }
+
+    var html = '';
+
+    // 총 페이지가 9 이하이면 모두 나열 (이 경우는 자연스러운 전체 표기 허용)
+    if (totalPages <= 9) {
+      html += li('‹', hrefFor(Math.max(1, curPage - 1)), false, curPage <= 1);
+      for (var p = 1; p <= totalPages; p++) {
+        html += li(String(p), hrefFor(p), p === curPage, false);
+      }
+      html += li('›', hrefFor(Math.min(totalPages, curPage + 1)), false, curPage >= totalPages);
+      pagerUl.innerHTML = html;
+    } else {
+      // 고정형(11개) 렌더링
+      var startPage, endPage;
+
+      if (curPage <= 4) {
+        // 앞쪽: 1~7
+        startPage = 1;
+        endPage   = 7;
+      } else if (curPage >= totalPages - 3) {
+        // 끝쪽: last-6 ~ last
+        startPage = totalPages - 6;
+        endPage   = totalPages;
+      } else {
+        // 중앙: 현재±2 (5개)
+        startPage = curPage - 2;
+        endPage   = curPage + 2;
+      }
+
+      // 이전
+      html += li('‹', hrefFor(Math.max(1, curPage - 1)), false, curPage <= 1);
+
+      // 앞쪽 케이스
+      if (curPage <= 4) {
+        // 1~7 직접 출력
+        for (var p1 = startPage; p1 <= endPage; p1++) {
+          html += li(String(p1), hrefFor(p1), p1 === curPage, false);
+        }
+        // 오른쪽 … + last
+        html += li('…', '#', false, true);
+        html += li(String(totalPages), hrefFor(totalPages), false, false);
+      }
+      // 끝쪽 케이스
+      else if (curPage >= totalPages - 3) {
+        // 1 + 왼쪽 …
+        html += li('1', hrefFor(1), false, false);
+        html += li('…', '#', false, true);
+        // last-6 ~ last 직접 출력
+        for (var p2 = startPage; p2 <= endPage; p2++) {
+          html += li(String(p2), hrefFor(p2), p2 === curPage, false);
+        }
+      }
+      // 중앙 케이스
+      else {
+        // 1 + 왼쪽 …
+        html += li('1', hrefFor(1), false, false);
+        html += li('…', '#', false, true);
+        // 현재±2 (5개)
+        for (var p3 = startPage; p3 <= endPage; p3++) {
+          html += li(String(p3), hrefFor(p3), p3 === curPage, false);
+        }
+        // 오른쪽 … + last
+        html += li('…', '#', false, true);
+        html += li(String(totalPages), hrefFor(totalPages), false, false);
+      }
+
+      // 다음
+      html += li('›', hrefFor(Math.min(totalPages, curPage + 1)), false, curPage >= totalPages);
+
+      pagerUl.innerHTML = html;
+    }
+  }
+
+  // ---- 모달 & 삭제(폼 submit) ----
+  var table   = byId('table1');
+  var modalEl = byId('drugInfoModal');
+  if (!table || !modalEl || typeof bootstrap === 'undefined' || !bootstrap.Modal) return;
+
+  var modal   = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+  var mCode   = byId('modal-code');
+  var mName   = byId('modal-name');
+  var mManu   = byId('modal-manufacturer');
+  var mStock  = byId('modal-stock');
+
+  var delBtn  = qs('.delete-medicine-btn', modalEl);
+  var delForm = byId('deleteForm');
+  var delCode = byId('deleteCode');
+  var current = null;
+
+  function extractRowData(row) {
+    return {
+      row: row,
+      code:  row.getAttribute('data-code') || (row.cells[0] && row.cells[0].textContent.trim()) || '',
+      name:  row.getAttribute('data-name') || (row.cells[1] && row.cells[1].textContent.trim()) || '',
+      manufacturer: row.getAttribute('data-manu') || (row.cells[2] && row.cells[2].textContent.trim()) || '',
+      stock: row.getAttribute('data-stock') || (row.cells[3] && row.cells[3].textContent.trim()) || ''
+    };
+  }
+
+  table.addEventListener('click', function (e) {
+    var row = e.target.closest && e.target.closest('tbody tr');
+    if (!row) return;
+    current = extractRowData(row);
+    if (mCode)  mCode.textContent  = current.code;
+    if (mName)  mName.textContent  = current.name;
+    if (mManu)  mManu.textContent  = current.manufacturer;
+    if (mStock) mStock.textContent = current.stock;
+    modal.show();
+  });
   const drugInfoModalElement = document.getElementById("drugInfoModal");
   drugInfoModalElement.addEventListener("shown.bs.modal", () => {
     const minusBtn = document.getElementById("quantity-minus");
@@ -130,15 +305,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 // --- 의약품 수정 후 나오는 토스트 ---
 const editBtn = document.querySelector(".edit-inventory-btn");
 
 editBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  //사용자가 입력한 수량
+  // 사용자가 입력한 수량
   const inputVal = document.querySelector("#quantity-input").value;
 
-  //의약품 재고 수정 API 넣기
+  // 의약품 재고 수정 API 넣기
   drugInfoModal.hide();
   Toastify({
     text: "재고가 수정되었습니다.",
@@ -153,4 +329,3 @@ editBtn.addEventListener("click", (e) => {
     },
   }).showToast();
 });
-*/

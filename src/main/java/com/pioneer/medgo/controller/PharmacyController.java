@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pioneer.medgo.domain.HistoryDTO;
 import com.pioneer.medgo.domain.StockDTO;
@@ -23,7 +26,7 @@ public class PharmacyController {
 		this.pharmacyService = pharmacyService;
 	}
 
-	static Long pharmacyID = 1L;
+	static Long pharmacyId = 1L;
 
 	@GetMapping("/")
 	public String Main() {
@@ -38,62 +41,112 @@ public class PharmacyController {
 	@PostMapping("/drugs/new")
 	public String registDrug() {
 
-		return "add-medicin";
+		return "add-medicine";
 	}
 
 	@GetMapping("/drugs/delete")
-	public String deleteForm(Model model) {
-		// user id를 임시로 지정
+	public String deleteDrug(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(required = false) String keyword, @RequestParam(defaultValue = "productName") String sort,
+			@RequestParam(defaultValue = "asc") String order, Model model) {
 
-		List<StockDTO> list = pharmacyService.stockList(pharmacyID);
-		if (list.size() == 0) {
-			model.addAttribute("msg", "재고가 없습니다.");
+		if (pharmacyId == null) {
+			return "login";
 		}
-		model.addAttribute("stockList", list);
-		System.out.println(list.toString());
+
+		if (page < 1) {
+			page = 1;
+		}
+		if (size < 1) {
+			size = 10;
+		}
+
+		order = "desc".equalsIgnoreCase(order) ? "desc" : "asc";
+
+		int total = pharmacyService.stockListCount(pharmacyId, keyword);
+		int totalPages = Math.max((int) Math.ceil((double) total / size), 1);
+		if (page > totalPages)
+			page = totalPages;
+
+		int offset = (page - 1) * size;
+		// sort는 그대로 전달 (화이트리스트 없음)
+		List<StockDTO> list = pharmacyService.stockListForDelete(pharmacyId, keyword, sort, order, offset, size);
+
+		model.addAttribute("list", list);
+		model.addAttribute("page", page);
+		model.addAttribute("size", size);
+		model.addAttribute("total", total);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("keyword", keyword == null ? "" : keyword);
+		model.addAttribute("sort", sort);
+		model.addAttribute("orderBy", order);
 
 		return "delete-medicine";
 	}
 
-	@PostMapping("/drugs/delete")
-	public String deleteDrug(Model model) {
+	@GetMapping("/drugs/delete/{medicineId}")
+	public String deleteById(@PathVariable("medicineId") Long medicineId, Model model) {
 		// user id를 임시로 지정
-
-		List<StockDTO> list = pharmacyService.stockList(pharmacyID);
-		if (list.size() == 0) {
-			model.addAttribute("msg", "재고가 없습니다.");
+		if (pharmacyId == null) {
+			return "login";
 		}
-		model.addAttribute("stockList", list);
-		System.out.println(list.toString());
+		int deleted = pharmacyService.deleteByMedicineId(pharmacyId, medicineId);
 
-		return "delete-medicine";
+		model.addAttribute("toast", deleted > 0 ? "삭제되었습니다." : "삭제 실패");
+		return "redirect:/pharmacy/drugs/delete";
 	}
 
-	
 	@GetMapping("/stocks/history")
 	public String stock(Model model) {
 		// user id를 임시로 지정
+		if (pharmacyId == null) {
+			return "login";
+		}
 
-		String historyJson = pharmacyService.historyList(pharmacyID);
-		if (historyJson.equals("[]")) {
+		List<HistoryDTO> list = pharmacyService.historyList(pharmacyId);
+		if (list.size() == 0) {
 			model.addAttribute("msg", "출납내역이 없습니다.");
 		}
-		model.addAttribute("histories", historyJson);
-		System.out.println(historyJson.toString());
+		model.addAttribute("list", list);
+		//System.out.println(list.toString());
 
 		return "stock-flow";
 	}
 
 	@GetMapping("/stocks")
-	public String inven(Model model) {
-		// user id를 임시로 지정
+	public String inven(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(required = false) String keyword, @RequestParam(defaultValue = "productName") String sort,
+			@RequestParam(defaultValue = "asc") String order, Model model) {
 
-		List<StockDTO> list = pharmacyService.stockList(pharmacyID);
-		if (list.size() == 0) {
-			model.addAttribute("msg", "재고가 없습니다.");
+		if (pharmacyId == null) {
+			return "login";
 		}
-		model.addAttribute("stockList", list);
-		System.out.println(list.toString());
+
+		if (page < 1) {
+			page = 1;
+		}
+		if (size < 1) {
+			size = 10;
+		}
+
+		order = "desc".equalsIgnoreCase(order) ? "desc" : "asc";
+
+		int total = pharmacyService.stockListCount(pharmacyId, keyword);
+		int totalPages = Math.max((int) Math.ceil((double) total / size), 1);
+		if (page > totalPages)
+			page = totalPages;
+
+		int offset = (page - 1) * size;
+		// sort는 그대로 전달 (화이트리스트 없음)
+		List<StockDTO> list = pharmacyService.stockListForDelete(pharmacyId, keyword, sort, order, offset, size);
+
+		model.addAttribute("list", list);
+		model.addAttribute("page", page);
+		model.addAttribute("size", size);
+		model.addAttribute("total", total);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("keyword", keyword == null ? "" : keyword);
+		model.addAttribute("sort", sort);
+		model.addAttribute("orderBy", order);
 
 		return "inventory";
 	}

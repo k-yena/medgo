@@ -1,11 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <!-- 나중에 헤더 붙이기 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/assets/vendors/toastify/toastify.css" />
+<style>
+/* #table1 {
+	table-layout: fixed; /* 중요! */
+width
+:
+ 
+100%;
+}
+#table1 th:nth-child(1), #table1 td:nth-child(1) {
+	width: 18ch; /* 표시 폭 고정 */
+}
+
+#table1 th:nth-child(4), #table1 td:nth-child(4) {
+	width: 10ch; /* 표시 폭 고정 */
+}
+
+#table1 th:nth-child(5), #table1 td:nth-child(5) {
+	width: 10ch; /* 표시 폭 고정 */
+}
+
+#table1 th:nth-child(6), #table1 td:nth-child(6) {
+	width: 20ch; /* 표시 폭 고정 */
+}
+
+* /
+	/* 말줄임 적용용 */ 
+.truncate-40 {
+	display: inline-block;
+	max-width: 40ch;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: bottom;
+}
+</style>
 </head>
 <body>
 	<div id="app">
@@ -39,7 +75,16 @@
 						<div class="card-header">의약품 재고</div>
 						<div class="card-body">
 							<table class="table table-striped" id="table1">
+								<colgroup>
+									<col style="width: 15%;">
+									<col style="width: 30%;">
+									<col style="width: 15%;">
+									<col style="width: 5%;">
+									<col style="width: 5%;">
+									<col style="width: 20%;">
+								</colgroup>
 								<thead>
+
 									<tr>
 										<th>코드</th>
 										<th>이름</th>
@@ -50,7 +95,23 @@
 									</tr>
 								</thead>
 								<tbody>
-
+									<c:forEach var="item" items="${list}">
+										<tr>
+											<td>${item.mainCode}</td>
+											<c:choose>
+												<c:when test="${fn:length(item.productName) gt 30}">
+													<td>${fn:substring(item.productName,0,30)}...</td>
+												</c:when>
+												<c:otherwise>
+													<td>${item.productName}</td>
+												</c:otherwise>
+											</c:choose>
+											<td>${item.manufacturerName}</td>
+											<td>${item.quantity}</td>
+											<td>${item.transactionType}</td>
+											<td>${item.transactionDate}</td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
@@ -74,24 +135,27 @@
 							<tbody>
 								<tr>
 									<th scope="row" class="w-25">코드</th>
-									<td id="modal-code">123</td>
+									<td id="modal-code"></td>
 								</tr>
 								<tr>
 									<th scope="row">이름</th>
-									<td id="modal-name">이름</td>
+									<td id="modal-name"></td>
 								</tr>
 								<tr>
 									<th scope="row">제조사</th>
-									<td id="modal-manufacturer">제조사</td>
-								</tr>
-
-								<tr>
-									<th scope="row">재고</th>
-									<td id="modal-stock">0000</td>
+									<td id="modal-manufacturer"></td>
 								</tr>
 								<tr>
-									<th scope="row">상태</th>
-									<td id="modal-status">0000</td>
+									<th scope="row">변동량</th>
+									<td id="modal-quantity"></td>
+								</tr>
+								<tr>
+									<th scope="row">입/출고</th>
+									<td id="modal-transactionType"></td>
+								</tr>
+								<tr>
+									<th scope="row">입/출고일</th>
+									<td id="modal-transactionDate"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -100,8 +164,6 @@
 			</div>
 		</div>
 	</div>
-	<script > 
-	const data= ${histories}</script>
 
 	<!-- 여기부터 script.html -->
 	<%@ include file="/WEB-INF/views/common/script.jsp"%>

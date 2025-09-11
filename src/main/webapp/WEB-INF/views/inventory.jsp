@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,26 +37,68 @@
 					<div class="card">
 						<div class="card-header">의약품 재고</div>
 						<div class="card-body">
-							<table class="table table-striped" id="table1">
-								<thead>
-									<tr>
-										<th>코드</th>
-										<th>이름</th>
-										<th>제조사</th>
-										<th>재고</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="item" items="${stockList}">
+							<form method="get" action="<c:url value='/pharmacy/drugs/delete'/>" class="row g-2 mb-3 align-items-center" id="searchForm">
+								<div class="col-auto d-inline-flex align-items-center">
+									<select name="size" class="form-select me-1">
+										<option value="5" ${size==5 ? 'selected' : ''}>5</option>
+										<option value="10" ${size==10? 'selected' : ''}>10</option>
+										<option value="15" ${size==15? 'selected' : ''}>15</option>
+										<option value="20" ${size==20? 'selected' : ''}>20</option>
+										<option value="25" ${size==25? 'selected' : ''}>25</option>
+									</select> <span style="white-space: nowrap; writing-mode: horizontal-tb;">개 보기</span>
+								</div>
+
+								<div class="col ms-auto col-12 col-sm-8 col-md-6 col-lg-4">
+									<input type="text" name="keyword" value="${keyword}" class="form-control" placeholder="이름/코드/제조사 검색" />
+								</div>
+
+								<!-- 상태 유지용 hidden -->
+								<input type="hidden" name="page" value="${page}" /> <input type="hidden" name="sort" value="${sort}" /> <input type="hidden" name="order" value="${orderBy}" />
+								<button type="submit" style="display: none"></button>
+							</form>
+
+
+							<div class="table-responsive">
+								<table class="table table-striped" id="table1">
+									<colgroup>
+										<col style="width: 15%;">
+										<col style="width: 45%;">
+										<col style="width: 25%;">
+										<col style="width: 15%;">
+									</colgroup>
+									<thead>
 										<tr>
-											<td>${item.mainCode }</td>
-											<td>${item.productName }</td>
-											<td>${item.manufacturerName }</td>
-											<td>${item.medCount }</td>
+											<th scope="col" class="sortable" data-sort="mainCode">코드</th>
+											<th scope="col" class="sortable" data-sort="productName">제품명</th>
+											<th scope="col" class="sortable" data-sort="manufacturerName">제조사</th>
+											<th scope="col" class="sortable" data-sort="medCount">재고</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+									</thead>
+									<tbody>
+										<c:forEach var="item" items="${list}">
+											<tr data-code="${item.mainCode}" data-name="${item.productName}" data-manu="${item.manufacturerName}" data-stock="${item.medCount}">
+												<td>${item.mainCode }</td>
+												<c:choose>
+													<c:when test="${fn:length(item.productName) gt 40}">
+														<td>${fn:substring(item.productName,0,40)}...</td>
+													</c:when>
+													<c:otherwise>
+														<td>${item.productName }</td>
+													</c:otherwise>
+												</c:choose>
+												<td>${item.manufacturerName }</td>
+												<td>${item.medCount }</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+
+								<!-- 페이지네이션 (정렬/검색 조건 유지) -->
+								<nav aria-label="Page navigation" class="mt-3 d-flex justify-content-end" id="pagerWrap" data-total-pages="${totalPages}">
+									<ul class="pagination mb-0" id="pager"></ul>
+								</nav>
+
+							</div>
 						</div>
 					</div>
 				</section>
@@ -85,10 +128,6 @@
 								<tr>
 									<th scope="row">제조사</th>
 									<td id="modal-manufacturer">ccc</td>
-								</tr>
-								<tr>
-									<th scope="row">주성분</th>
-									<td id="modal-ingredient">rrr</td>
 								</tr>
 								<tr>
 									<th scope="row">재고</th>
