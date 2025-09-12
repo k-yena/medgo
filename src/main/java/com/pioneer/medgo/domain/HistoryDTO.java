@@ -11,7 +11,6 @@ public class HistoryDTO {
 	public Long medicineId;
 	public String mainCode;
 	public String productName;
-	public String viewProductName;
 	public String manufacturerName;
 	public int quantity;
 	public String transactionType;
