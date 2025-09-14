@@ -13,7 +13,8 @@
 <body>
 	<div id="app">
 		<aside class="sidebar-placeholder">
-			<%@ include file="/WEB-INF/views/common/sidebar.jsp"%></aside>
+			<%@ include file="/WEB-INF/views/common/sidebar.jsp"%>
+			</aside>
 		<div id="main">
 			<header class="mb-3">
 				<a href="#" class="burger-btn d-block d-xl-none"> <i class="bi bi-justify fs-3"></i>
@@ -78,6 +79,9 @@
 										</tr>
 									</thead>
 									<tbody>
+										<c:if test="${list.size()==0 }">
+											<td colspan='4' style="text-align: center">데이터가 없습니다</td>
+										</c:if>
 										<c:forEach var="item" items="${list}">
 											<tr data-id="${item.medicineId }" data-code="${item.mainCode}" data-name="${item.productName}" data-manu="${item.manufacturerName}" data-stock="${item.medCount}">
 												<td>${item.mainCode }</td>
@@ -105,6 +109,7 @@
 						</div>
 					</div>
 				</section>
+			
 			</div>
 		</div>
 	</div>

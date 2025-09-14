@@ -51,10 +51,12 @@
 		m.manufacturer_name AS
 		manufacturerName,
 		m.main_code AS mainCode
-		FROM pharmacy_stock s
+		FROM
+		pharmacy_stock s
 		JOIN
 		medicine m ON s.medicine_id = m.id
-		WHERE s.pharmacy_id = #{pharmacyId}
+		WHERE
+		s.pharmacy_id = #{pharmacyId}
 		<if test="keyword != null and keyword != ''">
 			AND (
 			m.main_code LIKE '%' || #{keyword} || '%'
@@ -84,10 +86,30 @@
 		FROM
 		pharmacy_stock
 		WHERE
-		pharmacy_id = #{pharmacyId}
+		pharmacy_id =
+		#{pharmacyId}
 		AND
 		medicine_id = #{medicineId}
 	</delete>
+
+	<select id="existByPharmachIdAndMedicineId"
+		parameterType="com.pioneer.medgo.domain.StockDTO" resultType="int">
+		select
+		count(*)
+		from
+		pharmacy_stock
+		where
+		medicine_id = #{medicineId}
+		and
+		pharmacy_id = #{pharmacyId}
+	</select>
+
+	<insert id="save"
+		parameterType="com.pioneer.medgo.domain.StockDTO">
+		insert into pharmacy_stock(medicine_id, pharmacy_id,
+		med_count)
+		VALUES (#{medicineId}, #{pharmacyId}, #{medCount})
+	</insert>
 
 </mapper> 
 

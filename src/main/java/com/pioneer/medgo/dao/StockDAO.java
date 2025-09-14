@@ -14,12 +14,13 @@ public interface StockDAO {
 	public int countByPharmacyIdAndKeyword(@Param("pharmacyId") Long pharmacyId, @Param("keyword") String keyword);
 
 	public List<StockDTO> findByPharmacyIdAndKeyword(@Param("pharmacyId") Long pharmacyId,
-			@Param("keyword") String keyword,
-			@Param("sort") String sort,
-			@Param("order") String order,
-			@Param("offset") int offset,
-			@Param("size") int size);
-	
-	public int deleteByMedicineId(@Param("pharmacyId") Long pharmacyId, @Param("medicineId")Long medicineId );
+			@Param("keyword") String keyword, @Param("sort") String sort, @Param("order") String order,
+			@Param("offset") int offset, @Param("size") int size);
+
+	public int deleteByMedicineId(@Param("pharmacyId") Long pharmacyId, @Param("medicineId") Long medicineId);
+
+	public int save(StockDTO dto);
+
+	public int existByPharmachIdAndMedicineId(StockDTO dto);
 
 }

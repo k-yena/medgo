@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pioneer.medgo.dao.HistoryDAO;
+import com.pioneer.medgo.dao.MedicineDAO;
 import com.pioneer.medgo.dao.StockDAO;
 import com.pioneer.medgo.domain.HistoryDTO;
+import com.pioneer.medgo.domain.MedicineDTO;
 import com.pioneer.medgo.domain.StockDTO;
 
 @Service
@@ -20,9 +22,13 @@ public class PharmacyService {
 	@Autowired
 	private final HistoryDAO historyDAO;
 
-	public PharmacyService(StockDAO stockDAO, HistoryDAO historyDAO) {
+	@Autowired
+	private final MedicineDAO medicineDAO;
+
+	public PharmacyService(StockDAO stockDAO, HistoryDAO historyDAO, MedicineDAO medicineDAO) {
 		this.stockDAO = stockDAO;
 		this.historyDAO = historyDAO;
+		this.medicineDAO = medicineDAO;
 	}
 
 	public List<StockDTO> stockList(Long pharmacyId) {
@@ -53,6 +59,43 @@ public class PharmacyService {
 	public int deleteByMedicineId(Long pharmacyId, Long medicineId) {
 
 		return stockDAO.deleteByMedicineId(pharmacyId, medicineId);
+	}
+
+	public int medicineListCount(String keyword) {
+
+		return medicineDAO.countByKeyword(keyword);
+
+	}
+
+	public List<MedicineDTO> medicineList(String keyword, String sort, String order, int offset, int size) {
+
+		List<MedicineDTO> list = new ArrayList<>();
+
+		list = medicineDAO.findByKeyword(keyword, sort, order, offset, size);
+
+		return list;
+	}
+
+	public boolean addMedicine(Long pharmacyId, Long medicineId, int medCount) {
+		System.out.println(2);
+		StockDTO dto = new StockDTO();
+		dto.setPharmacyId(pharmacyId);
+		dto.setMedicineId(medicineId);
+		dto.setMedCount(medCount);
+
+		int count = stockDAO.existByPharmachIdAndMedicineId(dto);
+		if (count > 0) {
+			return false;
+		}
+		System.out.println(3);
+
+		count = stockDAO.save(dto);
+		if (count != 1) {
+			return false;
+		}
+		System.out.println(4);
+		
+		return true;
 	}
 
 }

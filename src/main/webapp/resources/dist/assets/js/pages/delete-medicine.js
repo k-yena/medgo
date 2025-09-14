@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded',
 					
 
 					// ---- 모달 & 삭제(폼 submit) ----
-					var table   = byId('table1');
+					  var table   = byId('table1');
 					  var modalEl = byId('drugInfoModal');
 					  if (!table || !modalEl || typeof bootstrap === 'undefined' || !bootstrap.Modal) return;
 
