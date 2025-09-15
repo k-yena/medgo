@@ -278,8 +278,14 @@ document.addEventListener('DOMContentLoaded',
 					    delBtn.addEventListener('click', function () {
 					      if (!current || !current.id) return;
 					      if (!window.confirm('정말 삭제하시겠습니까?')) return;
+					      
+					      var stockValue = mStock ? mStock.textContent.trim() : '';
 					   
 					      var url = '/medgo/pharmacy/drugs/delete/' + encodeURIComponent(current.id);
+					      if (stockValue) {
+					          url += '?medCount=' + encodeURIComponent(stockValue);
+					        }
+					      
 					      window.location.assign(url);
 					    });
 					  }

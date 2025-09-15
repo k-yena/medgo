@@ -78,14 +78,18 @@ public class PharmacyController {
 	@PostMapping("/drugs/new/{medicineId}")
 	public String registDrug(@PathVariable("medicineId") Long medicineId, @RequestParam("medCount") int medCount,
 			Model model) {
-		System.out.println(1);
 
 		// user id를 임시로 지정
 		if (pharmacyId == null) {
 			return "login";
 		}
 		boolean result = pharmacyService.addMedicine(pharmacyId, medicineId, medCount);
-		System.out.println(5);
+
+		String transactionType = "입고";
+
+		if (result) {
+			pharmacyService.addHistory(pharmacyId, medicineId, medCount, transactionType);
+		}
 
 		model.addAttribute("toast", result ? "등록되었습니다." : "등록 실패");
 
@@ -129,14 +133,21 @@ public class PharmacyController {
 	}
 
 	@GetMapping("/drugs/delete/{medicineId}")
-	public String deleteById(@PathVariable("medicineId") Long medicineId, Model model) {
+	public String deleteById(@PathVariable("medicineId") Long medicineId, @RequestParam("medCount") int medCount, Model model) {
 		// user id를 임시로 지정
 		if (pharmacyId == null) {
 			return "login";
 		}
-		int result = pharmacyService.deleteByMedicineId(pharmacyId, medicineId);
+		System.out.println(2);
+		boolean result = pharmacyService.deleteMedicine(pharmacyId, medicineId);
 
-		model.addAttribute("toast", result > 0 ? "삭제되었습니다." : "삭제 실패");
+		String transactionType = "출고";
+
+		if (result) {
+			pharmacyService.addHistory(pharmacyId, medicineId, medCount, transactionType);
+		}
+
+		model.addAttribute("toast", result ? "삭제되었습니다." : "삭제 실패");
 		return "redirect:/pharmacy/drugs/delete";
 	}
 

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  console.log('[add] loaded');
 
   // ---- 유틸 ----
   function byId(id) { return document.getElementById(id); }
@@ -116,14 +115,13 @@ document.addEventListener('DOMContentLoaded', function () {
   // ---- 모달 & 등록 ----
   var table   = byId('table1');
   var modalEl = byId('drugInfoModal');
-  if (!table || !modalEl) { console.warn('[add] missing table/modal', !!table, !!modalEl); return; }
+  if (!table || !modalEl) { return; }
 
-  // 부트스트랩 모달 인스턴스 (늦게 로드돼도 이벤트는 먼저 붙임)
+ 
   var modal = (window.bootstrap && bootstrap.Modal && bootstrap.Modal.getInstance)
     ? (bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl))
     : null;
 
-  console.log('[add] elems(table/modal):', !!table, !!modalEl, 'bootstrapModal:', !!modal);
 
   // 모달 표시용 엘리먼트
   var mId       = byId('modal-id');
@@ -147,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 행 클릭 → 모달 채우고 열기
   table.addEventListener('click', function (e) {
-    console.log('[add] row clicked');
+ 
     var row = e.target.closest && e.target.closest('tbody tr');
     if (!row) return;
 
@@ -187,15 +185,13 @@ document.addEventListener('DOMContentLoaded', function () {
     modalEl.addEventListener('shown.bs.modal', function () { qtyInput.value = '1'; });
   }
 
-  // ★ 등록 클릭: 이벤트 위임(모달에 붙임) → 항상 동작
+  // 등록 클릭: 이벤트 위임(모달에 붙임) → 항상 동작
   modalEl.addEventListener('click', function (e) {
     var btn = e.target.closest('.add-medicine-btn');
     if (!btn) return;
 
-    console.log('[add] add clicked (delegated)');
 
     if (!current || !current.id) {
-      console.warn('[add] no current row selected');
       alert('행을 먼저 선택하세요.');
       return;
     }
@@ -218,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(formEl);
     if (modal && modal.hide) modal.hide();
 
-    console.log('[add] POST =>', formEl.action, 'medCount=', h.value);
     formEl.submit();
   });
 

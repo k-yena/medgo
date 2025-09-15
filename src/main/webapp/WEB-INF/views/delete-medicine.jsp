@@ -14,7 +14,7 @@
 	<div id="app">
 		<aside class="sidebar-placeholder">
 			<%@ include file="/WEB-INF/views/common/sidebar.jsp"%>
-			</aside>
+		</aside>
 		<div id="main">
 			<header class="mb-3">
 				<a href="#" class="burger-btn d-block d-xl-none"> <i class="bi bi-justify fs-3"></i>
@@ -109,7 +109,7 @@
 						</div>
 					</div>
 				</section>
-			
+
 			</div>
 		</div>
 	</div>

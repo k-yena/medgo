@@ -56,9 +56,12 @@ public class PharmacyService {
 		return list;
 	}
 
-	public int deleteByMedicineId(Long pharmacyId, Long medicineId) {
-
-		return stockDAO.deleteByMedicineId(pharmacyId, medicineId);
+	public boolean deleteMedicine(Long pharmacyId, Long medicineId) {
+		int count = stockDAO.deleteByMedicineId(pharmacyId, medicineId);
+		if (count < 1) {
+			return false;
+		}
+		return true;
 	}
 
 	public int medicineListCount(String keyword) {
@@ -77,7 +80,7 @@ public class PharmacyService {
 	}
 
 	public boolean addMedicine(Long pharmacyId, Long medicineId, int medCount) {
-		System.out.println(2);
+	
 		StockDTO dto = new StockDTO();
 		dto.setPharmacyId(pharmacyId);
 		dto.setMedicineId(medicineId);
@@ -87,15 +90,26 @@ public class PharmacyService {
 		if (count > 0) {
 			return false;
 		}
-		System.out.println(3);
-
+	
 		count = stockDAO.save(dto);
 		if (count != 1) {
 			return false;
 		}
-		System.out.println(4);
 		
 		return true;
+	}
+
+	public boolean addHistory(Long pharmacyId, Long medicineId, int medCount, String transactionType) {
+	
+
+		int count = historyDAO.save(pharmacyId, medicineId, medCount, transactionType);
+	
+		if (count < 1) {
+			return false;
+		}
+
+		return true;
+
 	}
 
 }

@@ -8,30 +8,6 @@
 <!-- 나중에 헤더 붙이기 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/assets/vendors/toastify/toastify.css" />
 <style>
-/* #table1 {
-	table-layout: fixed; /* 중요! */
-width
-:
- 
-100%;
-}
-#table1 th:nth-child(1), #table1 td:nth-child(1) {
-	width: 18ch; /* 표시 폭 고정 */
-}
-
-#table1 th:nth-child(4), #table1 td:nth-child(4) {
-	width: 10ch; /* 표시 폭 고정 */
-}
-
-#table1 th:nth-child(5), #table1 td:nth-child(5) {
-	width: 10ch; /* 표시 폭 고정 */
-}
-
-#table1 th:nth-child(6), #table1 td:nth-child(6) {
-	width: 20ch; /* 표시 폭 고정 */
-}
-
-* /
 	/* 말줄임 적용용 */ 
 .truncate-40 {
 	display: inline-block;
