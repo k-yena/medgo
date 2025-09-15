@@ -11,30 +11,29 @@
     <result property="pharmacyid" column="PHARMACY_ID"/>
 </resultMap>
       <!-- 공지사항 페이징 조회 -->
-  <select id="getNoticesByPharmacyId" resultType="com.pioneer.medgo.dto.NoticeDTO">
+  <select id="getNoticesByPharmacyId" resultType="NoticeDTO">
+    <![CDATA[
     SELECT * FROM (
         SELECT n.*, ROWNUM rnum
         FROM (
             SELECT * 
-            FROM NOTICE
+            FROM PHARMACY_BOARD
             WHERE PHARMACY_ID = #{pharmacyid}
             ORDER BY CREATED_AT DESC
         ) n
         WHERE ROWNUM <= #{end}
     )
     WHERE rnum > #{start}
+    ]]>
   </select>
+  
+  	 <!-- 전체 공지사항 개수 -->
+	 <select id="getNoticeCount" resultType="int">
+	   SELECT COUNT(*) 
+	   FROM PHARMACY_BOARD 
+	   WHERE PHARMACY_ID = #{pharmacyid}
+	 </select>
 
-  <!-- 전체 공지사항 개수 -->
-  <select id="getNoticeCount" resultType="int">
-    SELECT COUNT(*) 
-    FROM NOTICE 
-    WHERE PHARMACY_ID = #{pharmacyid}
-  </select>
-
-    <!-- <select id="getNoticesByPharmacyId" resultType="NoticeDTO" parameterType="int">
-        SELECT * FROM PHARMACY_BOARD WHERE pharmacy_id = #{pharmacyid} ORDER BY id DESC
-    </select> -->
 
     <select id="getNoticeByNoticeId" resultMap="NoticeResultMap" parameterType="int">
         SELECT * FROM PHARMACY_BOARD WHERE ID = #{noticeid}
