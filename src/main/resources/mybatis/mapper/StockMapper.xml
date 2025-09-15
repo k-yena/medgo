@@ -111,6 +111,29 @@
 		VALUES (#{medicineId}, #{pharmacyId}, #{medCount})
 	</insert>
 
+	<select id="findByPharmachIdAndMedicineId"
+		parameterType="com.pioneer.medgo.domain.StockDTO"
+		resultType="com.pioneer.medgo.domain.StockDTO">
+		select
+		medicine_id, pharmacy_id,med_count
+		from
+		pharmacy_stock
+		where
+		medicine_id = #{medicineId}
+		and
+		pharmacy_id = #{pharmacyId}
+	</select>
+
+	<update id="updateStock"
+		parameterType="com.pioneer.medgo.domain.StockDTO">
+		update pharmacy_stock
+		set med_count=#{medCount}
+		where
+		medicine_id = #{medicineId}
+		and
+		pharmacy_id = #{pharmacyId}
+	</update>
+
 </mapper> 
 
 

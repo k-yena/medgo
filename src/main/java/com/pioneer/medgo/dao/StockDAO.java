@@ -22,5 +22,9 @@ public interface StockDAO {
 	public int save(StockDTO dto);
 
 	public int existByPharmachIdAndMedicineId(StockDTO dto);
+	
+	public StockDTO findByPharmachIdAndMedicineId(StockDTO dto);
+
+	public int updateStock(StockDTO dto);
 
 }

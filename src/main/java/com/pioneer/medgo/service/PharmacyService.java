@@ -80,7 +80,7 @@ public class PharmacyService {
 	}
 
 	public boolean addMedicine(Long pharmacyId, Long medicineId, int medCount) {
-	
+
 		StockDTO dto = new StockDTO();
 		dto.setPharmacyId(pharmacyId);
 		dto.setMedicineId(medicineId);
@@ -90,20 +90,56 @@ public class PharmacyService {
 		if (count > 0) {
 			return false;
 		}
-	
+
 		count = stockDAO.save(dto);
 		if (count != 1) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
 	public boolean addHistory(Long pharmacyId, Long medicineId, int medCount, String transactionType) {
-	
 
 		int count = historyDAO.save(pharmacyId, medicineId, medCount, transactionType);
-	
+
+		if (count < 1) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	public boolean insertQuantity(Long pharmacyId, Long medicineId, int transactionQuantity) {
+		StockDTO dto = new StockDTO();
+		dto.setPharmacyId(pharmacyId);
+		dto.setMedicineId(medicineId);
+
+		StockDTO originDTO = stockDAO.findByPharmachIdAndMedicineId(dto);
+
+		int medCount = originDTO.getMedCount() + transactionQuantity;
+		if (medCount < 0) {
+			return false;
+		}
+		
+		originDTO.setMedCount(medCount);
+		int count = stockDAO.updateStock(originDTO);
+
+		if (count < 1) {
+			return false;
+		}
+		String transactionType = "";
+		if (transactionQuantity > 0) {
+			transactionType = "입고";
+		} else if (transactionQuantity < 0) {
+			transactionType = "출고";
+		} else {
+			return false;
+		}
+
+		count = historyDAO.save(pharmacyId, medicineId, Math.abs(transactionQuantity), transactionType);
+
 		if (count < 1) {
 			return false;
 		}

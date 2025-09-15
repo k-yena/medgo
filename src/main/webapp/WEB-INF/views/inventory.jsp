@@ -37,7 +37,7 @@
 					<div class="card">
 						<div class="card-header">의약품 재고</div>
 						<div class="card-body">
-							<form method="get" action="<c:url value='/pharmacy/drugs/delete'/>" class="row g-2 mb-3 align-items-center" id="searchForm">
+							<form method="get" action="<c:url value='/pharmacy/stocks'/>" class="row g-2 mb-3 align-items-center" id="searchForm">
 								<div class="col-auto d-inline-flex align-items-center">
 									<select name="size" class="form-select me-1">
 										<option value="5" ${size==5 ? 'selected' : ''}>5</option>
@@ -76,7 +76,7 @@
 									</thead>
 									<tbody>
 										<c:forEach var="item" items="${list}">
-											<tr data-code="${item.mainCode}" data-name="${item.productName}" data-manu="${item.manufacturerName}" data-stock="${item.medCount}">
+											<tr data-id="${item.medicineId}"  data-code="${item.mainCode}" data-name="${item.productName}" data-manu="${item.manufacturerName}" data-stock="${item.medCount}">
 												<td>${item.mainCode }</td>
 												<c:choose>
 													<c:when test="${fn:length(item.productName) gt 40}">

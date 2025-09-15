@@ -15,8 +15,15 @@ document.addEventListener('DOMContentLoaded', function () {
   var t = params.get('toast');
   if (t) {
     Toastify({
-      text: t, duration: 3000, close: true, gravity: "bottom", position: "right",
-      backgroundColor: "rgba(196, 39, 39, 0.794)", style: { zIndex: 99999, overflow: "hidden" }
+      text: t,
+      duration: 3000,
+      close: true,
+      gravity: "bottom",
+      position: "right",
+      backgroundColor: "rgba(196, 39, 39, 0.794)",
+      style: {
+    	  zIndex: 99999,
+    	  overflow: "hidden" }
     }).showToast();
   }
 
@@ -216,5 +223,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     formEl.submit();
   });
-
+ 
 });

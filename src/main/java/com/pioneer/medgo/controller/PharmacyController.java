@@ -133,12 +133,13 @@ public class PharmacyController {
 	}
 
 	@GetMapping("/drugs/delete/{medicineId}")
-	public String deleteById(@PathVariable("medicineId") Long medicineId, @RequestParam("medCount") int medCount, Model model) {
+	public String deleteById(@PathVariable("medicineId") Long medicineId, @RequestParam("medCount") int medCount,
+			Model model) {
 		// user id를 임시로 지정
 		if (pharmacyId == null) {
 			return "login";
 		}
-		System.out.println(2);
+		
 		boolean result = pharmacyService.deleteMedicine(pharmacyId, medicineId);
 
 		String transactionType = "출고";
@@ -201,6 +202,21 @@ public class PharmacyController {
 		model.addAttribute("orderBy", order);
 
 		return "inventory";
+	}
+
+	@PostMapping("/stock/{medicineId}")
+	public String insertQuantity(@PathVariable("medicineId") Long medicineId, @RequestParam("transactionQuantity") int transactionQuantity,
+			Model model) {
+		if (pharmacyId == null) {
+			return "login";
+		}
+		
+		boolean result = pharmacyService.insertQuantity(pharmacyId, medicineId, transactionQuantity);
+
+		model.addAttribute("toast", result ? "등록되었습니다." : "등록 실패");
+
+	
+		return "redirect:/pharmacy/stocks";
 	}
 
 }
