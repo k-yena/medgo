@@ -30,7 +30,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             <div class="row">
               <div class="col-12 col-xl-6 card welcome-box">
                 <div class="welcome-text">
-                  <p>환영합니다, ${pharmacyName} 관리자님!</p>
+                  <p>환영합니다, ${dashboard.pharmacyName} 관리자님!</p>
                   <p>우리 약국의 현황을 한눈에 확인하세요.</p>
                 </div>
                 <div class="background-shapes">
@@ -62,7 +62,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       </div>
                       <div class="col-md-8">
                         <h6 class="text-muted font-semibold">오늘의 입고</h6>
-                        <h6 class="font-extrabold mb-0">${todayIn}</h6>
+                        <h6 class="font-extrabold mb-0">
+                          ${dashboard.todayIn}
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -79,7 +81,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       </div>
                       <div class="col-md-8">
                         <h6 class="text-muted font-semibold">오늘의 출고</h6>
-                        <h6 class="font-extrabold mb-0">${todayOut}</h6>
+                        <h6 class="font-extrabold mb-0">
+                          ${dashboard.todayOut}
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -97,7 +101,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       <div class="col-md-8">
                         <h6 class="text-muted font-semibold">현재 의약품</h6>
                         <h6 class="font-extrabold mb-0">
-                          ${currentMedicineCount}
+                          ${dashboard.currentMedicineCount}
                         </h6>
                       </div>
                     </div>
@@ -115,7 +119,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       </div>
                       <div class="col-md-8">
                         <h6 class="text-muted font-semibold">이번 달 출고</h6>
-                        <h6 class="font-extrabold mb-0">${monthlyOut}</h6>
+                        <h6 class="font-extrabold mb-0">
+                          ${dashboard.monthlyOut}
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -138,7 +144,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                         </tr>
                       </thead>
                       <tbody>
-                        <c:forEach var="record" items="${recentStockHistory}">
+                        <c:forEach var="record" items="${dashboard.recentStockHistory}">
                           <tr>
                             <td>${record.medicineName}</td>
                             <td>${record.quantity}</td>
@@ -163,8 +169,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                     <h4>현재 공지사항</h4>
                   </div>
                   <div class="card-body">
-                    <h5>${latestNotice.title}</h5>
-                    <p>${latestNotice.content}</p>
+                    <h5>${dashboard.latestNotice.title}</h5>
+                    <p>${dashboard.latestNotice.content}</p>
                   </div>
                 </div>
               </div>
