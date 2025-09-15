@@ -10,7 +10,6 @@
     <result property="createdat" column="CREATED_AT"/>
     <result property="pharmacyid" column="PHARMACY_ID"/>
 </resultMap>
-
       <!-- 공지사항 페이징 조회 -->
   <select id="getNoticesByPharmacyId" resultType="com.pioneer.medgo.dto.NoticeDTO">
     SELECT * FROM (
@@ -37,11 +36,11 @@
         SELECT * FROM PHARMACY_BOARD WHERE pharmacy_id = #{pharmacyid} ORDER BY id DESC
     </select> -->
 
-    <select id="getNoticeByNoticeId" resultType="NoticeDTO" parameterType="int">
-        SELECT * FROM PHARMACY_BOARD WHERE noticeid = #{noticeid}
+    <select id="getNoticeByNoticeId" resultMap="NoticeResultMap" parameterType="int">
+        SELECT * FROM PHARMACY_BOARD WHERE ID = #{noticeid}
     </select>
 
-    <insert id="insertNotice" parameterType="NoticeDTO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertNotice" parameterType="NoticeDTO" useGeneratedKeys="true" keyProperty="noticeid" keyColumn="ID">
         INSERT INTO PHARMACY_BOARD (pharmacy_id, title, content)
         VALUES (#{pharmacyid}, #{title}, #{content})
     </insert>
@@ -49,10 +48,10 @@
     <update id="updateNotice" parameterType="NoticeDTO">
         UPDATE PHARMACY_BOARD
         SET title = #{title}, content = #{content}
-        WHERE noticeid = #{noticeid}
+        WHERE ID = #{noticeid}
     </update>
     <delete id="deleteNotice" parameterType="int">
-        DELETE FROM PHARMACY_BOARD WHERE noticeid = #{noticeid}
+        DELETE FROM PHARMACY_BOARD WHERE ID = #{noticeid}
     </delete>
 
 </mapper>
