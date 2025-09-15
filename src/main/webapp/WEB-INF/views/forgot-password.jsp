@@ -18,7 +18,7 @@
               이메일로 새로운 비밀번호를 보냅니다.
             </p>
 
-            <form action="/medgo/login" method="post">
+            <form action="${pageContext.request.contextPath}/auth/login" method="post">
               <div class="form-group position-relative has-icon-left mb-4">
                 <input
                   type="email"
@@ -36,7 +36,7 @@
             <div class="text-center mt-5 text-lg fs-4">
               <p class="text-gray-600">
                 계정이 있으신가요?
-                <a href="/medgo/login" class="font-bold">로그인</a>.
+                <a href="${pageContext.request.contextPath}/auth/login" class="font-bold">로그인</a>.
               </p>
             </div>
           </div>

@@ -7,6 +7,6 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias alias="LoginDTO" type="com.pioneer.medgo.domain.LoginDTO" /> 
+		<typeAlias alias="MemberDTO" type="com.pioneer.medgo.domain.MemberDTO" /> 
 	</typeAliases>
 </configuration>

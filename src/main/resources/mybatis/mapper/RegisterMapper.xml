@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pioneer.medgo.dao.MemberDAO">
+	<select id="findByEmail"
+		parameterType="String" resultType="com.pioneer.medgo.domain.MemberDTO">
+		select * from member
+		where email = #{email} 
+	</select>
+   <!-- 1) 회원가입 -->
+	<insert id="insertMember"
+		parameterType="com.pioneer.medgo.domain.MemberDTO">
+		INSERT INTO member (email, name, password, license_code)
+		VALUES (#{email}, #{name}, #{password}, #{licenseCode})
+	</insert>
+
+   <!-- 2) 로그인 (email 기준 조회 후 Service에서 비밀번호 체크) --> 
+   <select id="login"
+      parameterType="com.pioneer.medgo.domain.MemberDTO"
+      resultType="com.pioneer.medgo.domain.MemberDTO">
+      SELECT * FROM member
+      WHERE email = #{email} AND password = #{password}
+   </select> 
+  
+   <!-- 3) 회원 조회 (email 기준) -->
+   <select id="getUserbyEmail" parameterType="string"
+      resultType="com.pioneer.medgo.domain.MemberDTO">
+      SELECT * FROM member
+      WHERE email = #{email}
+   </select>
+</mapper>
