@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
       close: true,
       gravity: "bottom",
       position: "right",
-      backgroundColor: "rgba(196, 39, 39, 0.794)",
+      backgroundColor: "#14b3ae",
       style: {
     	  zIndex: 99999,
     	  overflow: "hidden" }
