@@ -92,7 +92,7 @@ public class PharmacyController {
 			pharmacyService.addHistory(pharmacyId, medicineId, medCount, transactionType);
 		}
 
-		model.addAttribute("toast", result ? "등록되었습니다." : "등록 실패");
+		model.addAttribute("toast", result);
 
 		return "redirect:/pharmacy/drugs/new";
 	}
@@ -152,7 +152,7 @@ public class PharmacyController {
 			pharmacyService.addHistory(pharmacyId, medicineId, medCount, transactionType);
 		}
 
-		model.addAttribute("toast", result ? "삭제되었습니다." : "삭제 실패");
+		model.addAttribute("toast", result);
 		return "redirect:/pharmacy/drugs/delete";
 	}
 	
@@ -221,7 +221,7 @@ public class PharmacyController {
 		
 		boolean result = pharmacyService.insertQuantity(pharmacyId, medicineId, transactionQuantity);
 
-		model.addAttribute("toast", result ? "등록되었습니다." : "등록 실패");
+		model.addAttribute("toast", result);
 
 		return "redirect:/pharmacy/stocks";
 	}
