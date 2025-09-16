@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pioneer.medgo.dao.MainDAO">
+
+<!-- 약국 이름 가져오기 -->
+<select id="getPharmacyName" resultType="String" parameterType="int">
+    SELECT PHARMACY_NAME FROM PHARMACY WHERE ID = #{pharmacyid}
+</select>
+
+<!-- 입출고 차트 (입출고) -->
+<select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.dto.MonthlyTransactionDTO" parameterType="int">
+  <![CDATA[
+    WITH days AS (
+        SELECT TRUNC(SYSDATE) - LEVEL + 1 AS transaction_date
+        FROM dual
+        CONNECT BY LEVEL <= 7
+    )
+    SELECT TO_CHAR(d.transaction_date, 'MM-DD') AS transaction_date,
+           NVL(SUM(CASE WHEN sh.TRANSACTION_TYPE = '입고' THEN sh.QUANTITY ELSE 0 END), 0) AS total_in,
+           NVL(SUM(CASE WHEN sh.TRANSACTION_TYPE = '출고' THEN sh.QUANTITY ELSE 0 END), 0) AS total_out
+    FROM days d
+         LEFT JOIN STOCK_HISTORY sh
+           ON TRUNC(sh.TRANSACTION_DATE) = d.transaction_date
+          AND sh.PHARMACY_ID = #{pharmacyid}
+    GROUP BY d.transaction_date
+    ORDER BY d.transaction_date
+  ]]>
+</select>
+
+<!--  오늘의 입고  -->
+<select id="getTodayInTransactions" resultType="int" parameterType="int">
+    SELECT NVL(SUM(QUANTITY), 0) AS today_in
+    FROM STOCK_HISTORY
+    WHERE PHARMACY_ID = #{pharmacyid} 
+      AND TRANSACTION_TYPE = '입고' 
+      AND TRUNC(TRANSACTION_DATE) = TRUNC(SYSDATE)
+</select>
+
+<!-- 오늘의 출고 -->
+<select id="getTodayOutTransactions" resultType="int" parameterType="int">
+    SELECT NVL(SUM(QUANTITY), 0) AS today_out
+    FROM STOCK_HISTORY
+    WHERE PHARMACY_ID = #{pharmacyid} 
+      AND TRANSACTION_TYPE = '출고' 
+      AND TRUNC(TRANSACTION_DATE) = TRUNC(SYSDATE)
+</select>
+
+<!-- 현재 의약품 수 -->
+<select id="getCurrentMedicineCount" resultType="int" parameterType="int">
+    SELECT NVL(COUNT(*), 0) AS current_medicine_count
+    FROM PHARMACY_STOCK
+    WHERE PHARMACY_ID = #{pharmacyid}
+</select>
+
+<!-- 이번 달 출고 -->
+<select id="getMonthlyOutTransactions" resultType="int" parameterType="int">
+    SELECT NVL(SUM(QUANTITY), 0) AS monthly_out
+    FROM STOCK_HISTORY
+    WHERE PHARMACY_ID = #{pharmacyid} 
+      AND TRANSACTION_TYPE = '출고' 
+      AND TRANSACTION_DATE >= TRUNC(SYSDATE, 'MM')
+</select>   
+
+<!-- 최근 입출고기록(5개) -->
+<select id="getRecentStockHistory" resultType="com.pioneer.medgo.dto.RecentStockHistoryDTO" parameterType="int">
+    SELECT M.PRODUCT_NAME AS medicine_name,
+           SH.QUANTITY AS quantity, SH.TRANSACTION_TYPE AS transaction_type
+    FROM STOCK_HISTORY SH
+    JOIN MEDICINE M ON SH.MEDICINE_ID = M.ID 
+    WHERE SH.PHARMACY_ID = #{pharmacyid}
+    ORDER BY SH.TRANSACTION_DATE DESC
+    FETCH FIRST 5 ROWS ONLY
+</select>
+
+
+<!--이번달 판매율(출고) 높은 약 3개 -->
+<select id="getTopSellingMedicines" resultType="com.pioneer.medgo.dto.TopSellingMedicinesDTO" parameterType="int">
+    SELECT M.PRODUCT_NAME AS medicine_name, SUM(SH.QUANTITY) AS total_sold
+    FROM STOCK_HISTORY SH
+    JOIN MEDICINE M ON SH.MEDICINE_ID = M.ID
+    WHERE SH.PHARMACY_ID = #{pharmacyid} 
+      AND SH.TRANSACTION_TYPE = '출고' 
+      AND SH.TRANSACTION_DATE >= TRUNC(SYSDATE, 'MM')
+    GROUP BY M.PRODUCT_NAME
+    ORDER BY total_sold DESC
+    FETCH FIRST 3 ROWS ONLY
+</select>
+
+<!-- 맨 마지막 공지사항 1개-->
+<select id="getLatestNotice" resultType="NoticeDTO" parameterType="int">
+    SELECT TITLE AS title, CONTENT AS content, CREATED_AT AS createdat
+    FROM PHARMACY_BOARD
+    WHERE PHARMACY_ID = #{pharmacyid}
+    ORDER BY CREATED_AT DESC
+    FETCH FIRST 1 ROWS ONLY
+</select>
+
+<!-- 월간 판매율(출고)-->
+<select id="getMonthlySalesData" resultType="com.pioneer.medgo.dto.MonthlySalesDTO" parameterType="int">
+  <![CDATA[
+    WITH months AS (
+        SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -LEVEL+1), 'YYYY-MM') AS month
+        FROM dual
+        CONNECT BY LEVEL <= 12
+    )
+    SELECT m.month,
+           NVL(SUM(sh.QUANTITY), 0) AS total_sold
+    FROM months m
+         LEFT JOIN STOCK_HISTORY sh
+           ON TO_CHAR(sh.TRANSACTION_DATE, 'YYYY-MM') = m.month
+          AND sh.PHARMACY_ID = #{pharmacyid}
+          AND sh.TRANSACTION_TYPE = '출고'
+    GROUP BY m.month
+    ORDER BY m.month ASC
+  ]]> 
+</select>
+
+</mapper>
