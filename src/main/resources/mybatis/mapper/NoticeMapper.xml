@@ -34,7 +34,6 @@
 	   WHERE PHARMACY_ID = #{pharmacyid}
 	 </select>
 
-
     <select id="getNoticeByNoticeId" resultMap="NoticeResultMap" parameterType="int">
         SELECT * FROM PHARMACY_BOARD WHERE ID = #{id}
     </select>

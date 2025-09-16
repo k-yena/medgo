@@ -40,12 +40,10 @@ onload = () => {
     });
   }
 
-  window.addEventListener("DOMContentLoaded", () => {
-    var w = window.innerWidth;
-    if (w < 1200) {
-      document.getElementById("sidebar").classList.remove("active");
-    }
-  });
+  var w = window.innerWidth;
+  if (w < 1200) {
+    document.getElementById("sidebar").classList.remove("active");
+  }
   window.addEventListener("resize", () => {
     var w = window.innerWidth;
     if (w < 1200) {

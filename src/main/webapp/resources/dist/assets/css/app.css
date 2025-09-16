@@ -865,7 +865,7 @@
 }
 @media screen and (max-width: 1199px) {
   .sidebar-wrapper {
-    position: absolute;
+    position: fixed;
     left: -300px;
   }
   .sidebar-wrapper .sidebar-toggler.x {
