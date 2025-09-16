@@ -6,7 +6,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
+	
+	<!-- mail.properties 이메일/패스워드 파일 로드 -->
+	<context:property-placeholder location="classpath:mail.properties"/>
+	
 	<context:component-scan
 		base-package="com.pioneer.medgo" use-default-filters="false">
 		<context:include-filter type="annotation"
@@ -17,10 +20,10 @@
 	<task:annotation-driven/>
 	
 	<!-- 이메일 환경 설정 --> 
-	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="587"/>
-        Gmail 계정과 앱 비밀번호 직접 입력
+        <!-- Gmail 계정과 앱 비밀번호 직접 입력 -->
         <property name="username" value="${mail.username}"/>
         <property name="password" value="${mail.password}"/>
         <property name="javaMailProperties">
@@ -29,9 +32,9 @@
                 <prop key="mail.smtp.auth">true</prop>
                 <prop key="mail.smtp.starttls.enable">true</prop>
                 <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
-                <prop key="mail.debug">true</prop>
+                <prop key="mail.debug">true</prop> 
             </props>
         </property>
-    </bean> -->
+    </bean> 
 
 </beans>

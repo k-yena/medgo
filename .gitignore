@@ -99,6 +99,7 @@ bin/
 uploads/
 **/uploads/
 **/dataresource.xml
+**.properties
 
 # 서버 런타임(톰캣 등) 로컬 디렉터리
 **/work/
