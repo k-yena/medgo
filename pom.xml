@@ -16,6 +16,13 @@
 
 	<!-- 프로젝트에서 의존하는 외부 라이브러리들을 설정 -->
 	<dependencies>
+	<!-- 로깅 -->
+	<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-aspects</artifactId>
+  <version>5.3.39</version>
+</dependency>
+	
 		<!-- 서블릿 4.0 라이브러리 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
