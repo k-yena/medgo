@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pioneer.medgo.dto.MainDashBoardDTO;
@@ -15,6 +16,7 @@ import com.pioneer.medgo.dto.MonthlyTransactionDTO;
 import com.pioneer.medgo.dto.RecentStockHistoryDTO;
 import com.pioneer.medgo.dto.TopSellingMedicinesDTO;
 import com.pioneer.medgo.service.MainService;
+
 
 @Controller
 @RequestMapping("/pharmacy")
@@ -50,6 +52,7 @@ public class MainController {
 	public List<RecentStockHistoryDTO> getRecentStockHistory() {
 		int pharmacyid = 1; // 임시 데이터
 		return mainService.getRecentStockHistory(pharmacyid);
+
 	}
 
 	// 이번달 판매량 높은 약 데이터 반환
@@ -67,4 +70,5 @@ public class MainController {
 		int pharmacyid = 1; // 임시 데이터
 		return mainService.getMonthlySalesData(pharmacyid);
 	}
+
 }

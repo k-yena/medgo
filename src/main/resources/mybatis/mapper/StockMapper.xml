@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pioneer.medgo.dao.StockDAO">
+	<select id="findByPharmacyId" parameterType="long"
+		resultType="com.pioneer.medgo.domain.StockDTO">
+		SELECT
+		s.medicine_id AS medicineId,
+		s.pharmacy_id AS
+		pharmacyId,
+		s.med_count AS medCount,
+		m.product_name AS productName,
+		m.manufacturer_name AS manufacturerName,
+		m.main_code as
+		mainCode
+		FROM
+		pharmacy_stock s
+		JOIN medicine m
+		ON
+		s.medicine_id = m.id
+		WHERE
+		s.pharmacy_id = #{pharmacyId}
+	</select>
+
+	<select id="countByPharmacyIdAndKeyword" resultType="int">
+		SELECT COUNT(*)
+		FROM pharmacy_stock s
+		JOIN medicine m ON s.medicine_id =
+		m.id
+		WHERE s.pharmacy_id = #{pharmacyId}
+		<if test="keyword != null and keyword != ''">
+			AND (
+			m.main_code LIKE '%' || #{keyword} || '%'
+			OR
+			m.product_name LIKE '%' || #{keyword} || '%'
+			OR m.manufacturer_name
+			LIKE '%' || #{keyword} || '%'
+			)
+		</if>
+	</select>
+
+	<select id="findByPharmacyIdAndKeyword"
+		resultType="com.pioneer.medgo.domain.StockDTO">
+		SELECT
+		s.medicine_id AS medicineId,
+		s.pharmacy_id AS pharmacyId,
+		s.med_count AS medCount,
+		m.product_name AS productName,
+		m.manufacturer_name AS
+		manufacturerName,
+		m.main_code AS mainCode
+		FROM
+		pharmacy_stock s
+		JOIN
+		medicine m ON s.medicine_id = m.id
+		WHERE
+		s.pharmacy_id = #{pharmacyId}
+		<if test="keyword != null and keyword != ''">
+			AND (
+			m.main_code LIKE '%' || #{keyword} || '%'
+			OR
+			m.product_name LIKE '%' || #{keyword} || '%'
+			OR m.manufacturer_name
+			LIKE '%' || #{keyword} || '%'
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="sort == 'productName'"> m.product_name </when>
+			<when test="sort == 'manufacturerName'"> m.manufacturer_name </when>
+			<when test="sort == 'medCount'"> s.med_count </when>
+			<otherwise> m.product_name </otherwise>
+		</choose>
+		<choose>
+			<when test="order == 'desc'"> DESC </when>
+			<otherwise> ASC </otherwise>
+		</choose>
+		OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+
+	</select>
+
+	<delete id="deleteByMedicineId">
+		DELETE
+		FROM
+		pharmacy_stock
+		WHERE
+		pharmacy_id =
+		#{pharmacyId}
+		AND
+		medicine_id = #{medicineId}
+	</delete>
+
+	<select id="existByPharmacyIdAndMedicineId"
+		parameterType="com.pioneer.medgo.domain.StockDTO" resultType="int">
+		select
+		count(*)
+		from
+		pharmacy_stock
+		where
+		medicine_id = #{medicineId}
+		and
+		pharmacy_id = #{pharmacyId}
+	</select>
+
+	<insert id="save"
+		parameterType="com.pioneer.medgo.domain.StockDTO">
+		insert into pharmacy_stock(medicine_id, pharmacy_id,
+		med_count)
+		VALUES (#{medicineId}, #{pharmacyId}, #{medCount})
+	</insert>
+
+	<select id="findByPharmachIdAndMedicineId"
+		parameterType="com.pioneer.medgo.domain.StockDTO"
+		resultType="com.pioneer.medgo.domain.StockDTO">
+		select
+		medicine_id, pharmacy_id,med_count
+		from
+		pharmacy_stock
+		where
+		medicine_id = #{medicineId}
+		and
+		pharmacy_id = #{pharmacyId}
+	</select>
+
+	<update id="updateStock"
+		parameterType="com.pioneer.medgo.domain.StockDTO">
+		update pharmacy_stock
+		set med_count=#{medCount}
+		where
+		medicine_id = #{medicineId}
+		and
+		pharmacy_id = #{pharmacyId}
+	</update>
+
+</mapper> 
+
+
+
+
+
+
+
+

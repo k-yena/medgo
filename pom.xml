@@ -123,6 +123,8 @@
 			<version>1.2</version>
 		</dependency>
 
+
+
 		<!-- mybatis 자체 라이브러리  -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -130,12 +132,13 @@
 			<version>3.5.16</version>
 		</dependency>
 
+
 		<!-- mybatis-spring 라이브러리 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>2.1.1</version>
-		</dependency>
+		</dependency> 
 
 		<!-- AOP Weaving 위한 설정 -->
 		<dependency>
