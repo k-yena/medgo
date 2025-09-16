@@ -53,7 +53,7 @@ public class TestController {
 		return "forgot-password";
 	}
 
-	@RequestMapping("/register")
+	@RequestMapping("/register1")
 	public String register() {
 		return "register";
 	}

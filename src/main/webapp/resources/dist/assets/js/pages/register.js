@@ -3,8 +3,8 @@ const emailCheckBtn = document.querySelector(".email-check-btn");
 const tempEmail = "test@gmail.com"; // 테스트용
 const tempCode = "1234"; // 테스트용
 
-// 중복 확인 버튼 클릭 이벤트
-emailCheckBtn.addEventListener("click", () => {
+// 중복 확인 버튼 클릭 이벤트 
+emailCheckBtn.addEventListener("click", () => { 
   const email = emailInput.value.trim();
   if (email) {
     checkDuplicateEmail(email);
@@ -33,7 +33,7 @@ function checkDuplicateEmail(userEmail) {
       if (data.result === "duplicate") { 
         emailInput.classList.add("is-invalid");
         Swal.fire({
-          title: "존재하는 이메일입니다.",  
+          title: "존재하는 이메일입니다",  
           icon: "warning", 
           confirmButtonColor: "#14b3ae",
           confirmButtonText: "확인",
@@ -67,7 +67,7 @@ function checkDuplicateEmail(userEmail) {
             if (result.value === tempCode) {
               Swal.fire({
                 title: "확인되었습니다",
-                text: "이메일을 확인했습니다.",
+                text: "이메일을 확인했습니다",
                 icon: "success",
                 confirmButtonText: "확인",
               }).then(() => {
@@ -87,7 +87,7 @@ function checkDuplicateEmail(userEmail) {
               });
             } else {
               Swal.fire({
-                title: "코드가 일치하지 않습니다",
+                title: "코드가 일치하지 않습니다", 
                 icon: "error",
               });
             }
