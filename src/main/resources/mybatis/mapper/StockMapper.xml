@@ -92,7 +92,7 @@
 		medicine_id = #{medicineId}
 	</delete>
 
-	<select id="existByPharmachIdAndMedicineId"
+	<select id="existByPharmacyIdAndMedicineId"
 		parameterType="com.pioneer.medgo.domain.StockDTO" resultType="int">
 		select
 		count(*)
