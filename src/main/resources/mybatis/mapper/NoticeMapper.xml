@@ -10,15 +10,36 @@
     <result property="createdat" column="CREATED_AT"/>
     <result property="pharmacyid" column="PHARMACY_ID"/>
 </resultMap>
-  <select id="getNoticesByPharmacyId" resultType="NoticeDTO" parameterType="int">
-        SELECT * FROM PHARMACY_BOARD WHERE pharmacy_id = #{pharmacyid} ORDER BY id DESC
+      <!-- 공지사항 페이징 조회 -->
+  <select id="getNoticesByPharmacyId" resultType="NoticeDTO">
+    <![CDATA[
+    SELECT * FROM (
+        SELECT n.*, ROWNUM rnum
+        FROM (
+            SELECT * 
+            FROM PHARMACY_BOARD
+            WHERE PHARMACY_ID = #{pharmacyid}
+            ORDER BY CREATED_AT DESC
+        ) n
+        WHERE ROWNUM <= #{end}
+    )
+    WHERE rnum > #{start}
+    ]]>
+  </select>
+  
+  	 <!-- 전체 공지사항 개수 -->
+	 <select id="getNoticeCount" resultType="int">
+	   SELECT COUNT(*) 
+	   FROM PHARMACY_BOARD 
+	   WHERE PHARMACY_ID = #{pharmacyid}
+	 </select>
+
+
+    <select id="getNoticeByNoticeId" resultMap="NoticeResultMap" parameterType="int">
+        SELECT * FROM PHARMACY_BOARD WHERE ID = #{noticeid}
     </select>
 
-    <select id="getNoticeByNoticeId" resultType="NoticeDTO" parameterType="int">
-        SELECT * FROM PHARMACY_BOARD WHERE noticeid = #{noticeid}
-    </select>
-
-    <insert id="insertNotice" parameterType="NoticeDTO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertNotice" parameterType="NoticeDTO" useGeneratedKeys="true" keyProperty="noticeid" keyColumn="ID">
         INSERT INTO PHARMACY_BOARD (pharmacy_id, title, content)
         VALUES (#{pharmacyid}, #{title}, #{content})
     </insert>
@@ -26,10 +47,10 @@
     <update id="updateNotice" parameterType="NoticeDTO">
         UPDATE PHARMACY_BOARD
         SET title = #{title}, content = #{content}
-        WHERE noticeid = #{noticeid}
+        WHERE ID = #{noticeid}
     </update>
     <delete id="deleteNotice" parameterType="int">
-        DELETE FROM PHARMACY_BOARD WHERE noticeid = #{noticeid}
+        DELETE FROM PHARMACY_BOARD WHERE ID = #{noticeid}
     </delete>
 
 </mapper>
