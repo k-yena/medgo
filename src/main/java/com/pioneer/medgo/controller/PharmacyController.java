@@ -29,11 +29,6 @@ public class PharmacyController {
 
 	static Long pharmacyId = 1L;
 
-	@GetMapping("/")
-	public String Main() {
-		return "main";
-	}
-
 	//의약품 등록을 위한 의약품 검색 폼
 	@GetMapping("/drugs/new")
 	public String registDrugForm(@RequestParam(defaultValue = "1") int page,

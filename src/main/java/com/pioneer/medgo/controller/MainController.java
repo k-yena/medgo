@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pioneer.medgo.dto.MainDashBoardDTO;
-import com.pioneer.medgo.dto.MonthlySalesDTO;
-import com.pioneer.medgo.dto.MonthlyTransactionDTO;
-import com.pioneer.medgo.dto.RecentStockHistoryDTO;
-import com.pioneer.medgo.dto.TopSellingMedicinesDTO;
+import com.pioneer.medgo.domain.MainDashBoardDTO;
+import com.pioneer.medgo.domain.MonthlySalesDTO;
+import com.pioneer.medgo.domain.MonthlyTransactionDTO;
+import com.pioneer.medgo.domain.RecentStockHistoryDTO;
+import com.pioneer.medgo.domain.TopSellingMedicinesDTO;
 import com.pioneer.medgo.service.MainService;
 
 

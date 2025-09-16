@@ -17,7 +17,5 @@
       선언해야함 -->
    <mybatis-spring:scan
       base-package="com.pioneer.medgo.dao"
-
-      annotation="org.apache.ibatis.annotations.Mapper" /> 
-</beans> 
-
+      annotation="org.apache.ibatis.annotations.Mapper" />
+</beans>

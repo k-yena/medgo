@@ -1,8 +1,9 @@
 package com.pioneer.medgo.service;
 
 import com.pioneer.medgo.dao.NoticeDAO;
-import com.pioneer.medgo.dto.NoticeDTO;
-import com.pioneer.medgo.dto.PageResult;
+import com.pioneer.medgo.domain.NoticeDTO;
+import com.pioneer.medgo.domain.PageResult;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
