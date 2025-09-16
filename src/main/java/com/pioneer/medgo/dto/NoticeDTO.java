@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class NoticeDTO {
-	private int noticeid;
+	private int id;
 	private int pharmacyid;
 	private String title;
 	private String content;

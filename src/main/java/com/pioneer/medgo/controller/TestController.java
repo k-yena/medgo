@@ -58,4 +58,9 @@ public class TestController {
 		return "register";
 	}
 
+	@RequestMapping("/app")
+	public String app() {
+		return "customer-app";
+	}
+
 }

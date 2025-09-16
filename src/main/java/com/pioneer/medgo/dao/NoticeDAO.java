@@ -16,11 +16,11 @@ public interface NoticeDAO {
 	// 전체 개수 가져오기 (총 페이지 수 계산용)
 	int getNoticeCount(@Param("pharmacyid") int pharmacyid);
 
-	NoticeDTO getNoticeByNoticeId(int noticeid);
+	NoticeDTO getNoticeByNoticeId(int id);
 
 	int insertNotice(NoticeDTO notice);
 
 	int updateNotice(NoticeDTO notice);
 
-	int deleteNotice(int noticeid);
+	int deleteNotice(int id);
 }

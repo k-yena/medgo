@@ -64,7 +64,8 @@
 								</thead>
 								<tbody id="notice-container">
 									<c:forEach var="notice" items="${notices}">
-										<tr class="notice-row" data-id="${notice.noticeid}" data-title="${notice.title}" data-content="${notice.content}" data-bs-toggle="modal" data-bs-target="#showNotice">
+   										
+										<tr class="notice-row" data-id="${notice.id}" data-title="${notice.title}" data-content="${notice.content}" data-bs-toggle="modal" data-bs-target="#showNotice">
 											<td class="col-3">
 												<div class="d-flex align-items-center">
 													<p class="font-bold ms-3 mb-0">${notice.title}</p>
