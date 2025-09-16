@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pioneer.medgo.dao.HistoryDAO">
+	<select id="listAll" parameterType="long"
+		resultType="com.pioneer.medgo.domain.HistoryDTO">
+		SELECT
+		m.id as medicineId,
+		m.main_code as mainCode,
+		m.product_name as productName,
+		m.manufacturer_name as manufacturerName,
+		s.quantity as quantity,
+		s.transaction_type as transactionType,
+		to_char(s.transaction_date ,'yyyy-mm-dd hh24:mi:ss') as
+		transactionDate
+		FROM
+		stock_history s
+		join medicine m
+		on s.medicine_id =
+		m.id
+		WHERE s.pharmacy_id = #{pharmacyId}
+		order by s.transaction_date desc
+	</select>
+
+	<insert id="save">
+		insert into stock_history
+		(pharmacy_id,medicine_id,quantity,transaction_type)
+		values(#{pharmacyId},#{medicineId},#{medCount},#{transactionType})
+	</insert>
+
+
+</mapper> 
+
+
+
+
+
+
+
+

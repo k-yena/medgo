@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 261bec64c0c3c378151a4a58ae275df442869f5a
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
@@ -7,6 +11,13 @@
 	</settings>
 	
 	<typeAliases>
+<<<<<<< HEAD
 		<typeAlias alias="MemberDTO" type="com.pioneer.medgo.domain.MemberDTO" /> 
 	</typeAliases>
 </configuration>
+=======
+		<typeAlias alias="NoticeDTO" type="com.pioneer.medgo.dto.NoticeDTO"/>
+	</typeAliases>
+</configuration>
+
+>>>>>>> 261bec64c0c3c378151a4a58ae275df442869f5a

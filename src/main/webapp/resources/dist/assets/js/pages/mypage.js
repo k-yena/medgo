@@ -74,7 +74,21 @@ const withdrawalBtn = document.querySelector(".withdrawal-btn");
 
 withdrawalBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  //탈퇴 API
-  window.location = "/medgo/login";
+  Swal.fire({
+    title: '정말로 탈퇴하시겠습니까?',
+    text: "이 작업은 되돌릴 수 없습니다!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: '네, 탈퇴하겠습니다.',
+    cancelButtonText: '취소',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      //탈퇴 API
+      window.location.href = "/medgo/login";
+    }
+  });
 });
 
