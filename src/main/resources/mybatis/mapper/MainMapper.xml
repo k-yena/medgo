@@ -6,8 +6,8 @@
 
 <!-- 약국 이름 가져오기 -->
 <select id="getPharmacyName" resultType="String" parameterType="int">
-    SELECT PHARMACY_NAME FROM PHARMACY WHERE ID = #{pharmacyid}
-</select>
+    SELECT PHARMACY_NAME FROM PHARMACY WHERE ID = #{pharmacyid} 
+</select> 
 
 <!-- 입출고 차트 (입출고) -->
 <select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.dto.MonthlyTransactionDTO" parameterType="int">

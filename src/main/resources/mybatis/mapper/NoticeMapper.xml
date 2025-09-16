@@ -11,7 +11,7 @@
     <result property="pharmacyid" column="PHARMACY_ID"/>
 </resultMap>
       <!-- 공지사항 페이징 조회 -->
-  <select id="getNoticesByPharmacyId" resultType="NoticeDTO">
+  <select id="getNoticesByPharmacyId" resultType="NoticeDTO"> 
     <![CDATA[
     SELECT * FROM (
         SELECT n.*, ROWNUM rnum

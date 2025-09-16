@@ -122,24 +122,13 @@
 			<artifactId>log4jdbc</artifactId>
 			<version>1.2</version>
 		</dependency>
-
-<<<<<<< HEAD
 		<!-- mybatis 자체 라이브러리 -->
-=======
-
-
-		<!-- mybatis 자체 라이브러리  -->
->>>>>>> 261bec64c0c3c378151a4a58ae275df442869f5a
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>3.5.16</version>
 		</dependency>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 261bec64c0c3c378151a4a58ae275df442869f5a
 		<!-- mybatis-spring 라이브러리 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>

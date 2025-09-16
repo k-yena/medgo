@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 261bec64c0c3c378151a4a58ae275df442869f5a
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -21,10 +17,7 @@
       선언해야함 -->
    <mybatis-spring:scan
       base-package="com.pioneer.medgo.dao"
-<<<<<<< HEAD
+
       annotation="org.apache.ibatis.annotations.Mapper" /> 
 </beans> 
-=======
-      annotation="org.apache.ibatis.annotations.Mapper" />
-</beans>
->>>>>>> 261bec64c0c3c378151a4a58ae275df442869f5a
+
