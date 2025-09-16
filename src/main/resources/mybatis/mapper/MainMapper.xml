@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?> 
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -10,7 +10,7 @@
 </select>
 
 <!-- 입출고 차트 (입출고) -->
-<select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.dto.MonthlyTransactionDTO" parameterType="int">
+<select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.domain.MonthlyTransactionDTO" parameterType="int">
   <![CDATA[
     WITH days AS (
         SELECT TRUNC(SYSDATE) - LEVEL + 1 AS transaction_date
@@ -64,7 +64,7 @@
 </select>   
 
 <!-- 최근 입출고기록(5개) -->
-<select id="getRecentStockHistory" resultType="com.pioneer.medgo.dto.RecentStockHistoryDTO" parameterType="int">
+<select id="getRecentStockHistory" resultType="com.pioneer.medgo.domain.RecentStockHistoryDTO" parameterType="int">
     SELECT M.PRODUCT_NAME AS medicine_name,
            SH.QUANTITY AS quantity, SH.TRANSACTION_TYPE AS transaction_type
     FROM STOCK_HISTORY SH
@@ -76,7 +76,7 @@
 
 
 <!--이번달 판매율(출고) 높은 약 3개 -->
-<select id="getTopSellingMedicines" resultType="com.pioneer.medgo.dto.TopSellingMedicinesDTO" parameterType="int">
+<select id="getTopSellingMedicines" resultType="com.pioneer.medgo.domain.TopSellingMedicinesDTO" parameterType="int">
     SELECT M.PRODUCT_NAME AS medicine_name, SUM(SH.QUANTITY) AS total_sold
     FROM STOCK_HISTORY SH
     JOIN MEDICINE M ON SH.MEDICINE_ID = M.ID
@@ -93,12 +93,12 @@
     SELECT TITLE AS title, CONTENT AS content, CREATED_AT AS createdat
     FROM PHARMACY_BOARD
     WHERE PHARMACY_ID = #{pharmacyid}
-    ORDER BY CREATED_AT DESC
+    ORDER BY CREATED_AT DESC 
     FETCH FIRST 1 ROWS ONLY
 </select>
 
 <!-- 월간 판매율(출고)-->
-<select id="getMonthlySalesData" resultType="com.pioneer.medgo.dto.MonthlySalesDTO" parameterType="int">
+<select id="getMonthlySalesData" resultType="com.pioneer.medgo.domain.MonthlySalesDTO" parameterType="int">
   <![CDATA[
     WITH months AS (
         SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -LEVEL+1), 'YYYY-MM') AS month

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pioneer.medgo.dao.NoticeDAO">
-<resultMap id="NoticeResultMap" type="com.pioneer.medgo.dto.NoticeDTO">
+<resultMap id="NoticeResultMap" type="com.pioneer.medgo.domain.NoticeDTO">
     <id property="id" column="ID"/>
     <result property="title" column="TITLE"/>
     <result property="content" column="CONTENT"/>
@@ -11,7 +11,7 @@
     <result property="pharmacyid" column="PHARMACY_ID"/>
 </resultMap>
       <!-- 공지사항 페이징 조회 -->
-  <select id="getNoticesByPharmacyId" resultType="NoticeDTO">
+  <select id="getNoticesByPharmacyId" resultType="NoticeDTO"> 
     <![CDATA[
     SELECT * FROM (
         SELECT n.*, ROWNUM rnum

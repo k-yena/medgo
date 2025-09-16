@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.pioneer.medgo.dto.MonthlySalesDTO;
-import com.pioneer.medgo.dto.MonthlyTransactionDTO;
-import com.pioneer.medgo.dto.NoticeDTO;
-import com.pioneer.medgo.dto.RecentStockHistoryDTO;
-import com.pioneer.medgo.dto.TopSellingMedicinesDTO;
+import com.pioneer.medgo.domain.MonthlySalesDTO;
+import com.pioneer.medgo.domain.MonthlyTransactionDTO;
+import com.pioneer.medgo.domain.NoticeDTO;
+import com.pioneer.medgo.domain.RecentStockHistoryDTO;
+import com.pioneer.medgo.domain.TopSellingMedicinesDTO;
 
 @Mapper
 public interface MainDAO {

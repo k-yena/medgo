@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.pioneer.medgo.dto.NoticeDTO;
-import com.pioneer.medgo.dto.PageResult;
+import com.pioneer.medgo.domain.NoticeDTO;
+import com.pioneer.medgo.domain.PageResult;
 import com.pioneer.medgo.service.NoticeService;
 
 @Controller

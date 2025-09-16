@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.pioneer.medgo.dto.NoticeDTO;
+import com.pioneer.medgo.domain.NoticeDTO;
 
 @Mapper
 public interface NoticeDAO {
