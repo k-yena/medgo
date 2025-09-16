@@ -29,14 +29,14 @@
 
 	<Loggers>
 		<!-- jdbc.sqlonly로 지정하면, SQL 문을 보여준다. -->
-		<Logger name="jdbc.sqlonly" level="info" additivity="false">
-			<AppenderRef ref="Out" />	<!-- out이라는 이름의 로고 : Console 출력 -->
-			<AppenderRef ref="SqlFile" /> <!-- SqlFile이라는 이름의 로고 : RollingFile 출력 -->
+		<!-- <Logger name="jdbc.sqlonly" level="info" additivity="false">
+			<AppenderRef ref="Out" />	
+			<AppenderRef ref="SqlFile" />
 		</Logger>
-		<Logger name="com.pioneer.medgo" level="info" additivity="false"> <!--  additivity="false"> -->
+		<Logger name="com.pioneer.medgo" level="info" additivity="false"> additivity="false">
 			<AppenderRef ref="Out" />
 			<AppenderRef ref="AccessFile" />
-		</Logger> 
+		</Logger> -->
 		<!-- <Logger name="org.springframework" level="trace" additivity="false">
 			<AppenderRef ref="STDOUT" />
 		</Logger> -->
