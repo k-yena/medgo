@@ -7,9 +7,8 @@
 	<select id="countByKeyword" resultType="int">
 		SELECT COUNT(*)
 		FROM medicine
-		WHERE 
-		pack_qty = 0
-		and drug_type is not null
+		WHERE 	
+		drug_type is not null
 		<if test="keyword != null and keyword != ''">
 			AND (
 			main_code LIKE '%' || #{keyword} || '%'
@@ -32,8 +31,7 @@
 		FROM
 		medicine
 		WHERE
-		pack_qty = 0
-		and drug_type is not null
+		drug_type is not null
 		<if test="keyword != null and keyword != ''">
 			AND (
 			main_code LIKE '%' || #{keyword} || '%'
