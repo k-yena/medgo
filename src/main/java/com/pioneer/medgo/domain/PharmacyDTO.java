@@ -15,10 +15,5 @@ public class PharmacyDTO {
 	public String phone;
 	public double longitude;
 	public double latitude;
-
 	public double distance;
-
-	private String title;
-	private String content;
-
 }
