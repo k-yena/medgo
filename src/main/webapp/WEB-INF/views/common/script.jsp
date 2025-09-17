@@ -4,5 +4,6 @@
 <script src="${pageContext.request.contextPath}/resources/dist/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/dist/assets/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/dist/assets/js/app.js"></script>
+<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- 여기까지 script.html -->
 
