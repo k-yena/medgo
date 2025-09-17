@@ -19,10 +19,10 @@
 					<h1 class="auth-title">회원가입</h1>
 					<p class="auth-subtitle mb-5">재고관리 시스템을 경험해보세요</p> 
  
-					<form action="${pageContext.request.contextPath}/auth/register" method="post">
+					<form>
 						<div 
 							class="form-group position-relative has-icon-left mb-4 d-flex">
-							<input type="email" name="email"
+							<input type="email" id=email name="email"
 								class="form-control form-control-xl email-input me-2"
 								placeholder="이메일 / 사용중인 이메일은 test@gmail.com" /> 
 							<button type="button"
@@ -33,14 +33,14 @@
 							</div>
 						</div>
 						<div class="form-group position-relative has-icon-left mb-4">
-							<input type="text" name="name" class="form-control form-control-xl"
+							<input type="text" id=name name="name" class="form-control form-control-xl"
 								placeholder="이름" />
 							<div class="form-control-icon">
 								<i class="bi bi-person"></i>
 							</div>
 						</div>
 						<div class="form-group position-relative has-icon-left mb-4">
-							<input type="password" name="password" class="form-control form-control-xl"
+							<input type="password" id=password name="password" class="form-control form-control-xl"
 								placeholder="비밀번호" />
 							<div class="form-control-icon">
 								<i class="bi bi-shield-lock"></i>
@@ -48,7 +48,7 @@
 						</div> 
 						<!-- 비밀번호 다 치면 확인 띄우기 -->
 						<div class="form-group position-relative has-icon-left mb-4">
-							<input type="password" name="passwordConfirm" class="form-control form-control-xl"
+							<input type="password" id=passwordConfirm name="passwordConfirm" class="form-control form-control-xl"
 								placeholder="비밀번호 확인" />
 							<div class="form-control-icon">
 								<i class="bi bi-shield-lock"></i> 
@@ -56,7 +56,7 @@
 						</div>
 
 						<div class="form-group position-relative has-icon-left mb-4">
-							<input type="text" name="address" class="form-control form-control-xl"
+							<input type="text" id="address" name="address" class="form-control form-control-xl"
 								placeholder="주소" />
 							<div class="form-control-icon">
 								<i class="bi bi-mailbox"></i>
@@ -64,14 +64,14 @@
 						</div>
 
 						<div class="form-group position-relative has-icon-left mb-4">
-							<input type="text" name="licenseCode" class="form-control form-control-xl"
+							<input type="text" id=licenseCode name="licenseCode" class="form-control form-control-xl"
 								placeholder="면허번호" />
 							<div class="form-control-icon"> 
 								<i class="bi bi-credit-card-2-back"></i>
 							</div>
 						</div>
 
-						<button class="btn btn-primary btn-block btn-lg shadow-lg mt-2">
+						<button type="button" class="submit-btn btn btn-primary btn-block btn-lg shadow-lg mt-2">
 							가입하기</button>
 					</form>
 					<div class="text-center mt-5 text-lg fs-4">
@@ -82,7 +82,12 @@
 				</div>
 			</div> 
 		</div>
-	</div>  
+	</div> 
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+
+	</script>
+	    	                	                                         
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		const contextPath = "${pageContext.request.contextPath}";

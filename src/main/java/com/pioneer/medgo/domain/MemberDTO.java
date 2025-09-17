@@ -14,4 +14,7 @@ public class MemberDTO {
 	private String password;
 	private String address;
 	private String licenseCode; 
+	private double latitude;
+	private double longitude;
+	private String redirectUrl;  // JS에서 사용할 임시 필드 
 }

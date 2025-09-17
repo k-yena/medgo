@@ -2,39 +2,50 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-	
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
 	<!-- mail.properties 이메일/패스워드 파일 로드 -->
-	<context:property-placeholder location="classpath:mail.properties"/>
-	
+	<context:property-placeholder
+		location="classpath:mail.properties" /> 
+
+	<!-- AOP 활성화 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!-- 컴포넌트 스캔 -->
 	<context:component-scan
 		base-package="com.pioneer.medgo" use-default-filters="false">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Repository" />
+		<context:include-filter type="annotation"
+			expression="org.aspectj.lang.annotation.Aspect" />
 	</context:component-scan>
-	<task:annotation-driven/>
-	
-	<!-- 이메일 환경 설정 --> 
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.gmail.com"/>
-        <property name="port" value="587"/>
-        <!-- Gmail 계정과 앱 비밀번호 직접 입력 -->
-        <property name="username" value="${mail.username}"/>
-        <property name="password" value="${mail.password}"/>
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.transport.protocol">smtp</prop>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.starttls.enable">true</prop>
-                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
-                <prop key="mail.debug">true</prop> 
-            </props>
-        </property>
-    </bean> 
+	<task:annotation-driven />
+
+	<!-- 이메일 환경 설정 -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<!-- Gmail 계정과 앱 비밀번호 직접 입력 -->
+		<property name="username" value="${mail.username}" /> 
+		<property name="password" value="${mail.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean> 
 
 </beans>

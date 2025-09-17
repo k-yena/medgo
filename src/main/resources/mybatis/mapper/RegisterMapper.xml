@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
    <!-- 2) 로그인 (email 기준 조회 후 Service에서 비밀번호 체크) --> 
    <select id="login"
-      parameterType="com.pioneer.medgo.domain.MemberDTO"
+      parameterType="com.pioneer.medgo.domain.MemberDTO" 
       resultType="com.pioneer.medgo.domain.MemberDTO">
       SELECT * FROM member
       WHERE email = #{email} AND password = #{password}

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pioneer.medgo.domain.MemberDTO;
@@ -23,25 +25,24 @@ public class MemberController {
     public MemberController(MemberService memberService) { 
         this.memberService = memberService;
     }
-
+    
     // 회원가입 폼 이동 
     @GetMapping("/register")
     public String register() {
+    	System.out.println("컨트롤러");
         return "register"; 
     }
     
+    // 회원가입이 성공하면 로그인 이동
     @PostMapping("/register")
-    public String register(MemberDTO memberDTO, Model model) {
-    	System.out.println(1); 
-    	System.out.println(memberDTO.getLicenseCode());
-    	MemberDTO register = memberService.register(memberDTO);
-    	System.out.println(2);
-    	model.addAttribute("register",register);
-    	return "login"; 
+    @ResponseBody
+    public MemberDTO register(@RequestBody MemberDTO memberDTO) {
+    	System.out.println("컨트롤러"+memberDTO);
+        memberService.register(memberDTO); // DB 처리
+        memberDTO.setRedirectUrl("/auth/login"); // JS에서 이동
+        return memberDTO; // JSON 반환  
     } 
-    
-    
- 
+
     // 회원가입 이메일 중복(형식) 체크
     @PostMapping("/check-id") 
     @ResponseBody
@@ -56,8 +57,19 @@ public class MemberController {
 //        }else {
 //        	return "ok"; // 성공 
 //        }
-    	
+    	System.out.println("이메일 사용가능 여부 체크  완료");
     	return "{\"result\":" +"\""+result+"\""+"}";
+    }
+    
+    //이메일 인증 코드 보내기
+    @GetMapping("/send-code")
+    @ResponseBody
+    public String sendMail(@RequestParam("email") String email) throws Exception { 
+    	System.out.println("email"+email);
+    	String code = memberService.sendMail(email);
+    	System.out.println(code);
+    	
+    	return "{\"code\":" +"\""+code+"\""+"}"; 
     }
     
     

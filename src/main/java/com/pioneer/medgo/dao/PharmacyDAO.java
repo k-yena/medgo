@@ -4,8 +4,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface PharmacyDAO {
-	public int insertPharmacy(@Param("address")String address, @Param("userId")Long userId); 
 	
+	// pharmacy 주소&userId 매칭
+	public int insertPharmacy(@Param("address")String address, @Param("userId")Long userId
+				,@Param("latitude") double latitude, @Param("longitude") double longitude ); 
 	
-
 }
