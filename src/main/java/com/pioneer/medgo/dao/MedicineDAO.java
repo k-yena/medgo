@@ -16,5 +16,7 @@ public interface MedicineDAO {
 
 	public int existByPharmachIdAndMedicineId(@Param("pharmacyId") Long pharmacyId,
 			@Param("medicineId") Long medicineId);
+	
+	public List<MedicineDTO> findComparatorAllByKeyword(String keyword);
 
 }
