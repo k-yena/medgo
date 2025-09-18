@@ -41,6 +41,7 @@ public class CustomerController {
     return list;
   }
 
+<<<<<<< HEAD
   // 최근 notice 반환
   @GetMapping("/api/nearby/{pharmacyId}")
   public NoticeDTO lastestNotcie(@PathVariable Long pharmacyId) {
@@ -55,6 +56,22 @@ public class CustomerController {
     List<MedicineDTO> list = customerService.comparatorMedicineList(keyword);
     return list;
   }
+=======
+	// 최근 notice 반환
+	@GetMapping("/api/nearby/{pharmacyId}")
+	public NoticeDTO lastestNotcie(@PathVariable Long pharmacyId) {
+
+		return noticeService.latestNotice(pharmacyId);
+	}
+
+	// 대조약 검색
+	@GetMapping("/api/comparator")
+	public List<MedicineDTO> searchComparator(@RequestParam String keyword) {
+		List<MedicineDTO> list = customerService.comparatorMedicineList(keyword);
+		return list;
+
+	}
+>>>>>>> 6ab75eaff150d0402f80a749dc28bf3a1f30c443
 
   // 약 검색하면 목록 뿌려주기
   @GetMapping("/api/serachList/{keyword}")

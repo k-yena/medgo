@@ -129,16 +129,13 @@
 			<artifactId>log4jdbc</artifactId>
 			<version>1.2</version>
 		</dependency>
-
-
-
-		<!-- mybatis 자체 라이브러리  -->
+		
+		<!-- mybatis 자체 라이브러리 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>3.5.16</version>
 		</dependency>
-
 
 		<!-- mybatis-spring 라이브러리 -->
 		<dependency>
@@ -191,10 +188,24 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${springframework-security-version}</version>
 		</dependency>
+		
+		<!-- Spring context support: JavaMailSender가 들어 있음 -->
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-context-support</artifactId>
+	        <version>${springframework-version}</version> <!-- 5.3.39 -->
+	    </dependency>
+	
+	    <!-- Jakarta Mail (메일 전송 라이브러리 SMTP/IMAP/POP3 처리) --> 
+	    <dependency>
+	        <groupId>com.sun.mail</groupId>
+	        <artifactId>javax.mail</artifactId>
+	        <version>1.6.2</version> <!-- JDK 8 이상에서 안정적으로 동작 -->
+	    </dependency>
+		
+	</dependencies> 
 
-	</dependencies>
-
-	<build>
+	<build> 
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
