@@ -8,28 +8,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO pharmacy (pharmacy_name, phone, address, user_id, latitude, longitude)
 		VALUES (#{pharmacyName}, #{phone}, #{address}, #{userId}, #{latitude}, #{longitude})   
 	</insert> 
+	
   <select id="findByLessThanLatAndLon"
-		resultType="com.pioneer.medgo.domain.PharmacyDTO">
- SELECT 
-    P.ID as id, 
-    P.PHARMACY_NAME as pharmacyName, 
-    P.LATITUDE as latitude,  
-    P.LONGITUDE as longitude, 
-    P.PHONE as phone, 
-    P.ADDRESS as address,
-    S.med_Count as medCount
-  	FROM 
-    PHARMACY P
-  	JOIN 
-    pharmacy_stock S ON P.ID = S.pharmacy_id
-  	WHERE
-    <if test="keyword != null and keyword != ''">
-     S.medicine_id = (SELECT ID 
+		resultType="com.pioneer.medgo.domain.PharmacyDTO"> 
+		SELECT 
+  		  P.id as id 
+   		 ,P.PHARMACY_NAME as pharmacyName 
+  		 ,P.LATITUDE as latitude  
+   		 ,P.LONGITUDE as longitude 
+  		 ,P.PHONE as phone 
+   		 ,P.ADDRESS as address
+	<choose>
+		<when test="keyword != null and keyword != ''">
+   		 ,S.med_count as medCount
+         FROM 
+    	 PHARMACY P
+    	 JOIN 
+    	 pharmacy_stock S ON P.ID = S.pharmacy_id
+         WHERE
+     	 S.medicine_id = (SELECT ID 
        				  FROM medicine 
        				  WHERE 
          			  product_name = #{keyword})
-     AND
-    </if>
+		 AND
+		</when>
+		<otherwise> 
+     	FROM 
+    	PHARMACY P
+    	where
+		</otherwise>
+	</choose>
 	LATITUDE BETWEEN #{minLat} AND #{maxLat}
 	AND
 	LONGITUDE BETWEEN #{minLon} AND #{maxLon}
