@@ -70,12 +70,13 @@
          	 and ingredient_code is not null)
 	</select>
 
+	<select id="findMedNameByKeyword" parameterType="String" resultType="String">
+		select product_name
+		from medicine
+          	 where 
+          	 product_name like #{keyword} || '%'
+         	 and drug_type = '전문의약품'
+         	 and ingredient_code is not null
+	</select>
+
 </mapper> 
-
-
-
-
-
-
-
-

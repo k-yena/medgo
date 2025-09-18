@@ -52,4 +52,9 @@ public class CustomerService {
 
     return list;
   }
+
+  public List<String> searchMedName(String keyword) {
+    List<String> list = medicineDAO.findMedNameByKeyword(keyword);
+    return list;
+  }
 }

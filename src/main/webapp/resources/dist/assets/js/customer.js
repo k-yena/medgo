@@ -23,6 +23,7 @@ let userLocationMarker = null; // 사용자 위치 마커
 let pharmacyDatabase = {};
 
 // --- 목업 데이터 (drugDatabase와 alternativesDatabase는 일단 유지) ---
+//TODO: 카테고리 정리 진통제, 소화제, 영양제, 어린이 약....
 const drugDatabase = {
   진통소염제: {
     icon: "bi bi-bandaid",
@@ -95,16 +96,9 @@ async function fetchNotice(pharmacyId) {
   const url = `${contextPath}/api/nearby/${pharmacyId}`;
   try {
     const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    console.log("notice", response);
-    return await response.text(); // 공지사항은 텍스트로 처리
+    const data = await response.json();
+    return await data.content; // 공지사항은 텍스트로 처리
   } catch (error) {
-    console.error(
-      `ID(${pharmacyId}) 약국의 공지사항을 가져오는 데 실패했습니다:`,
-      error
-    );
     return "공지사항을 불러올 수 없습니다."; // 오류 발생 시 기본 메시지 반환
   }
 }
