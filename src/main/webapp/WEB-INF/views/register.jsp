@@ -24,7 +24,7 @@
 							class="form-group position-relative has-icon-left mb-4 d-flex">
 							<input type="email" id=email name="email"
 								class="form-control form-control-xl email-input me-2"
-								placeholder="이메일 / 사용중인 이메일은 test@gmail.com" /> 
+								placeholder="이메일 " /> 
 							<button type="button"
 								class="btn btn-outline-primary email-check-btn">
 								중복확인</button>
@@ -39,12 +39,21 @@
 								<i class="bi bi-person"></i>
 							</div>
 						</div>
+						
+						<div class="form-group position-relative has-icon-left mb-4">
+							<input type="phone" id=phone name="phone" class="form-control form-control-xl"
+								placeholder="전화번호" />
+							<div class="form-control-icon">
+								<i class="bi bi-telephone"></i>
+							</div>
+						</div>
 						<div class="form-group position-relative has-icon-left mb-4">
 							<input type="password" id=password name="password" class="form-control form-control-xl"
 								placeholder="비밀번호" />
 							<div class="form-control-icon">
 								<i class="bi bi-shield-lock"></i>
 							</div>
+							
 						</div> 
 						<!-- 비밀번호 다 치면 확인 띄우기 -->
 						<div class="form-group position-relative has-icon-left mb-4">

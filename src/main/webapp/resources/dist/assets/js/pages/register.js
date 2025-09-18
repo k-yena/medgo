@@ -1,11 +1,9 @@
 onload = function () {
   const emailInput = document.querySelector(".email-input");
   const emailCheckBtn = document.querySelector(".email-check-btn");
-  const tempCode = "1234";
 
-  //중복 클릭이 일어나지 않는 경우
+  // 중복 클릭이 일어나지 않는 경우
   let isCheckEmail = false;
-  
   
   // 중복 확인 버튼 클릭 이벤트
   emailCheckBtn.addEventListener("click", () => {
@@ -52,23 +50,25 @@ onload = function () {
         } else {
           emailInput.classList.remove("is-invalid");
           // 메일 확인 코드 전송 API
-          sendVerificationCode(userEmail);
-          Swal.fire({
-            title: "확인 코드를 보냈습니다",
-            text: "이메일을 확인해 주세요",
-            input: "text",
-            inputPlaceholder: "임시 코드는 1234입니다",
-            imageUrl: `${contextPath}/resources/dist/assets/images/pages/email.gif`,
-            imageWidth: 200,
-            imageHeight: 200,
-            confirmButtonColor: "#14b3ae",
-            confirmButtonText: "코드확인",
-            allowOutsideClick: false,
-            allowEnterKey: true,
-          }).then((result) => {
-            if (result.isConfirmed) {
+          sendVerificationCode(userEmail).then((authCode) => {
+ 
+          if(authCode && authCode.code){
+	          Swal.fire({
+	            title: "확인 코드를 보냈습니다",
+	            text: "이메일을 확인해 주세요",
+	            input: "text",
+	            inputPlaceholder: "인증 코드를 입력해주세요",
+	            imageUrl: `${contextPath}/resources/dist/assets/images/pages/email.gif`,
+	            imageWidth: 200,
+	            imageHeight: 200,
+	            confirmButtonColor: "#14b3ae",
+	            confirmButtonText: "코드확인",
+	            allowOutsideClick: false,
+	            allowEnterKey: true,
+	          }).then((response) => {  	  
+            if (response.isConfirmed) {  
               // 사용자에게 받은 코드와 서버에서 보낸 코드가 맞는지 확인 하는 API
-              if (result.value === tempCode) {
+              if (response.value === authCode.code ) { 
                 Swal.fire({
                   title: "확인되었습니다",
                   text: "이메일을 확인했습니다",
@@ -96,23 +96,27 @@ onload = function () {
                   title: "코드가 일치하지 않습니다",
                   icon: "error",
                 });
-              }
+              }   
             }
+	          });
+          }
           });
         }
+        
       });
   }
 
   // 메일 확인 코드 전송 API 호출 함수
   function sendVerificationCode(userEmail) {
-    fetch(`${contextPath}/send-code?email=${encodeURIComponent(userEmail)}`, {
+    return fetch(`${contextPath}/auth/send-code?email=${encodeURIComponent(userEmail)}`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.code) {
-          return true;
+        	console.log("나나나ㅏㄴ코드 인증"+data.code)
         }
+        return data;
       });
   }
   
@@ -137,8 +141,8 @@ onload = function () {
         )
           .then((response) => response.json())
           .then((data) => {
-            longitude = data.documents[0].x; //경도
-            latitude = data.documents[0].y; //위도
+            longitude = data.documents[0].x; // 경도
+            latitude = data.documents[0].y; // 위도
 
           });
       },
@@ -147,10 +151,10 @@ onload = function () {
   // 가입하기가 눌렸을때 input에 값이 있는지 확인
   const submit = document.querySelector(".submit-btn");
   submit.addEventListener("click", function (e) {
-  	console.log(e)
     e.preventDefault();
     const email = document.getElementById("email").value;
     const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
     const password = document.getElementById("password").value;
     const passwordConfirm = document.getElementById("passwordConfirm").value;
     const address = document.getElementById("address").value;
@@ -159,6 +163,7 @@ onload = function () {
     const submitData = [
       email,
       name,
+      phone,
       password,
       passwordConfirm,
       address,
@@ -176,7 +181,17 @@ onload = function () {
         hasEmpty = true;
         break;
       }
-    }
+    } 
+   
+    // 비밀번호 == 비밀번호 확인 체크
+    if (password !== passwordConfirm) {
+        Swal.fire({
+          title: "회원가입 실패",
+          text: "비밀번호가 일치하지 않습니다",
+          icon: "error",
+        });
+        return;
+      }
 
     // 값 안 넣어진 경우
     if (hasEmpty || !isCheckEmail) {
@@ -196,6 +211,7 @@ onload = function () {
       body: JSON.stringify({
         email: email,
         name: name,
+        phone: phone,
         password: password,
         address: address,
         licenseCode: licenseCode,
@@ -205,9 +221,8 @@ onload = function () {
     })
       .then((res) => res.json())
       .then((data) => {
-
         // 성공 여부 체크
-        if (data && data.redirectUrl) {
+        if (data && data.redirectUrl && data.latitude !== 0) {
           Swal.fire({
             title: "회원가입 성공!",
             text: "로그인 페이지로 이동합니다",
@@ -222,7 +237,7 @@ onload = function () {
             title: "회원가입 실패",
             text: "다시 시도해주세요",
             icon: "error",
-          });
+          }); 
         }
       });
   });

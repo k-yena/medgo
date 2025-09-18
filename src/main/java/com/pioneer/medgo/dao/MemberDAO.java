@@ -13,7 +13,7 @@ public interface MemberDAO {
 	public MemberDTO register(MemberDTO memberDTO);
 	
 	// 회원가입(member) 데이터 저장
-	void insertMember(MemberDTO memberDTO);
+	public void insertMember(MemberDTO memberDTO);
 	
 	// 로그인 처리
 	public MemberDTO login(MemberDTO memberDTO);
