@@ -23,7 +23,7 @@ public class CustomerController {
     this.noticeService = noticeService;
   }
 
-  // app 로딩시에 바로 나오면 근처 약국  & 검색하면 해당 약을 가지고 있는 근처약국 반환(전문의약품만 검색지원)
+  // app 로딩시에 바로 나오면 근처 약국 & 검색하면 해당 약을 가지고 있는 근처약국 반환(전문의약품만 검색지원)
   @GetMapping("/api/nearby")
   public List<PharmacyDTO> nearPharmacy(
       // @RequestParam double latitude, @RequestParam double longitude,
@@ -32,16 +32,14 @@ public class CustomerController {
     double longitude = 127.00116896994219;
     List<PharmacyDTO> list = new ArrayList<>();
     if (latitude < 0 || latitude > 90 || longitude < 0 || longitude > 180) {
-      System.out.println("!!!!");
+
       return list;
     }
-
     list = customerService.nearbyPharmacyList(latitude, longitude, keyword);
 
     return list;
   }
 
-<<<<<<< HEAD
   // 최근 notice 반환
   @GetMapping("/api/nearby/{pharmacyId}")
   public NoticeDTO lastestNotcie(@PathVariable Long pharmacyId) {
@@ -56,22 +54,6 @@ public class CustomerController {
     List<MedicineDTO> list = customerService.comparatorMedicineList(keyword);
     return list;
   }
-=======
-	// 최근 notice 반환
-	@GetMapping("/api/nearby/{pharmacyId}")
-	public NoticeDTO lastestNotcie(@PathVariable Long pharmacyId) {
-
-		return noticeService.latestNotice(pharmacyId);
-	}
-
-	// 대조약 검색
-	@GetMapping("/api/comparator")
-	public List<MedicineDTO> searchComparator(@RequestParam String keyword) {
-		List<MedicineDTO> list = customerService.comparatorMedicineList(keyword);
-		return list;
-
-	}
->>>>>>> 6ab75eaff150d0402f80a749dc28bf3a1f30c443
 
   // 약 검색하면 목록 뿌려주기
   @GetMapping("/api/serachList/{keyword}")
