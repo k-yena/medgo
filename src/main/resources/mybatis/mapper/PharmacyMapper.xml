@@ -10,26 +10,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert> 
   <select id="findByLessThanLatAndLon"
 		resultType="com.pioneer.medgo.domain.PharmacyDTO">
-		SELECT ID , PHARMACY_NAME , LATITUDE, LONGITUDE, PHONE, ADDRESS
-		FROM PHARMACY
-		where
-		<if test="keyword != null and keyword != ''">
-		id in(
-		select pharmacy_id
-        from pharmacy_stock
-        where medicine_id in(
-              select id
-              from medicine
-              where 
-              product_name like '%' || #{keyword} || '%'
-              and drug_type = '전문의약품'
-              and ingredient_code is not null)
-    	)
-    	AND
-    	</if>
-		LATITUDE BETWEEN #{minLat} AND #{maxLat}
-		AND
-		LONGITUDE BETWEEN #{minLon} AND #{maxLon}
+ SELECT 
+    P.ID as id, 
+    P.PHARMACY_NAME as pharmacyName, 
+    P.LATITUDE as latitude,  
+    P.LONGITUDE as longitude, 
+    P.PHONE as phone, 
+    P.ADDRESS as address,
+    S.med_Count as medCount
+  	FROM 
+    PHARMACY P
+  	JOIN 
+    pharmacy_stock S ON P.ID = S.pharmacy_id
+  	WHERE
+    <if test="keyword != null and keyword != ''">
+     S.medicine_id = (SELECT ID 
+       				  FROM medicine 
+       				  WHERE 
+         			  product_name = #{keyword})
+     AND
+    </if>
+	LATITUDE BETWEEN #{minLat} AND #{maxLat}
+	AND
+	LONGITUDE BETWEEN #{minLon} AND #{maxLon}
 	</select>
 </mapper>
 
