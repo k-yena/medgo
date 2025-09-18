@@ -59,6 +59,7 @@ fetch("/medgo/pharmacy/api/monthly-transactions")
           },
         },
         responsive: true,
+        maintainAspectRatio: false,
         layout: {
           padding: {
             top: 10,

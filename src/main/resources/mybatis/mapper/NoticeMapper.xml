@@ -34,7 +34,6 @@
 	   WHERE PHARMACY_ID = #{pharmacyid}
 	 </select>
 
-
     <select id="getNoticeByNoticeId" resultMap="NoticeResultMap" parameterType="int">
         SELECT * FROM PHARMACY_BOARD WHERE ID = #{id}
     </select>
@@ -52,5 +51,13 @@
     <delete id="deleteNotice" parameterType="int">
         DELETE FROM PHARMACY_BOARD WHERE ID = #{id}
     </delete>
+    
+    <select id="findByPharmarcyId" parameterType="long" resultType="NoticeDTO">
+    	 SELECT * 
+    	 FROM PHARMACY_BOARD 
+    	 WHERE pharmacy_id = #{pharmacyId} 
+    	 order by updated_at desc
+    	 FETCH FIRST 1 ROWS ONLY
+    </select>
 
 </mapper>

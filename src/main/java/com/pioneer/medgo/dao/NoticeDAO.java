@@ -23,4 +23,6 @@ public interface NoticeDAO {
 	int updateNotice(NoticeDTO notice);
 
 	int deleteNotice(int id);
+	
+	NoticeDTO findByPharmarcyId(long pharmacyId);
 }

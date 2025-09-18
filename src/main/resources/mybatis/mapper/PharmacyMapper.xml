@@ -8,4 +8,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO pharmacy (pharmacy_name, phone, address, user_id, latitude, longitude)
 		VALUES (#{pharmacyName}, #{phone}, #{address}, #{userId}, #{latitude}, #{longitude})   
 	</insert> 
+  <select id="findByLessThanLatAndLon"
+		resultType="com.pioneer.medgo.domain.PharmacyDTO">
+		SELECT ID , PHARMACY_NAME , LATITUDE, LONGITUDE, PHONE, ADDRESS
+		FROM PHARMACY
+		where
+		<if test="keyword != null and keyword != ''">
+		id in(
+		select pharmacy_id
+        from pharmacy_stock
+        where medicine_id in(
+              select id
+              from medicine
+              where 
+              product_name like '%' || #{keyword} || '%'
+              and drug_type = '전문의약품'
+              and ingredient_code is not null)
+    	)
+    	AND
+    	</if>
+		LATITUDE BETWEEN #{minLat} AND #{maxLat}
+		AND
+		LONGITUDE BETWEEN #{minLon} AND #{maxLon}
+	</select>
 </mapper>
+
