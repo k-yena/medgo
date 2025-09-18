@@ -16,4 +16,5 @@ public class PharmacyDTO {
 	public double longitude;
 	public double latitude;
 	public double distance;
+	public int medCount;
 }
