@@ -12,6 +12,7 @@ public interface PharmacyDAO {
 
 	public List<PharmacyDTO> findByLessThanLatAndLon(
 			@Param("minLat") double minLat, @Param("maxLat") double maxLat,
-			@Param("minLon") double minLon, @Param("maxLon") double maxLon);
+			@Param("minLon") double minLon, @Param("maxLon") double maxLon,
+			@Param("keyword") String keyword);
 
 }

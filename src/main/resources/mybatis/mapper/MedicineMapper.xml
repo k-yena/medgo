@@ -7,7 +7,7 @@
 	<select id="countByKeyword" resultType="int">
 		SELECT COUNT(*)
 		FROM medicine
-		WHERE 	
+		WHERE
 		drug_type is not null
 		<if test="keyword != null and keyword != ''">
 			AND (
@@ -15,7 +15,8 @@
 			OR
 			product_name LIKE '%' || #{keyword} || '%'
 			OR manufacturer_name
-			LIKE '%' || #{keyword} || '%'
+			LIKE
+			'%' || #{keyword} || '%'
 			)
 		</if>
 	</select>
@@ -38,13 +39,15 @@
 			OR
 			product_name LIKE '%' || #{keyword} || '%'
 			OR manufacturer_name
-			LIKE '%' || #{keyword} || '%'
+			LIKE
+			'%' || #{keyword} || '%'
 			)
 		</if>
 		ORDER BY
 		<choose>
 			<when test="sort == 'productName'"> product_name </when>
 			<when test="sort == 'manufacturerName'"> manufacturer_name </when>
+			<when test="sort == 'drugType'"> drug_type </when>
 			<otherwise> product_name </otherwise>
 		</choose>
 		<choose>
@@ -54,7 +57,18 @@
 		OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
 	</select>
 
-
+	<select id="findComparatorAllByKeyword" parameterType="String"
+		resultType="com.pioneer.medgo.domain.MedicineDTO">
+		select distinct product_name
+        from medicine 
+       	where ingredient_code in (
+          	 select distinct(ingredient_code)
+          	 from medicine
+          	 where 
+          	 product_name like '%' || #{keyword} || '%'
+         	 and drug_type = '전문의약품'
+         	 and ingredient_code is not null)
+	</select>
 
 </mapper> 
 

@@ -3,36 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pioneer.medgo.dao.PharmacyDAO">
-	<select id="findByLessThanLatAndLon" resultType = "com.pioneer.medgo.domain.PharmacyDTO">
-	<![CDATA[
-        SELECT
-  		p.ID            AS id,
- 		p.PHARMACY_NAME AS pharmacyName,
-  		p.LATITUDE      AS latitude,
-  		p.LONGITUDE     AS longitude,
-  		p.PHONE         AS phone,
-  		p.ADDRESS       AS address,
-  		nb.TITLE        AS title,
-  		nb.CONTENT      AS content
-		FROM PHARMACY p
-		LEFT JOIN (
- 		 	SELECT
-		 	   b.*,
-		 	   ROW_NUMBER() OVER (
-			      PARTITION BY b.PHARMACY_ID
-			      ORDER BY b.UPDATED_AT DESC, b.ID DESC
-			    ) rn
-			  FROM PHARMACY_BOARD b
-			) nb
-		ON nb.PHARMACY_ID = p.ID
- 		AND nb.rn = 1
-		WHERE
-		p.LATITUDE  BETWEEN #{minLat} AND #{maxLat}
- 		AND
- 		p.LONGITUDE  BETWEEN #{minLon} AND #{maxLon}
- 		]]>
+	<select id="findByLessThanLatAndLon"
+		resultType="com.pioneer.medgo.domain.PharmacyDTO">
+		SELECT ID , PHARMACY_NAME , LATITUDE, LONGITUDE, PHONE, ADDRESS
+		FROM PHARMACY
+		where
+		<if test="keyword != null and keyword != ''">
+		id in(
+		select pharmacy_id
+        from pharmacy_stock
+        where medicine_id in(
+              select id
+              from medicine
+              where 
+              product_name like '%' || #{keyword} || '%'
+              and drug_type = '전문의약품'
+              and ingredient_code is not null)
+    	)
+    	AND
+    	</if>
+		LATITUDE BETWEEN #{minLat} AND #{maxLat}
+		AND
+		LONGITUDE BETWEEN #{minLon} AND #{maxLon}
 	</select>
-
-
-
 </mapper>
