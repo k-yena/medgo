@@ -24,6 +24,7 @@ let pharmacyDatabase = {};
 
 // --- 목업 데이터 (drugDatabase와 alternativesDatabase는 일단 유지) ---
 //TODO: 카테고리 정리 진통제, 소화제, 영양제, 어린이 약....
+//대체약..
 const drugDatabase = {
   진통소염제: {
     icon: "bi bi-bandaid",
@@ -77,8 +78,13 @@ const alternativesDatabase = {
 // --- API 호출 함수 ---
 
 // 주변 약국 목록을 서버에서 가져오기
-async function fetchNearbyPharmacies(lat, lon) {
-  const url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}`;
+async function fetchNearbyPharmacies(lat, lon, keyword = false) {
+  let url;
+  if (keyword) {
+    url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}&keyword=${keyword}`;
+  } else {
+    url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}`;
+  }
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -115,10 +121,9 @@ function processPharmacyData(pharmacies) {
       address: pharmacy.address,
       phone: pharmacy.phone,
       latlng: new kakao.maps.LatLng(pharmacy.latitude, pharmacy.longitude),
-      distance: `${pharmacy.distance.toFixed(1)}km`,
-      drugs: drugDatabase, // 이 부분은 나중에 실제 재고 API로 변경해야 합니다.
+      distance: `${pharmacy.distance.toFixed(1)}m`,
+      drugs: drugDatabase,
       info: "//",
-      // notice는 이제 상세정보 보기에서 직접 fetch합니다.
     };
   });
   return db;
@@ -144,6 +149,30 @@ function initializeDOMElements() {
 
 // 이벤트 리스너를 등록하는 함수
 function initializeEventListeners() {
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  };
+
+  const debouncedSearch = debounce((searchTerm) => {
+    if (searchTerm.length > 0) {
+      fetch(`${contextPath}/api/search/${searchTerm}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          displaySearchResults({ drugList: data });
+        })
+        .catch((error) => console.error("Error:", error));
+    } else {
+      searchResultsContainer.innerHTML = "";
+    }
+  }, 500);
+
   // 검색창 이벤트
   searchInput.addEventListener("focus", () => {
     resetAllMarkers();
@@ -152,10 +181,24 @@ function initializeEventListeners() {
     searchBackButton.onclick = goHome;
     displaySearchResults({ query: searchInput.value });
   });
-  searchInput.addEventListener("input", () => {
-    displaySearchResults({ query: searchInput.value });
+  let isImeComposing = false;
+
+  searchInput.addEventListener("compositionstart", () => {
+    isImeComposing = true;
   });
 
+  searchInput.addEventListener("compositionend", (e) => {
+    isImeComposing = false;
+    debouncedSearch(e.target.value);
+  });
+
+  // 검색창에 입력할 때마다 API를 호출하여 약품 목록을 가져옵니다.
+  searchInput.addEventListener("input", (e) => {
+    if (isImeComposing) {
+      return;
+    }
+    debouncedSearch(e.target.value);
+  });
   // 하단 패널 이벤트
   bottomPanel.addEventListener("click", (event) => {
     if (
@@ -225,6 +268,7 @@ window.onload = () => {
 
   const startApp = (lat, lon) => {
     fetchNearbyPharmacies(lat, lon).then((pharmacies) => {
+      console.log(pharmacies);
       pharmacyDatabase = processPharmacyData(pharmacies);
       initializeMap();
       goHome();
@@ -246,40 +290,48 @@ window.onload = () => {
 // --- 지도 관련 함수 ---
 
 function centerMapOnUserLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const userLocation = new kakao.maps.LatLng(lat, lon);
-        const currentImg =
-          contextPath + "/resources/dist/assets/images/myLoc.svg";
-        const currentImgSize = new kakao.maps.Size(30, 30);
-        const currentMarkerImage = new kakao.maps.MarkerImage(
-          currentImg,
-          currentImgSize
-        );
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          const userLocation = new kakao.maps.LatLng(lat, lon);
+          const currentImg =
+            contextPath + "/resources/dist/assets/images/myLoc.svg";
+          const currentImgSize = new kakao.maps.Size(30, 30);
+          const currentMarkerImage = new kakao.maps.MarkerImage(
+            currentImg,
+            currentImgSize
+          );
 
-        if (userLocationMarker) {
-          userLocationMarker.setPosition(userLocation);
-        } else {
-          userLocationMarker = new kakao.maps.Marker({
-            position: userLocation,
-            map: map,
-            image: currentMarkerImage,
-          });
+          if (userLocationMarker) {
+            userLocationMarker.setPosition(userLocation);
+          } else {
+            userLocationMarker = new kakao.maps.Marker({
+              position: userLocation,
+              map: map,
+              image: currentMarkerImage,
+            });
+          }
+          map.setLevel(1);
+          map.setCenter(userLocation);
+          map.panBy(0, 50);
+
+          console.log(lat, lon, "유저 좌표");
+          resolve({ lat, lon }); // Promise가 성공하면 위치 정보 객체를 반환합니다.
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          reject(error); // 오류 발생 시 Promise를 실패 처리합니다.
         }
-        map.setLevel(1);
-        map.setCenter(userLocation);
-        map.panBy(0, 50);
-      },
-      (error) => {
-        console.error("Geolocation error:", error);
-      }
-    );
-  } else {
-    console.error("Geolocation is not supported by this browser.");
-  }
+      );
+    } else {
+      const errorMsg = "Geolocation is not supported by this browser.";
+      console.error(errorMsg);
+      reject(errorMsg); // Geolocation을 지원하지 않을 경우 Promise를 실패 처리합니다.
+    }
+  });
 }
 
 function resetAllMarkers() {
@@ -383,7 +435,7 @@ function initializeMap() {
               return;
             }
 
-            let stock = "정보 보기";
+            let stock = "이게 왜 여기서?";
             let drugNameToShow = null;
             if (currentSearchedDrug) {
               if (
@@ -456,29 +508,29 @@ function filterByCapsule(category) {
 
 function displaySearchResults({ query, drugList = null }) {
   searchResultsContainer.innerHTML = "";
+
+  // If there's no pre-defined drug list and the query is empty, do nothing.
+  if (!drugList && (!query || query.trim().length === 0)) {
+    return;
+  }
+
   let results = [];
 
   if (drugList) {
     results = drugList;
   } else {
     const lowerCaseQuery = query.toLowerCase().trim();
-    if (!lowerCaseQuery) {
-      for (const category in drugDatabase) {
+    for (const category in drugDatabase) {
+      if (category.toLowerCase().includes(lowerCaseQuery)) {
         results.push(...drugDatabase[category].drugs);
-      }
-    } else {
-      for (const category in drugDatabase) {
-        if (category.toLowerCase().includes(lowerCaseQuery)) {
-          results.push(...drugDatabase[category].drugs);
-        } else {
-          drugDatabase[category].drugs.forEach((drugName) => {
-            if (drugName.toLowerCase().includes(lowerCaseQuery)) {
-              if (!results.includes(drugName)) {
-                results.push(drugName);
-              }
+      } else {
+        drugDatabase[category].drugs.forEach((drugName) => {
+          if (drugName.toLowerCase().includes(lowerCaseQuery)) {
+            if (!results.includes(drugName)) {
+              results.push(drugName);
             }
-          });
-        }
+          }
+        });
       }
     }
   }
@@ -528,8 +580,8 @@ function goHome() {
   centerMapOnUserLocation();
 }
 
-function updateMainScreenForDrug(drugName) {
-  centerMapOnUserLocation();
+//약을 가진 약국 뿌리기
+async function updateMainScreenForDrug(drugName) {
   currentSearchedDrug = drugName;
   mapControlsContainer.style.display = "flex";
   mapControlsContainer.style.top = "8em";
@@ -546,43 +598,56 @@ function updateMainScreenForDrug(drugName) {
   searchBackButton.style.display = "block";
   searchBackButton.className = "bi bi-chevron-left";
   searchBackButton.onclick = goHome;
+  document.querySelector(".alt-search-btn").style.display = "block";
+
+  const { lat, lon } = await centerMapOnUserLocation();
+  const pharmaciesData = await fetchNearbyPharmacies(lat, lon, drugName);
+
+  console.log("약 검색 후 약국 목록:", pharmaciesData);
 
   const pharmacyList = document.querySelector(".bottom-panel .pharmacy-list");
   pharmacyList.innerHTML = "";
   let found = false;
-  for (const pharmacyName in pharmacyDatabase) {
-    const pharmacy = pharmacyDatabase[pharmacyName];
-    if (pharmacy.drugs && pharmacy.drugs[drugName]) {
-      found = true;
-      const item = document.createElement("div");
-      item.className = "pharmacy-item";
-      item.dataset.pharmacyId = pharmacy.id;
-      item.onclick = () =>
-        showPharmacyDetailsInPanel(
-          pharmacyName,
-          pharmacy.drugs[drugName],
-          drugName
-        );
-      item.innerHTML = `<h3>${pharmacyName}</h3><span>${pharmacy.distance}</span>`;
-      pharmacyList.appendChild(item);
-    }
+  // address;
+
+  // ("서울 종로구 창경궁로 254 402호");
+  // distance: 27.685668936830545;
+  // id: 1;
+  // latitude: 37.5838574;
+  // longitude: 126.9999455;
+  // medCount: 4;
+  // pharmacyName: "오티아이";
+  // phone: "01012341234";
+  for (const pharmacy of pharmaciesData) {
+    found = true;
+    const item = document.createElement("div");
+    item.className = "pharmacy-item";
+    item.dataset.pharmacyId = pharmacy.id;
+    item.onclick = () =>
+      showPharmacyDetailsInPanel(
+        pharmacy.pharmacyName,
+        pharmacy.medCount,
+        drugName
+      );
+    item.innerHTML = `<h3>${
+      pharmacy.pharmacyName
+    }</h3><span>${pharmacy.distance.toFixed(1)}m</span>`;
+    pharmacyList.appendChild(item);
   }
 
   if (!found) {
-    pharmacyList.innerHTML = `<p style=\"text-align: center; color: #888; padding-top: 20px;\">재고를 보유한 약국이 없습니다.</p>`;
+    pharmacyList.innerHTML = `<p style="text-align: center; color: #888; padding-top: 20px;">재고를 보유한 약국이 없습니다.</p>`;
   }
 
+  const pharmaciesWithDrug = new Set(pharmaciesData.map((p) => p.pharmacyName));
   for (const marker of markers) {
     const pharmacyName = marker.getTitle();
-    const pharmacy = pharmacyDatabase[pharmacyName];
-    if (pharmacy && pharmacy.drugs && pharmacy.drugs[drugName]) {
+    if (pharmaciesWithDrug.has(pharmacyName)) {
       marker.setVisible(true);
     } else {
       marker.setVisible(false);
     }
   }
-
-  document.querySelector(".alt-search-btn").style.display = "block";
   centerMapOnUserLocation();
 }
 
@@ -635,14 +700,25 @@ async function showPharmacyDetailsInPanel(name, stock, drugName) {
   const backFunction = drugName
     ? `updateMainScreenForDrug('${drugName.replace(/'/g, "'")}')`
     : "goHome()";
-
+  console.log(stock, "stock");
   let stockBadge = "";
+  let stockTag;
   if (drugName) {
     let badgeColor = "text-bg-secondary";
-    if (stock === "많음") badgeColor = "text-bg-success";
-    if (stock === "보통") badgeColor = "text-bg-warning";
-    if (stock === "적음") badgeColor = "text-bg-danger";
-    stockBadge = `<span class=\"badge ${badgeColor} ms-2\">${stock}</span>`;
+    if (100 <= stock) {
+      stockTag = "많음";
+      badgeColor = "text-bg-success";
+    }
+    if (50 < stock && stock < 100) {
+      stockTag = "보통";
+      badgeColor = "text-bg-warning";
+    }
+
+    if (stock <= 50) {
+      stockTag = "적음";
+      badgeColor = "text-bg-danger";
+    }
+    stockBadge = `<span class=\"badge ${badgeColor} ms-2\">${stockTag}</span>`;
   }
 
   detailView.innerHTML = `
