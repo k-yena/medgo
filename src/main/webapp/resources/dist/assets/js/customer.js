@@ -21,84 +21,146 @@ let userLocationMarker = null; // 사용자 위치 마커
 
 // API를 통해 동적으로 채워질 pharmacyDatabase
 let pharmacyDatabase = {};
-
-// --- 목업 데이터 (drugDatabase와 alternativesDatabase는 일단 유지) ---
-//TODO: 카테고리 정리 진통제, 소화제, 영양제, 어린이 약....
-//대체약..
-const drugDatabase = {
-  진통소염제: {
+let drugDatabase = {};
+const drugDatabaseForCategory = {
+  진통제: {
     icon: "bi bi-bandaid",
     color: "#ffbe0b",
     drugs: [
-      "타이레놀정 500mg",
-      "어린이용 타이레놀정 80mg",
-      "타이레놀 콜드-에스정",
-      "게보린정",
-      "게보린 릴랙스 연질캡슐",
-      "펜잘큐정",
-      "펜잘이알서방정",
-      "부루펜정 400mg",
-      "어린이 부루펜 시럽",
-      "탁센 400 이부프로펜",
-      "탁센 덱시",
-      "이지엔6 애니",
-      "이지엔6 프로",
+      { 이지엔6: "이지엔6애니연질캡슐(이부프로펜)" },
+      { 타이레놀500mg: "타이레놀정500밀리그람(아세트아미노펜)" },
+      { 탁센: "탁센연질캡슐(나프록센)" },
+      { 프리엔: "프리엔연질캡슐(덱시부프로펜)" },
+      { 트리스펜: "트리스펜연질캡슐(이부프로펜)" },
+      { 페인엔젤센: "페인엔젤센연질캡슐(나프록센)" },
+      { 확펜: "확펜연질캡슐(나프록센)" },
     ],
   },
   소화제: {
     icon: "bi bi-heart-pulse",
     color: "#8338ec",
-    drugs: ["훼스탈 플러스정", "훼스탈 골드정", "닥터베아제", "베아제정"],
+    drugs: [
+      { 배아제: "베아제정" },
+      { 닥터배아제: "닥터베아제정" },
+      { 훼스탈플러스: "훼스탈플러스정" },
+      { 훼스탈골드: "훼스탈골드정" },
+      { 다제스: "다제스캡슐" },
+      { 스피자임: "스피자임정" },
+      { 까스활명수: "까스활명수" },
+      { 배나치오: "베나치오액" },
+      { 속청: "속청액" },
+      { 알마겔에프: "알마겔에프정(알마게이트)" },
+      { 겔포스엠: "겔포스엠현탁액" },
+      { 개비스콘더블액션: "개비스콘더블액션현탁액" },
+      { 위생단Q: "위생단큐환" },
+    ],
   },
   알레르기약: {
     icon: "bi bi-wind",
     color: "#3a86ff",
-    drugs: ["지르텍정", "클라리틴정", "어린이 클라리틴 시럽"],
+    drugs: [
+      { 지르텍: "지르텍정(세티리진염산염)" },
+      { 코스펜: "코스펜정" },
+      { 알레그라120mg: "알레그라정120밀리그람(펙소페나딘염산염)" },
+      { 코메키나: "코메키나캡슐" },
+      { 클라리틴: "클라리틴정(로라타딘)" },
+      { 알러샷: "알러샷연질캡슐(세티리진염산염)" },
+      { 플로라딘: "플로라딘연질캡슐(로라타딘)" },
+      { 클리어딘: "클리어딘연질캡슐(로라타딘)" },
+      { 알로스탑: "알로스탑연질캡슐(로라타딘)" },
+      { 알러젯: "알러젯연질캡슐(펙소페나딘염산염)" },
+      { 쿨노즈: "쿨노즈캡슐" },
+    ],
   },
-  상처치료: {
-    icon: "bi bi-file-earmark-medical",
+  종합감기약: {
+    icon: "bi bi bi-virus2",
     color: "#ff006e",
-    drugs: ["마데카솔케어 연고", "마데카솔 분말", "후시딘 연고", "후시딘 밴드"],
+    drugs: [
+      { 콜대원: "콜대원콜드에스시럽" },
+      { 에키나포스프로텍트: "에키나포스프로텍트정" },
+      { 모드콜에스: "모드콜에스연질캡슐" },
+      { 화이투벤플러스: "화이투벤플러스캡슐" },
+      { 코스펜: "코스펜정" },
+      { 판콜에스: "판콜에스내복액" },
+      { 하디큐콜드: "하디큐콜드연질캡슐" },
+      { 갈근탕: "감치원캅셀(갈근탕)" },
+      { 콘택골드: "콘택골드캡슐" },
+      { 판피린: "판피린정" },
+    ],
   },
-  잇몸약: {
+  상처연고: {
+    icon: "bi bi-bandaid",
+    color: "#13b138ff",
+    drugs: [
+      { 에스로반: "에스로반연고(무피로신)" },
+      { 애크논: "애크논크림" },
+      { 비판텐: "비판텐연고(덱스판테놀)" },
+      { 삼아리도멕스로션: "삼아리도멕스로션(프레드니솔론발레로아세테이트)" },
+      { 노스카나: "노스카나겔" },
+      { 바스포: "바스포연고" },
+      { 태극아즈렌에스: "태극아즈렌에스연고(구아야줄렌)" },
+      { 버물리알파: "버물리알파액" },
+      { 마데카솔케어: "마데카솔케어연고" },
+      { 후시딘: "후시딘연고(퓨시드산나트륨)" },
+      { 베아로반: "베아로반연고(무피로신)" },
+    ],
+  },
+  어린이: {
     icon: "bi bi-emoji-smile",
-    color: "#fb5607",
-    drugs: ["인사돌플러스정", "이가탄에프캡슐"],
+    color: "#e59524ff",
+    drugs: [
+      { 맥시부키즈: "맥시부키즈시럽(덱시부프로펜)" },
+      { 세노바: "세노바액(세티리진염산염)" },
+      { 챔프이부펜: "챔프이부펜시럽(이부프로펜)" },
+      { 콜대원키즈: "콜대원키즈이부펜시럽(이부프로펜)" },
+      { 어린이부루펜: "어린이부루펜시럽(이부프로펜)" },
+      { 그린콜샷에스: "그린콜샷에스시럽" },
+      { 백초시럽플러스: "백초시럽플러스" },
+      { 꼬마활명수액: "꼬마활명수액" },
+      { 텐텐츄정: "텐텐츄정" },
+      { 어린이타이레놀: "어린이타이레놀현탁액(아세트아미노펜)" },
+      { 소보민시럽: "소보민시럽(소아용)" },
+      { 엄마손시럽: "엄마손시럽" },
+    ],
   },
-};
-// 대체약 정보
-const alternativesDatabase = {
-  "타이레놀정 500mg": ["게보린정", "펜잘큐정", "부루펜정 400mg"],
-  게보린정: ["타이레놀정 500mg", "펜잘큐정", "이지엔6 애니"],
-  "훼스탈 플러스정": ["훼스탈 골드정", "닥터베아제", "베아제정"],
-  지르텍정: ["클라리틴정", "어린이 클라리틴 시럽"],
-  "마데카솔케어 연고": ["후시딘 연고", "마데카솔 분말"],
 };
 
 // --- API 호출 함수 ---
 
 // 주변 약국 목록을 서버에서 가져오기
 async function fetchNearbyPharmacies(lat, lon, keyword = false) {
+  // GEMINI_DEBUG_START: 네트워크 시간 측정
+  console.time("fetchNearbyPharmacies execution");
+  // GEMINI_DEBUG_END: 네트워크 시간 측정
   let url;
+  console.log("여기가 문제인감11111");
   if (keyword) {
     url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}&keyword=${keyword}`;
   } else {
     url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}`;
   }
+  console.log("여기가 2222222");
   try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return await response.json();
+    console.log("여기가 문제인감3333");
+    const data = await response.json();
+    // GEMINI_DEBUG_START: 네트워크 시간 측정
+    console.timeEnd("fetchNearbyPharmacies execution");
+    // GEMINI_DEBUG_END: 네트워크 시간 측정
+    return data;
   } catch (error) {
     console.error("주변 약국 정보를 가져오는 데 실패했습니다:", error);
+    // GEMINI_DEBUG_START: 네트워크 시간 측정
+    console.timeEnd("fetchNearbyPharmacies execution");
+    // GEMINI_DEBUG_END: 네트워크 시간 측정
     return []; // 오류 발생 시 빈 배열을 반환
   }
 }
 
 async function fetchNotice(pharmacyId) {
-  console.log(pharmacyId, "pharmacyId");
   const url = `${contextPath}/api/nearby/${pharmacyId}`;
   try {
     const response = await fetch(url);
@@ -164,7 +226,6 @@ function initializeEventListeners() {
       fetch(`${contextPath}/api/search/${searchTerm}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           displaySearchResults({ drugList: data });
         })
         .catch((error) => console.error("Error:", error));
@@ -265,22 +326,37 @@ window.onload = () => {
     );
     return;
   }
-
+  console.log("11111");
   const startApp = (lat, lon) => {
+    // GEMINI_DEBUG_START: 로딩 시간 측정
+    console.time("startApp execution");
+    // GEMINI_DEBUG_END: 로딩 시간 측정
+    console.log("2222");
     fetchNearbyPharmacies(lat, lon).then((pharmacies) => {
-      console.log(pharmacies);
       pharmacyDatabase = processPharmacyData(pharmacies);
       initializeMap();
       goHome();
       populateCapsuleStrip();
+      // GEMINI_DEBUG_START: 로딩 시간 측정
+      console.timeEnd("startApp execution");
+      // GEMINI_DEBUG_END: 로딩 시간 측정
     });
   };
-
+  console.log("444");
+  // GEMINI_DEBUG_START: 위치 정보 조회 시간 측정
+  console.time("geolocation execution");
+  // GEMINI_DEBUG_END: 위치 정보 조회 시간 측정
   navigator.geolocation.getCurrentPosition(
     (position) => {
+      // GEMINI_DEBUG_START: 위치 정보 조회 시간 측정
+      console.timeEnd("geolocation execution");
+      // GEMINI_DEBUG_END: 위치 정보 조회 시간 측정
       startApp(position.coords.latitude, position.coords.longitude);
     },
     (error) => {
+      // GEMINI_DEBUG_START: 위치 정보 조회 시간 측정
+      console.timeEnd("geolocation execution");
+      // GEMINI_DEBUG_END: 위치 정보 조회 시간 측정
       console.error("Geolocation error:", error);
       startApp(37.5665, 126.978); // 서울 시청 기준
     }
@@ -318,7 +394,6 @@ function centerMapOnUserLocation() {
           map.setCenter(userLocation);
           map.panBy(0, 50);
 
-          console.log(lat, lon, "유저 좌표");
           resolve({ lat, lon }); // Promise가 성공하면 위치 정보 객체를 반환합니다.
         },
         (error) => {
@@ -372,6 +447,9 @@ function selectMarkerById(pharmacyId) {
 }
 
 function initializeMap() {
+  // GEMINI_DEBUG_START: 지도 초기화 시간 측정
+  console.time("initializeMap execution");
+  // GEMINI_DEBUG_END: 지도 초기화 시간 측정
   var mapContainer = document.getElementById("map-placeholder");
   var mapOption = {
     center: new kakao.maps.LatLng(37.583802, 126.999801),
@@ -462,6 +540,9 @@ function initializeMap() {
   kakao.maps.event.addListener(map, "click", function (mouseEvent) {
     resetAllMarkers();
   });
+  // GEMINI_DEBUG_START: 지도 초기화 시간 측정
+  console.timeEnd("initializeMap execution");
+  // GEMINI_DEBUG_END: 지도 초기화 시간 측정
 }
 
 // --- UI 구성 요소 생성 ---
@@ -478,14 +559,14 @@ function mainSearchBoxDisplay() {
 }
 
 function populateCapsuleStrip() {
-  const categories = Object.keys(drugDatabase);
+  const categories = Object.keys(drugDatabaseForCategory);
   capsuleStrip.innerHTML = "";
   categories.forEach((category) => {
     const capsule = document.createElement("div");
     capsule.className = "badge rounded-pill text-bg-light capsule-item";
     const icon = document.createElement("i");
-    icon.className = drugDatabase[category].icon + " me-2";
-    icon.style.color = drugDatabase[category].color;
+    icon.className = drugDatabaseForCategory[category].icon + " me-2";
+    icon.style.color = drugDatabaseForCategory[category].color;
     const text = document.createElement("span");
     text.textContent = category;
     capsule.appendChild(icon);
@@ -495,21 +576,46 @@ function populateCapsuleStrip() {
   });
 }
 
+// 카테고리 약 목록 클릭
 function filterByCapsule(category) {
   resetAllMarkers();
   mainSearchBoxDisplay();
   searchBackButton.className = "bi bi-chevron-left";
   searchBackButton.onclick = goHome;
-  const drugList = drugDatabase[category].drugs;
-  displaySearchResults({ drugList: drugList });
+
+  const drugs = drugDatabaseForCategory[category].drugs;
+
+  // 화면에 보여줄 이름 배열
+  const displayNames = drugs.map((drug) => Object.keys(drug)[0]);
+
+  // 클릭 시 fetch 요청에 사용할 이름 맵
+  const fetchNameMap = {};
+  drugs.forEach((drug) => {
+    const displayName = Object.keys(drug)[0];
+    const fetchName = drug[displayName];
+    fetchNameMap[displayName] = fetchName;
+  });
+
+  // 화면에 표시
+  displaySearchResults({ drugList: displayNames });
+
+  // 클릭 이벤트 등록 (UI 이름 → fetch용 이름)
+  searchResultsContainer
+    .querySelectorAll(".search-result-item")
+    .forEach((item) => {
+      item.onclick = async () => {
+        const displayName = item.textContent;
+        const fetchName = fetchNameMap[displayName]; // fetch용 이름
+        searchInput.value = displayName; // UI에는 displayName
+        await updateMainScreenForDrug(fetchName); // fetch 호출
+      };
+    });
 }
 
 // --- 화면 상태 변경 함수 ---
 
 function displaySearchResults({ query, drugList = null }) {
   searchResultsContainer.innerHTML = "";
-
-  // If there's no pre-defined drug list and the query is empty, do nothing.
   if (!drugList && (!query || query.trim().length === 0)) {
     return;
   }
@@ -585,7 +691,7 @@ async function updateMainScreenForDrug(drugName) {
   currentSearchedDrug = drugName;
   mapControlsContainer.style.display = "flex";
   mapControlsContainer.style.top = "8em";
-  capsuleStripContainer.style.display = "block";
+  capsuleStripContainer.style.display = "none";
   capsuleStripContainer.style.top = "4.5em";
   bottomPanel.style.display = "flex";
   searchResultsContainer.style.display = "none";
@@ -602,22 +708,9 @@ async function updateMainScreenForDrug(drugName) {
 
   const { lat, lon } = await centerMapOnUserLocation();
   const pharmaciesData = await fetchNearbyPharmacies(lat, lon, drugName);
-
-  console.log("약 검색 후 약국 목록:", pharmaciesData);
-
   const pharmacyList = document.querySelector(".bottom-panel .pharmacy-list");
   pharmacyList.innerHTML = "";
   let found = false;
-  // address;
-
-  // ("서울 종로구 창경궁로 254 402호");
-  // distance: 27.685668936830545;
-  // id: 1;
-  // latitude: 37.5838574;
-  // longitude: 126.9999455;
-  // medCount: 4;
-  // pharmacyName: "오티아이";
-  // phone: "01012341234";
   for (const pharmacy of pharmaciesData) {
     found = true;
     const item = document.createElement("div");
@@ -651,18 +744,39 @@ async function updateMainScreenForDrug(drugName) {
   centerMapOnUserLocation();
 }
 
-function showAlternatives() {
+async function showAlternatives() {
   if (!currentSearchedDrug) return;
+
+  // --- UI State Changes ---
   bottomPanel.style.display = "none";
   mapControlsContainer.style.display = "none";
   capsuleStripContainer.style.display = "none";
   mapPlaceholder.style.display = "none";
   searchResultsContainer.style.display = "block";
   searchBox.style.display = "flex";
-  let drugList = alternativesDatabase[currentSearchedDrug] || [];
   searchBackButton.className = "bi bi-chevron-left";
   searchBackButton.onclick = () => updateMainScreenForDrug(currentSearchedDrug);
-  displaySearchResults({ drugList: drugList });
+
+  try {
+    // --- API Call ---
+    const response = await fetch(
+      `${contextPath}/api/comparator?keyword=${encodeURIComponent(
+        currentSearchedDrug
+      )}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const alternativeMedicines = await response.json(); // This is List<MedicineDTO>
+
+    // --- Process and Display Results ---
+    const drugList = alternativeMedicines.map((med) => med.productName);
+    displaySearchResults({ drugList: drugList });
+  } catch (error) {
+    console.error("Error fetching alternative medicines:", error);
+    // Optionally, display an error message to the user in the UI
+    displaySearchResults({ drugList: [] }); // Show "No results" message
+  }
 }
 
 function populateMainPharmacyList() {
@@ -700,7 +814,6 @@ async function showPharmacyDetailsInPanel(name, stock, drugName) {
   const backFunction = drugName
     ? `updateMainScreenForDrug('${drugName.replace(/'/g, "'")}')`
     : "goHome()";
-  console.log(stock, "stock");
   let stockBadge = "";
   let stockTag;
   if (drugName) {
