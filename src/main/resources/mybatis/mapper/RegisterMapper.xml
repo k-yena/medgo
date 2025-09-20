@@ -3,16 +3,33 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pioneer.medgo.dao.MemberDAO">
+	<!-- email 값으로 member 객체 찾기 -->
 	<select id="findByEmail"
 		parameterType="String" resultType="com.pioneer.medgo.domain.MemberDTO">
 		select * from member
 		where email = #{email} 
 	</select>
-   <!-- 1) 회원가입 -->
+	
+	<!-- id 값으로 member 객체 찾기 -->
+	<select id="findById"
+		parameterType="long" resultType="com.pioneer.medgo.domain.MemberDTO">
+		select * from member
+		where id = #{id}
+	</select>
+	
+	<!-- isDelete 값으로 회원 조회 해서 탈퇴 업데이트 -->
+	<update id="markIsDelete" parameterType="long" >
+		update member set
+		is_delete = 0
+		where id = #{userId}
+		and is_delete = 1
+	</update>
+	
+   	<!-- 1) 회원가입 -->
 	<insert id="insertMember"
 		parameterType="com.pioneer.medgo.domain.MemberDTO">
-		INSERT INTO member (email, name, password, license_code)
-		VALUES (#{email}, #{name}, #{password}, #{licenseCode})
+		INSERT INTO member (email, password, license_code)
+		VALUES (#{email}, #{password}, #{licenseCode})
 	</insert>
 
    <!-- 2) 로그인 (email 기준 조회 후 Service에서 비밀번호 체크) --> 

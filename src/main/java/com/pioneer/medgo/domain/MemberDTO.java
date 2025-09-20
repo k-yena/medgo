@@ -18,4 +18,5 @@ public class MemberDTO {
 	private double latitude;
 	private double longitude;
 	private String redirectUrl;  // JS에서 사용할 임시 필드 
+	private int isDelete;
 }

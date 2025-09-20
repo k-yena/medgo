@@ -8,8 +8,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PharmacyDTO {
-
+	
 	public Long id;
+	public Long userId;
 	public String pharmacyName;
 	public String address;
 	public String phone;
@@ -17,4 +18,5 @@ public class PharmacyDTO {
 	public double latitude;
 	public double distance;
 	public int medCount;
+	public String detailInfo;
 }

@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.pioneer.medgo.dao.HistoryDAO;
 import com.pioneer.medgo.dao.MedicineDAO;
+import com.pioneer.medgo.dao.PharmacyDAO;
 import com.pioneer.medgo.dao.StockDAO;
 import com.pioneer.medgo.domain.HistoryDTO;
 import com.pioneer.medgo.domain.MedicineDTO;
+import com.pioneer.medgo.domain.PharmacyDTO;
 import com.pioneer.medgo.domain.StockDTO;
 
 @Service
@@ -17,11 +19,13 @@ public class PharmacyService {
 	private final StockDAO stockDAO;
 	private final HistoryDAO historyDAO;
 	private final MedicineDAO medicineDAO;
+	private final PharmacyDAO pharmacyDAO;
 
-	public PharmacyService(StockDAO stockDAO, HistoryDAO historyDAO, MedicineDAO medicineDAO) {
+	public PharmacyService(StockDAO stockDAO, HistoryDAO historyDAO, MedicineDAO medicineDAO, PharmacyDAO pharmacyDAO) {
 		this.stockDAO = stockDAO;
 		this.historyDAO = historyDAO;
 		this.medicineDAO = medicineDAO;
+		this.pharmacyDAO = pharmacyDAO;
 	}
 
 	// 현재 재고목록
@@ -149,5 +153,12 @@ public class PharmacyService {
 		return true;
 
 	}
+	
+	// pharmacy id를 user_id로  찾기
+	public PharmacyDTO findPharmacyId(Long userId) {
+		
+		return pharmacyDAO.findByUserId(userId);
+	}
+	
 
 }
