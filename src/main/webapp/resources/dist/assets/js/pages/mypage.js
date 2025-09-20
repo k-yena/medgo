@@ -111,7 +111,6 @@ const askPassword = () => {
         e.preventDefault();
         
         const userPassword = inputPw.value.trim();
-        console.log("userPassword 들어왔어??"+userPassword)
         if (!userPassword) {
           Swal.fire("실패", "비밀번호를 입력해주세요.", "error");
           return;
@@ -119,13 +118,10 @@ const askPassword = () => {
 
         // 1. 비밀번호 확인 후
         PasswordCheck(userPassword).then((isCorrect) => {
-        	console.log("비밀번호 들어왔어??"+userPassword);
           if (!isCorrect) {
-        	  console.log("비밀번호 틀렸어!!"+isCorrect);
             Swal.fire("실패", "비밀번호가 틀렸습니다.", "error");
             return;
           }
-        	console.log("맞으면!!!"+isCorrect);
 	        Swal.fire({
 	          title: "정말로 탈퇴하시겠습니까?",
 	          text: "이 작업은 되돌릴 수 없습니다!",
@@ -137,9 +133,7 @@ const askPassword = () => {
 	          cancelButtonText: "취소",
 	          reverseButtons: true,
 	        }).then((inputResult) => { 
-	        	console.log("첫번째"+inputResult);
 	          if (inputResult.isConfirmed) {
-	        	  console.log("첫번째!!!!!"+JSON.stringify(inputResult));
 	            //탈퇴 API
 	        	  fetch(`${contextPath}/pharmacy/api/delete`, {
 	                  method: "POST",
@@ -152,7 +146,6 @@ const askPassword = () => {
 	                  }), 
 	                }).then(res => res.json())
 	                  .then(deleteresult => {
-	                	  console.log("두번째"+deleteresult);
 		                    if(deleteresult){
 		                      Swal.fire("탈퇴 완료", "계정이 삭제되었습니다.", "success")
 		                        .then(() => { window.location.href = `${contextPath}/auth/login`; });
