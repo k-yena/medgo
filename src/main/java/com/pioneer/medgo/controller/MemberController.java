@@ -85,7 +85,6 @@ public class MemberController {
 		
 		// 세션 저장
 		session.setAttribute("loginUser", loginUser.getId());
-		session.setAttribute("isDelete",loginUser.getIsDelete());
 		session.setAttribute("pharmacyId", pharmacydto.getId());
 		return "main"; // 메인 페이지로 이동
 		

@@ -54,16 +54,12 @@ public class MypageService {
 	
 	// 회원탈퇴
 	public boolean deleteUser(Long userId) {
-		System.out.println("userId 있니??"+ userId);
 		MemberDTO memberDTO = memberDAO.findById(userId);
-		System.out.println("pharmacyDTO있니??"+memberDTO);
 		
 		// member 객체가 없거나 탈퇴 회원인 경우 
 		if(memberDTO==null || memberDTO.getIsDelete()!=1) {
 			return false;
 		} 
-		// pharmacy row 삭제
-	    pharmacyDAO.deleteByUserId(userId);  
 		
 	 // member isDelete = 0
 	    int updated = memberDAO.markIsDelete(userId); 

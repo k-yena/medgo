@@ -24,11 +24,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			detail_info = #{detailInfo}
 		where user_id = #{userId} 
 	</update>
-	
-	<!-- 회원탈퇴 -->
-	<delete id="deleteByUserId"  parameterType="long" >
-    	delete from pharmacy where user_id = #{userId} 
-	</delete>
 		
   	<select id="findByLessThanLatAndLon"
 		resultType="com.pioneer.medgo.domain.PharmacyDTO"> 

@@ -80,15 +80,10 @@ public class MypageController {
 	@ResponseBody
 	public boolean delete(@RequestBody MypageDTO mypageDTO, HttpSession session) {
 		Long id = (Long) session.getAttribute("loginUser");
-		int isDelete = (int) session.getAttribute("isDelete");
-		System.out.println("id값 있니??"+id);
-		System.out.println("isDelete 있니??"+isDelete);
-		System.out.println("dto객체니???"+mypageDTO.toString());
-		if (id == null || isDelete!=1) {  
+		if (id == null) {  
 			return false;   
 		}   
 		boolean deleteResult = mypageService.deleteUser(id); 
-		System.out.println("deleteResult있니??"+deleteResult);
 		
 		return deleteResult; 
 	}
