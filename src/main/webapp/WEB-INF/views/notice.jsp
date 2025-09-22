@@ -35,7 +35,7 @@
 							<nav aria-label="breadcrumb"
 								class="breadcrumb-header float-start float-lg-end">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="/medgo/main">메인화면</a></li>
+									<li class="breadcrumb-item"><a href="/medgo/pharmacy/main">메인화면</a></li>
 									<li class="breadcrumb-item active" aria-current="page">공지사항</li>
 								</ol>
 							</nav>

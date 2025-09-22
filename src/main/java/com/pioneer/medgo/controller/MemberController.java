@@ -93,9 +93,7 @@ public class MemberController {
 	// 로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		System.out.println(session.getAttribute("pharmacyId"));
 		session.invalidate();
-		System.out.println(session.getAttribute("pharmacyId"));
 		return "login";
 	}
 
