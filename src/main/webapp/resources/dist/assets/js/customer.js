@@ -131,15 +131,15 @@ const drugDatabaseForCategory = {
 // 주변 약국 목록을 서버에서 가져오는 함수
 async function fetchNearbyPharmacies(lat, lon, keyword = false) {
   let url;
-  console.log("1111")
+  console.log("1111");
   if (keyword) {
     url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}&keyword=${keyword}`;
   } else {
     url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}`;
   }
-  try { 
+  try {
     const response = await fetch(url);
-   console.log("response",response)
+    console.log("response", response);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -176,7 +176,7 @@ function processPharmacyData(pharmacies) {
       latlng: new kakao.maps.LatLng(pharmacy.latitude, pharmacy.longitude),
       distance: `${pharmacy.distance.toFixed(1)}m`,
       drugs: drugDatabase,
-      info: "//",
+      info: pharmacy.detailInfo,
     };
   });
   return db;
@@ -310,18 +310,18 @@ function initializeEventListeners() {
 }
 
 window.onload = () => {
-	  // 3초 후에 랜딩 스크린을 숨깁니다.
-	  setTimeout(() => {
-	    const landingScreen = document.getElementById('landing-screen');
-	    if (landingScreen) {
-	      // 부드럽게 사라지는 효과를 위해 opacity를 먼저 변경합니다.
-	      landingScreen.style.opacity = '0';
-	      // 애니메이션이 끝난 후 화면에서 완전히 제거합니다.
-	      setTimeout(() => {
-	        landingScreen.style.display = 'none';
-	      }, 500); // CSS transition 시간과 일치시킵니다.
-	    }
-	  }, 3000);
+  // 3초 후에 랜딩 스크린을 숨깁니다.
+  setTimeout(() => {
+    const landingScreen = document.getElementById("landing-screen");
+    if (landingScreen) {
+      // 부드럽게 사라지는 효과를 위해 opacity를 먼저 변경합니다.
+      landingScreen.style.opacity = "0";
+      // 애니메이션이 끝난 후 화면에서 완전히 제거합니다.
+      setTimeout(() => {
+        landingScreen.style.display = "none";
+      }, 500); // CSS transition 시간과 일치시킵니다.
+    }
+  }, 3000);
   initializeDOMElements();
   initializeEventListeners();
 
@@ -345,9 +345,9 @@ window.onload = () => {
   // 사용자 위치 정보 가져오기
   navigator.geolocation.watchPosition(
     (position) => {
-    	//
+      //
       //startApp(position.coords.latitude, position.coords.longitude);
-    	startApp(37.5837648313616,126.99994622229863);
+      startApp(37.5837648313616, 126.99994622229863);
     },
     (error) => {
       console.error("Geolocation error:", error);
@@ -370,10 +370,10 @@ function centerMapOnUserLocation() {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-       // const lat = position.coords.latitude;
-       // const lon = position.coords.longitude;
-    	  const lat = 37.5837648313616;
-    	  const lon = 126.99994622229863;
+        // const lat = position.coords.latitude;
+        // const lon = position.coords.longitude;
+        const lat = 37.5837648313616;
+        const lon = 126.99994622229863;
         const userLocation = new kakao.maps.LatLng(lat, lon);
 
         // 마커 이미지
@@ -840,7 +840,9 @@ async function showPharmacyDetailsInPanel(name, stock, drugName) {
   detailView.innerHTML = `
     <h2 style="10px auto 20px auto;">${name}${stockBadge}</h2>
     <p><i class="bi bi-telephone me-2"></i> ${pharmacy.phone || "정보 없음"}</p>
-    <p><i class="bi bi-capsule me-2"> </i> ${pharmacy.detailInfo || "정보 없음"}</p>
+    <p><i class="bi bi-capsule me-2"> </i> ${
+      pharmacy.detailInfo || "정보 없음"
+    }</p>
     <p><i class="bi bi-megaphone me-2"></i> ${notice || "정보 없음"}</p>
     <div class="d-flex justify-content-center mt-2 sticky-bottom-btn-container">
       <span class="list-badge badge text-bg-light shadow-sm" onclick="${backFunction}">
