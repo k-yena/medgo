@@ -8,6 +8,12 @@
 </head>
 <body>
 	<div class="mobile-frame">
+		<div id="landing-screen">
+			<img class="landing-img"
+				src="https://cdn-icons-gif.flaticon.com/9534/9534955.gif" />
+			<p class="landing-text">당신의 약을 찾아,</p>
+			<h2 class="landing-title">약찾GO</h2>
+		</div>
 		<!-- Main App Screen -->
 		<div id="main-app-screen" class="app-screen">
 			<div class="header-container">
