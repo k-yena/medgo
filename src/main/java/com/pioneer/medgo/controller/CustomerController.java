@@ -28,10 +28,10 @@ public class CustomerController {
 	// app 로딩시에 바로 나오면 근처 약국 & 검색하면 해당 약을 가지고 있는 근처약국 반환(전문의약품만 검색지원)
 	@GetMapping("/api/nearby")
 	public List<PharmacyDTO> nearPharmacy(
-			// @RequestParam double latitude, @RequestParam double longitude,
+		//	 @RequestParam double latitude, @RequestParam double longitude,
 			@RequestParam(required = false) String keyword) {
-		double latitude = 37.584566709579256;
-		double longitude = 127.00116896994219;
+		double latitude = 37.5837648313616;
+		double longitude = 126.99994622229863;
 		List<PharmacyDTO> list = new ArrayList<>();
 		if (latitude < 0 || latitude > 90 || longitude < 0 || longitude > 180) {
 
@@ -39,6 +39,9 @@ public class CustomerController {
 		}
 
 		list = customerService.nearbyPharmacyList(latitude, longitude, keyword);
+		for(PharmacyDTO item : list) {
+			System.out.println(item.toString());
+		}
 
 		return list;
 	}
