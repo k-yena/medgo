@@ -47,7 +47,7 @@ public class CustomerService {
   }
 
   public List<MedicineDTO> comparatorMedicineList(String keyword) {
-    System.out.println(keyword + "  service");
+  
     List<MedicineDTO> list = medicineDAO.findComparatorAllByKeyword(keyword);
 
     return list;

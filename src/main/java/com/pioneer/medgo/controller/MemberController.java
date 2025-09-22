@@ -33,7 +33,6 @@ public class MemberController {
 	// 회원가입 폼 이동
 	@GetMapping("/register")
 	public String register() {
-		System.out.println("컨트롤러");
 		return "register";
 	}
 
