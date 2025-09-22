@@ -170,13 +170,10 @@ onload = function () {
       licenseCode,
     ];
 
-    console.log(submitData, "submitData");
     // submitData 값 존재 확인
     let hasEmpty = false;
     for (let i = 0; i < submitData.length; i++) {
-  	  console.log("1")
       if (!submitData[i] || submitData[i].trim().length === 0) {
-      	  console.log("2")
         // 데이터를 입력하면 true
         hasEmpty = true;
         break;

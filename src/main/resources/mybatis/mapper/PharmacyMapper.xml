@@ -3,13 +3,29 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pioneer.medgo.dao.PharmacyDAO">
-   <!-- 1) 회원가입 --> 
+   	<!-- 1) 회원가입 --> 
 	<insert id="insertPharmacy"> 
 		INSERT INTO pharmacy (pharmacy_name, phone, address, user_id, latitude, longitude)
 		VALUES (#{pharmacyName}, #{phone}, #{address}, #{userId}, #{latitude}, #{longitude})   
 	</insert> 
 	
-  <select id="findByLessThanLatAndLon"
+	<select id="findByUserId"
+		parameterType="long" resultType="com.pioneer.medgo.domain.PharmacyDTO">
+		select * from pharmacy
+		where user_id = #{userId}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateDetailInfoPharmacy">
+		update pharmacy set  
+			pharmacy_name = #{pharmacyName}, 
+			phone = #{phone},
+			address = #{address},			
+			detail_info = #{detailInfo}
+		where user_id = #{userId} 
+	</update>
+		
+  	<select id="findByLessThanLatAndLon"
 		resultType="com.pioneer.medgo.domain.PharmacyDTO"> 
 		SELECT 
   		  P.id as id 

@@ -34,7 +34,7 @@
 					<div class="row">
 						<div class="col-12 col-md-6 order-md-1 order-last">
 							<h3>입출고 관리</h3>
-							<p class="text-subtitle text-muted">약품의 입고 및 출고 기록을 관리하고 현재 재고를 확인합니다.</p>
+							<p class="text-subtitle text-muted">약품의 입고 및 출고 기록을 확인합니다.</p>
 						</div>
 						<div class="col-12 col-md-6 order-md-2 order-first">
 							<nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">

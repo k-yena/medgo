@@ -121,8 +121,12 @@ public class MemberService {
  
 	// 로그인 회원 확인
 	public MemberDTO getUserByEmail(String email) {
-
 		return memberDAO.getUserbyEmail(email);
+	}
+	
+	// id 값으로 회원 찾기
+	public MemberDTO getMember(Long id) {
+		return memberDAO.findById(id);
 	}
 
 }

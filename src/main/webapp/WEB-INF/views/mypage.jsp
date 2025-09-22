@@ -33,35 +33,35 @@
 											<div class="row">
 												<div class="col-md-6 col-12">
 													<div class="form-group">
-														<label for="first-name-column">이름</label> <input
+														<label for="first-name-column">약국 이름</label> <input
 															type="text" id="first-name-column" class="form-control"
-															value="약사이름" name="fname-column" />
+															value="${mypage.pharmacyName}" name="pharmacyName" />
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
-														<label for="fname">약국 이름</label> <input type="text"
-															id="fname" class="form-control" value="ㅇㅇ약국" name="fname" />
+														<label for="fname">전화번호</label> <input type="text"
+															id="fname" class="form-control" value="${mypage.phone}" name="phone" />
 													</div>
 												</div>
 												<div class="col-12">
 													<div class="form-group">
 														<label for="city-column">주소</label> <input type="text"
 															id="city-column" class="form-control"
-															value="서울특별시 종로구 창경궁로 254" name="city-column" />
+															value="${mypage.address}" name="address" />
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
-														<label for="email-id-column">이메일</label> <input
+														<label for="email-id-column">이메일</label> <input						
 															type="email" id="email-id-column" class="form-control"
-															name="email-id-column" value="abc@gmail.com" />
+															name="email" disabled="disabled" value="${mypage.email}" />
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
 														<label for="lcnum">면허번호</label> <input type="text"
-															id="lcnum" class="form-control" value="LC24298520"
+															id="lcnum" class="form-control" disabled="disabled" value="${mypage.licenseCode}" name="licenseCode"
 															placeholder="면허번호" />
 													</div>
 												</div>
@@ -70,8 +70,8 @@
 													<div class="form-group">
 														<label for="company-column">상세정보</label> <input
 															type="text" id="company-column" class="form-control"
-															name="company-column"
-															value="평일 09:00 - 17:00 영업합니다. 반려동물 약 판매합니다." />
+															name="detailInfo"
+															value="${mypage.detailInfo}" />
 													</div>
 												</div>
 											</div>
@@ -113,7 +113,7 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<input type="password" class="form-control"
+					<input type="password" class="withdraw-password form-control"
 						placeholder="비밀번호를 입력하세요" name="password" />
 				</div>
 				<div class="modal-footer">
@@ -148,13 +148,13 @@
 					<div class="row">
 						<div class="col-12 col-md-6 order-md-1 order-last">
 							<h3>회원정보</h3>
-							<p class="text-subtitle text-muted">회원 정보를 수정하거나..</p>
+							<p class="text-subtitle text-muted">회원 정보를 수정할 수 있습니다.</p>
 						</div>
 						<div class="col-12 col-md-6 order-md-2 order-first">
 							<nav aria-label="breadcrumb"
 								class="breadcrumb-header float-start float-lg-end">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="/medgo/main">메인화면</a></li>
+									<li class="breadcrumb-item"><a href="/medgo/pharmacy/main">메인화면</a></li>
 									<li class="breadcrumb-item active" aria-current="page">
 										회원정보</li>
 								</ol>
@@ -179,44 +179,44 @@
 											<div class="row">
 												<div class="col-md-6 col-12">
 													<div class="form-group">
-														<label for="name">이름</label> <input type="text" id="name"
-															class="form-control" value="약사이름" name="name" disabled />
+														<label for="name">약국 이름</label> <input type="text" id="pharmacyName"
+															class="form-control" value="${mypage.pharmacyName}" name="pharmacyName" disabled />
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
-														<label for="last-name-column">약국 이름</label> <input
+														<label for="last-name-column">전화번호</label> <input
 															type="text" id="last-name-column" class="form-control"
-															value="ㅇㅇ약국" name="lname-column" disabled />
+															value="${mypage.phone}" name="phone" disabled />
 													</div>
 												</div>
 												<div class="col-12">
 													<div class="form-group">
 														<label for="address">주소</label> <input type="text"
 															id="address" class="form-control"
-															value="서울특별시 종로구 창경궁로 254" name="address" disabled />
+															value="${mypage.address}" name="address" disabled />
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
 														<label for="email">이메일</label> <input type="email"
 															id="email" class="form-control" name="email"
-															value="abc@gmail.com" disabled />
+															value="${mypage.email}" disabled />
 													</div>
 												</div>
 												<div class="col-md-6 col-12">
 													<div class="form-group">
 														<label for="country-floating">면허번호</label> <input
 															type="text" id="country-floating" class="form-control"
-															value="LC24298520" placeholder="Country" disabled />
+															name="licenseCode" value="${mypage.licenseCode}" placeholder="Country" disabled />
 													</div>
 												</div>
 
 												<div class="col-12">
 													<div class="form-group">
 														<label for="info">상세정보</label> <input type="text"
-															id="info" class="form-control" name="info"
-															value="평일 09:00 - 17:00 영업합니다. 반려동물 약 판매합니다." disabled />
+															id="info" class="form-control" name="detailInfo"
+															value="${mypage.detailInfo}" disabled />
 													</div>
 												</div>
 
@@ -238,11 +238,14 @@
 					</div>
 				</section>
 			</div>
-		</div>
+		</div> 
 
 		<!-- 여기부터 script.html -->
 		<%@ include file="/WEB-INF/views/common/script.jsp"%>
 		<!-- 여기까지 script.html -->
+		<script>
+		const contextPath = "${pageContext.request.contextPath}";
+		</script>
 		<script
 			src="${pageContext.request.contextPath}/resources/dist/assets/vendors/toastify/toastify.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -12,17 +12,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pioneer.medgo.domain.MemberDTO;
+import com.pioneer.medgo.domain.PharmacyDTO;
 import com.pioneer.medgo.service.MemberService;
+import com.pioneer.medgo.service.PharmacyService;
 
 @Controller
 @RequestMapping("/auth")
 public class MemberController {
 
 	private final MemberService memberService;
+	
+	private final PharmacyService pharmacyService;
 
 	@Autowired
-	public MemberController(MemberService memberService) {
+	public MemberController(MemberService memberService, PharmacyService pharmacyService) {
 		this.memberService = memberService;
+		this.pharmacyService = pharmacyService;
 	}
 
 	// 회원가입 폼 이동
@@ -70,14 +75,19 @@ public class MemberController {
 	// 로그인 처리
 	@PostMapping("/login")
 	public String login(MemberDTO memberDTO, HttpSession session) {
+		
 		MemberDTO loginUser = memberService.getUserByEmail(memberDTO.getEmail());
-		if (loginUser == null || !loginUser.getPassword().equals(memberDTO.getPassword())) {
+		if (loginUser == null || !loginUser.getPassword().equals(memberDTO.getPassword()) || loginUser.getIsDelete()==0) {
 			return "login";
 		}
-
+	
+		PharmacyDTO pharmacydto = pharmacyService.findPharmacyId(loginUser.getId());
+		
 		// 세션 저장
-		session.setAttribute("loginUser", loginUser);
+		session.setAttribute("loginUser", loginUser.getId());
+		session.setAttribute("pharmacyId", pharmacydto.getId());
 		return "main"; // 메인 페이지로 이동
+		
 	}
 
 	// 로그아웃
