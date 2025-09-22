@@ -39,27 +39,6 @@ function checkDuplicateEmail(userEmail) {
     });
 }
 
-function checkDuplicateEmail(userEmail) {
-  //메일 확인 코드 전송 API
-  fetch(`${contextPath}/auth/check-id`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `email=${userEmail}`,
-  })
-    .then((response) => response.json()) // json 파싱
-    .then((data) => {
-      if (data.result === "duplicate") {
-        //이메일 인증 코드 모달창
-        sendVerificationCode(userEmail);
-      } else {
-        Swal.fire({
-          title: "회원가입을해주세요",
-          icon: "error",
-        });
-      }
-    });
-}
-
 // 메일 확인 코드 전송 API 호출 함수
 function sendVerificationCode(userEmail) {
   fetch(
