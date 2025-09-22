@@ -3,7 +3,7 @@ package com.pioneer.medgo.service;
 import java.util.Random;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage;import javax.management.MBeanServerDelegateMBean;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.pioneer.medgo.dao.MemberDAO;
 import com.pioneer.medgo.dao.PharmacyDAO;
 import com.pioneer.medgo.domain.MemberDTO;
+import com.pioneer.medgo.util.BCryptUtil;
 
 @Service
 public class MemberService {
@@ -65,7 +66,7 @@ public class MemberService {
 
 	// 회원가입하기
 	public MemberDTO register(MemberDTO memberDTO) {
-		System.out.println("서비스" + memberDTO);
+		memberDTO.setPassword(BCryptUtil.hash(memberDTO.getPassword()));
 		// member 테이블 데이터
 		memberDAO.insertMember(memberDTO);
 		// 이메일로 회원 정보 찾기
@@ -120,8 +121,16 @@ public class MemberService {
 	}
  
 	// 로그인 회원 확인
-	public MemberDTO getUserByEmail(String email) {
-		return memberDAO.getUserbyEmail(email);
+	public MemberDTO getUserByEmail(MemberDTO memberDTO) {
+		
+		MemberDTO dto = memberDAO.getUserbyEmail(memberDTO.getEmail());
+		
+		boolean result = BCryptUtil.matches(memberDTO.getPassword(), dto.getPassword());
+		if(result) {
+			return dto;
+		}
+	
+		return new MemberDTO();
 	}
 	
 	// id 값으로 회원 찾기

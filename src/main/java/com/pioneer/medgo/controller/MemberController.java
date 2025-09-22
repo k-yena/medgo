@@ -76,8 +76,8 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(MemberDTO memberDTO, HttpSession session) {
 		
-		MemberDTO loginUser = memberService.getUserByEmail(memberDTO.getEmail());
-		if (loginUser == null || !loginUser.getPassword().equals(memberDTO.getPassword()) || loginUser.getIsDelete()==0) {
+		MemberDTO loginUser = memberService.getUserByEmail(memberDTO);
+		if (loginUser == null || loginUser.getIsDelete()==0) {
 			return "login";
 		}
 	

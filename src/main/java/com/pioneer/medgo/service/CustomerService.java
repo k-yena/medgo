@@ -24,7 +24,7 @@ public class CustomerService {
 		this.pharmacyDAO = pharmacyDAO;
 	}
 
-	public static final double nearDistance = 100.0;
+	public static final double nearDistance = 1.0;
 
 	// 반경 nearDistance 키로 이내의 주변 약국 검색
 	public List<PharmacyDTO> nearbyPharmacyList(double latitude, double longitude, String keyword) {

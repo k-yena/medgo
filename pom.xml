@@ -16,13 +16,13 @@
 
 	<!-- 프로젝트에서 의존하는 외부 라이브러리들을 설정 -->
 	<dependencies>
-	<!-- 로깅 -->
-	<dependency>
-  <groupId>org.springframework</groupId>
-  <artifactId>spring-aspects</artifactId>
-  <version>5.3.39</version>
-</dependency>
-	
+		<!-- 로깅 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>5.3.39</version>
+		</dependency>
+
 		<!-- 서블릿 4.0 라이브러리 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -129,7 +129,7 @@
 			<artifactId>log4jdbc</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<!-- mybatis 자체 라이브러리 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -142,7 +142,7 @@
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>2.1.1</version>
-		</dependency> 
+		</dependency>
 
 		<!-- AOP Weaving 위한 설정 -->
 		<dependency>
@@ -188,24 +188,32 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${springframework-security-version}</version>
 		</dependency>
-		
-		<!-- Spring context support: JavaMailSender가 들어 있음 -->
-	    <dependency>
-	        <groupId>org.springframework</groupId>
-	        <artifactId>spring-context-support</artifactId>
-	        <version>${springframework-version}</version> <!-- 5.3.39 -->
-	    </dependency>
-	
-	    <!-- Jakarta Mail (메일 전송 라이브러리 SMTP/IMAP/POP3 처리) --> 
-	    <dependency>
-	        <groupId>com.sun.mail</groupId>
-	        <artifactId>javax.mail</artifactId>
-	        <version>1.6.2</version> <!-- JDK 8 이상에서 안정적으로 동작 -->
-	    </dependency>
-		
-	</dependencies> 
 
-	<build> 
+		<!-- Spring context support: JavaMailSender가 들어 있음 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springframework-version}</version> <!-- 5.3.39 -->
+		</dependency>
+
+		<!-- Jakarta Mail (메일 전송 라이브러리 SMTP/IMAP/POP3 처리) -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version> <!-- JDK 8 이상에서 안정적으로 동작 -->
+		</dependency>
+
+
+		<!-- 암호화 jbcrypt -->
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.4</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
