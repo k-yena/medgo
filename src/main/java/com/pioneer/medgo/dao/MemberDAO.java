@@ -33,5 +33,8 @@ public interface MemberDAO {
 	
 	 // 탈퇴하면 isDelete 0 처리
     public int markIsDelete(@Param("userId") Long id);
+    
+    // 신규 비밀번호와 기존 비밀번호 change
+    public int changePassword(MemberDTO memberDTO); 
 	
 }

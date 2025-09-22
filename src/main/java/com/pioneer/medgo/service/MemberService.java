@@ -3,7 +3,7 @@ package com.pioneer.medgo.service;
 import java.util.Random;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;import javax.management.MBeanServerDelegateMBean;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -85,7 +85,6 @@ public class MemberService {
 		// 난수의 범위 100000 <= r < 1000000 (6자리 난수)
 		Random r = new Random();
 		int checkNum = r.nextInt(900000) + 100000;
-		System.out.println("ㄴ나나나ㅏ나인증번호 : " + checkNum);
 		authNumber = checkNum;
 	}
 
@@ -133,15 +132,22 @@ public class MemberService {
 		if(!result) {
 			return 0;
 		}
-		
-
 	
 		return dto.getId();
 	}
 	
 	// id 값으로 회원 찾기
-	public MemberDTO getMember(Long id) {
+	public MemberDTO getMember(Long id) { 
 		return memberDAO.findById(id);
+	}
+	
+	// 변경할 비밀번호 
+	public boolean changePassword(String password, String email) {
+		MemberDTO memberDTO = memberDAO.findByEmail(email);
+		memberDTO.setPassword(BCryptUtil.hash(password));
+		int result= memberDAO.changePassword(memberDTO); 
+		
+		return result > 0;
 	}
 
 }

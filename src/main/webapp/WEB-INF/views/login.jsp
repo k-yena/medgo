@@ -44,7 +44,7 @@
 							계정이 없으신가요? <a href="${pageContext.request.contextPath}/auth/register" class="font-bold">회원가입</a>.
 						</p>
 						<p> 
-							<a class="font-bold" href="${pageContext.request.contextPath}/auth/forgotpw">비밀번호를
+							<a class="font-bold" href="${pageContext.request.contextPath}/auth/forgot-password">비밀번호를
 								잊으셨나요?</a>
 						</p>
 					</div> 
