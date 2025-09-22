@@ -16,6 +16,7 @@ import com.pioneer.medgo.domain.MemberDTO;
 import com.pioneer.medgo.domain.MypageDTO;
 import com.pioneer.medgo.service.MemberService;
 import com.pioneer.medgo.service.MypageService;
+import com.pioneer.medgo.util.BCryptUtil;
 
 @Controller
 @RequestMapping("/pharmacy")
@@ -54,11 +55,7 @@ public class MypageController {
 		}
 		MemberDTO memberDTO = memberService.getMember(id);
 
-		if (!memberDTO.getPassword().equals(password)) {
-			return false;
-		}
-
-		return true;
+		return BCryptUtil.matches(password, memberDTO.getPassword());
 	}
 
 	// 회원정보 업데이트

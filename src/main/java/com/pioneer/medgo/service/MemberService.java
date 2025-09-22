@@ -121,16 +121,22 @@ public class MemberService {
 	}
  
 	// 로그인 회원 확인
-	public MemberDTO getUserByEmail(MemberDTO memberDTO) {
+	public long getUserByEmail(MemberDTO memberDTO) {
 		
 		MemberDTO dto = memberDAO.getUserbyEmail(memberDTO.getEmail());
-		
-		boolean result = BCryptUtil.matches(memberDTO.getPassword(), dto.getPassword());
-		if(result) {
-			return dto;
+
+		if (dto == null || dto.getIsDelete()==0) {
+			return 0;
 		}
+
+		boolean result = BCryptUtil.matches(memberDTO.getPassword(), dto.getPassword());
+		if(!result) {
+			return 0;
+		}
+		
+
 	
-		return new MemberDTO();
+		return dto.getId();
 	}
 	
 	// id 값으로 회원 찾기

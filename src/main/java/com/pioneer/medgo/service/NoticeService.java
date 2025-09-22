@@ -15,7 +15,7 @@ public class NoticeService {
 	private NoticeDAO noticeDAO;
 
 	// 페이징된 공지사항 목록
-	public PageResult<NoticeDTO> getNotices(int pharmacyid, int page, int pageSize) {
+	public PageResult<NoticeDTO> getNotices(long pharmacyid, int page, int pageSize) {
 		int totalNotices = noticeDAO.getNoticeCount(pharmacyid);
 		int totalPages = (int) Math.ceil((double) totalNotices / pageSize);
 
@@ -28,7 +28,7 @@ public class NoticeService {
 	}
 
 	// 전체 공지 개수
-	public int getNoticeCount(int pharmacyid) {
+	public int getNoticeCount(long pharmacyid) {
 		return noticeDAO.getNoticeCount(pharmacyid);
 	}
 
@@ -39,7 +39,7 @@ public class NoticeService {
 	}
 
 	// 공지사항 수정
-	public boolean updateNotice(NoticeDTO notice, int pharmacyid) {
+	public boolean updateNotice(NoticeDTO notice, long pharmacyid) {
 		int rows = noticeDAO.updateNotice(notice);
 		return rows > 0 ? true : false;
 	}

@@ -3,6 +3,8 @@ package com.pioneer.medgo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,15 +29,16 @@ public class PharmacyController {
 		this.pharmacyService = pharmacyService;
 	}
 
-	static Long pharmacyId = 1L;
 
 	//의약품 등록을 위한 의약품 검색 폼
 	@GetMapping("/drugs/new")
 	public String registDrugForm(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, @RequestParam(required = false) String keyword,
 			@RequestParam(defaultValue = "productName") String sort, @RequestParam(defaultValue = "asc") String order,
-			Model model) {
-		// user id를 임시로 지정
+			Model model,HttpSession session) {
+		
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
 		if (pharmacyId == null) {
 			return "login";
 		}
@@ -77,9 +80,10 @@ public class PharmacyController {
 	//약국 재고로 의약품 등록
 	@PostMapping("/drugs/new/{medicineId}")
 	public String registDrug(@PathVariable("medicineId") Long medicineId, @RequestParam("medCount") int medCount,
-			Model model) {
+			Model model, HttpSession session) {
+		
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
 
-		// user id를 임시로 지정
 		if (pharmacyId == null) {
 			return "login";
 		}
@@ -101,9 +105,10 @@ public class PharmacyController {
 	@GetMapping("/drugs/delete")
 	public String deleteDrug(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
 			@RequestParam(required = false) String keyword, @RequestParam(defaultValue = "productName") String sort,
-			@RequestParam(defaultValue = "asc") String order, Model model) {
+			@RequestParam(defaultValue = "asc") String order, Model model, HttpSession session) {
 
-		// user id를 임시로 지정
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
 		if (pharmacyId == null) {
 			return "login";
 		}
@@ -137,8 +142,10 @@ public class PharmacyController {
 	//재고 의약품 삭제요청
 	@GetMapping("/drugs/delete/{medicineId}")
 	public String deleteById(@PathVariable("medicineId") Long medicineId, @RequestParam("medCount") int medCount,
-			Model model) {
-		// user id를 임시로 지정
+			Model model, HttpSession session) {
+
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
 		if (pharmacyId == null) {
 			return "login";
 		}
@@ -159,8 +166,9 @@ public class PharmacyController {
 	
 	//입-출고 기록
 	@GetMapping("/stocks/history")
-	public String stock(Model model) {
-		// user id를 임시로 지정
+	public String stock(Model model,HttpSession session) {
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
 		if (pharmacyId == null) {
 			return "login";
 		}
@@ -178,9 +186,10 @@ public class PharmacyController {
 	@GetMapping("/stocks")
 	public String inven(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
 			@RequestParam(required = false) String keyword, @RequestParam(defaultValue = "productName") String sort,
-			@RequestParam(defaultValue = "asc") String order, Model model) {
+			@RequestParam(defaultValue = "asc") String order, Model model,HttpSession session) {
 
-		// user id를 임시로 지정
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
 		if (pharmacyId == null) {
 			return "login";
 		}
@@ -214,7 +223,10 @@ public class PharmacyController {
 	//재고 수량 수정
 	@PostMapping("/stock/{medicineId}")
 	public String insertQuantity(@PathVariable("medicineId") Long medicineId, @RequestParam("transactionQuantity") int transactionQuantity,
-			Model model) {
+			Model model, HttpSession session) {
+		
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
 		if (pharmacyId == null) {
 			return "login";
 		}

@@ -38,7 +38,7 @@
 						</a></li>
 					</div>
 					<li class="sidebar-item" id="logout-button"><a href="/medgo/auth/login" class="sidebar-link"> <i class="fas fa-sign-out-alt"></i> <span>로그아웃</span>
-					</a></li>
+					</a></li> 
 				</div>
 			</ul>
 		</div>

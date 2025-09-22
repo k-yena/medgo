@@ -21,7 +21,7 @@ import com.pioneer.medgo.service.PharmacyService;
 public class MemberController {
 
 	private final MemberService memberService;
-	
+
 	private final PharmacyService pharmacyService;
 
 	@Autowired
@@ -75,25 +75,27 @@ public class MemberController {
 	// 로그인 처리
 	@PostMapping("/login")
 	public String login(MemberDTO memberDTO, HttpSession session) {
-		
-		MemberDTO loginUser = memberService.getUserByEmail(memberDTO);
-		if (loginUser == null || loginUser.getIsDelete()==0) {
+
+		long userId = memberService.getUserByEmail(memberDTO);
+		if (userId == 0) {
 			return "login";
 		}
-	
-		PharmacyDTO pharmacydto = pharmacyService.findPharmacyId(loginUser.getId());
-		
+
+		PharmacyDTO pharmacydto = pharmacyService.findPharmacyId(userId);
+
 		// 세션 저장
-		session.setAttribute("loginUser", loginUser.getId());
+		session.setAttribute("loginUser", userId);
 		session.setAttribute("pharmacyId", pharmacydto.getId());
-		return "main"; // 메인 페이지로 이동
-		
+		return "redirect:/pharmacy/main"; // 메인 페이지로 이동
+
 	}
 
 	// 로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
+		System.out.println(session.getAttribute("pharmacyId"));
 		session.invalidate();
+		System.out.println(session.getAttribute("pharmacyId"));
 		return "login";
 	}
 
