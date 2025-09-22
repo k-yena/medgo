@@ -18,5 +18,8 @@ public interface MedicineDAO {
 			@Param("medicineId") Long medicineId);
 	
 	public List<MedicineDTO> findComparatorAllByKeyword(String keyword);
+	
+	  public List<String> findMedNameByKeyword(String keyword);
+
 
 }

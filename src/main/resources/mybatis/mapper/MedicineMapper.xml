@@ -69,6 +69,16 @@
          	 and drug_type = '전문의약품'
          	 and ingredient_code is not null)
 	</select>
+	
+	<select id="findMedNameByKeyword" parameterType="String" resultType="String">
+	 <![CDATA[
+		 SELECT product_name
+		FROM medicine
+		WHERE product_name LIKE #{keyword} || '%'
+		AND ingredient_code IS NOT NULL
+		AND ROWNUM <= 20
+		 ]]>
+	</select>
 
 </mapper> 
 

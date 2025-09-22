@@ -58,5 +58,15 @@ public class CustomerController {
 		return list;
 
 	}
+	
+	// 약 검색하면 목록 뿌려주기
+	@GetMapping("/api/search/{keyword}")
+	public List<String> searchMedName(@PathVariable String keyword) {
+		System.out.println(keyword + "약검색 키워드");
+		List<String> list = customerService.searchMedName(keyword);
+		System.out.println(list + "이거 그 뭐냐 컨트롤러");
+		return list;
+	}
+
 
 }

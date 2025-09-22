@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	 JOIN 
     	 pharmacy_stock S ON P.ID = S.pharmacy_id
          WHERE
-     	 S.medicine_id = (SELECT ID 
+     	 S.medicine_id in (SELECT ID 
        				  FROM medicine 
        				  WHERE 
          			  product_name = #{keyword})
