@@ -6,6 +6,7 @@ import com.pioneer.medgo.domain.StockDTO;
 import com.pioneer.medgo.service.PharmacyService;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,6 @@ public class PharmacyController {
     this.pharmacyService = pharmacyService;
   }
 
-  static Long pharmacyId = 1L;
-
   // 의약품 등록을 위한 의약품 검색 폼
   @GetMapping("/drugs/new")
   public String registDrugForm(
@@ -34,8 +33,11 @@ public class PharmacyController {
       @RequestParam(required = false) String keyword,
       @RequestParam(defaultValue = "productName") String sort,
       @RequestParam(defaultValue = "asc") String order,
-      Model model) {
-    // user id를 임시로 지정
+      Model model,
+      HttpSession session) {
+
+    Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
     if (pharmacyId == null) {
       return "login";
     }
@@ -78,9 +80,11 @@ public class PharmacyController {
   public String registDrug(
       @PathVariable("medicineId") Long medicineId,
       @RequestParam("medCount") int medCount,
-      Model model) {
+      Model model,
+      HttpSession session) {
 
-    // user id를 임시로 지정
+    Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
     if (pharmacyId == null) {
       return "login";
     }
@@ -106,9 +110,11 @@ public class PharmacyController {
       @RequestParam(required = false) String keyword,
       @RequestParam(defaultValue = "productName") String sort,
       @RequestParam(defaultValue = "asc") String order,
-      Model model) {
+      Model model,
+      HttpSession session) {
 
-    // user id를 임시로 지정
+    Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
     if (pharmacyId == null) {
       return "login";
     }
@@ -144,8 +150,11 @@ public class PharmacyController {
   public String deleteById(
       @PathVariable("medicineId") Long medicineId,
       @RequestParam("medCount") int medCount,
-      Model model) {
-    // user id를 임시로 지정
+      Model model,
+      HttpSession session) {
+
+    Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
     if (pharmacyId == null) {
       return "login";
     }
@@ -165,8 +174,9 @@ public class PharmacyController {
 
   // 입-출고 기록
   @GetMapping("/stocks/history")
-  public String stock(Model model) {
-    // user id를 임시로 지정
+  public String stock(Model model, HttpSession session) {
+    Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
     if (pharmacyId == null) {
       return "login";
     }
@@ -188,9 +198,11 @@ public class PharmacyController {
       @RequestParam(required = false) String keyword,
       @RequestParam(defaultValue = "productName") String sort,
       @RequestParam(defaultValue = "asc") String order,
-      Model model) {
+      Model model,
+      HttpSession session) {
 
-    // user id를 임시로 지정
+    Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
     if (pharmacyId == null) {
       return "login";
     }
@@ -226,7 +238,11 @@ public class PharmacyController {
   public String insertQuantity(
       @PathVariable("medicineId") Long medicineId,
       @RequestParam("transactionQuantity") int transactionQuantity,
-      Model model) {
+      Model model,
+      HttpSession session) {
+
+    Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
     if (pharmacyId == null) {
       return "login";
     }

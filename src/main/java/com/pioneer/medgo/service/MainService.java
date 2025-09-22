@@ -18,37 +18,37 @@ public class MainService {
 	private MainDAO mainDAO;
 
 	// 대시보드에 필요한 모든 데이터
-	public MainDashBoardDTO getDashboardData(int pharmacyid) {
+	public MainDashBoardDTO getDashboardData(long pharmacyId) {
 		MainDashBoardDTO dto = new MainDashBoardDTO();
 
-		dto.setPharmacyName(mainDAO.getPharmacyName(pharmacyid));
-		dto.setTodayIn(mainDAO.getTodayInTransactions(pharmacyid));
-		dto.setTodayOut(mainDAO.getTodayOutTransactions(pharmacyid));
-		dto.setCurrentMedicineCount(mainDAO.getCurrentMedicineCount(pharmacyid));
-		dto.setMonthlyOut(mainDAO.getMonthlyOutTransactions(pharmacyid));
-		dto.setLatestNotice(mainDAO.getLatestNotice(pharmacyid));
-		dto.setRecentStockHistory(mainDAO.getRecentStockHistory(pharmacyid));
+		dto.setPharmacyName(mainDAO.getPharmacyName(pharmacyId));
+		dto.setTodayIn(mainDAO.getTodayInTransactions(pharmacyId));
+		dto.setTodayOut(mainDAO.getTodayOutTransactions(pharmacyId));
+		dto.setCurrentMedicineCount(mainDAO.getCurrentMedicineCount(pharmacyId));
+		dto.setMonthlyOut(mainDAO.getMonthlyOutTransactions(pharmacyId));
+		dto.setLatestNotice(mainDAO.getLatestNotice(pharmacyId));
+		dto.setRecentStockHistory(mainDAO.getRecentStockHistory(pharmacyId));
 
 		return dto;
 	}
 
 	// 한달 간의 입출고 차트 데이터 반환
-	public List<MonthlyTransactionDTO> getMonthlyTransactionData(int pharmacyid) {
-		return mainDAO.getMonthlyTransactionData(pharmacyid);
+	public List<MonthlyTransactionDTO> getMonthlyTransactionData(long pharmacyId) {
+		return mainDAO.getMonthlyTransactionData(pharmacyId);
 	}
 
 	// 최근 입출고 기록 데이터 반환
-	public List<RecentStockHistoryDTO> getRecentStockHistory(int pharmacyid) {
-		return mainDAO.getRecentStockHistory(pharmacyid);
+	public List<RecentStockHistoryDTO> getRecentStockHistory(long pharmacyId) {
+		return mainDAO.getRecentStockHistory(pharmacyId);
 	}
 
 	// 이번달 판매량 높은 약 데이터 반환
-	public List<TopSellingMedicinesDTO> getTopSellingMedicines(int pharmacyid) {
-		return mainDAO.getTopSellingMedicines(pharmacyid);
+	public List<TopSellingMedicinesDTO> getTopSellingMedicines(long pharmacyId) {
+		return mainDAO.getTopSellingMedicines(pharmacyId);
 	}
 
 	// 월간 판매율 데이터 반환
-	public List<MonthlySalesDTO> getMonthlySalesData(int pharmacyid) {
-		return mainDAO.getMonthlySalesData(pharmacyid);
+	public List<MonthlySalesDTO> getMonthlySalesData(long pharmacyId) {
+		return mainDAO.getMonthlySalesData(pharmacyId);
 	}
 }

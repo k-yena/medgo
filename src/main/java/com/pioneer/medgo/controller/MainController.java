@@ -2,6 +2,8 @@ package com.pioneer.medgo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +26,14 @@ public class MainController {
 	MainService mainService;
 
 	@GetMapping("/main")
-	public String main(Model model) {
-		// @SessionAttribute("pharmacyid") int pharmacyid,
-		int pharmacyid = 1; // 임시 데이터
-
-		MainDashBoardDTO dashboardData = mainService.getDashboardData(pharmacyid);
-		model.addAttribute("dashboard", dashboardData);
+	public String main(Model model, HttpSession session) {
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+		
+		if (pharmacyId == null) {  
+			return "login";   
+		}     
+		MainDashBoardDTO dashboardData = mainService.getDashboardData(pharmacyId);
+		model.addAttribute("dashboard", dashboardData); 
 
 		return "main";
 	}
@@ -39,34 +43,34 @@ public class MainController {
 	// 한달 간의 입출고 차트 데이터 반환
 	@GetMapping("/api/monthly-transactions")
 	@ResponseBody
-	public List<MonthlyTransactionDTO> getMonthlyTransactions() {
-		int pharmacyid = 1; // 임시 데이터
-		return mainService.getMonthlyTransactionData(pharmacyid);
+	public List<MonthlyTransactionDTO> getMonthlyTransactions(HttpSession session) {
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+		return mainService.getMonthlyTransactionData(pharmacyId);
 	}
 
 	// 최근 입출고 기록 데이터 반환
 	@GetMapping("/api/recent-stock-history")
 	@ResponseBody
-	public List<RecentStockHistoryDTO> getRecentStockHistory() {
-		int pharmacyid = 1; // 임시 데이터
-		return mainService.getRecentStockHistory(pharmacyid);
+	public List<RecentStockHistoryDTO> getRecentStockHistory(HttpSession session) {
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+		return mainService.getRecentStockHistory(pharmacyId);
 
 	}
 
 	// 이번달 판매량 높은 약 데이터 반환
 	@GetMapping("/api/top-selling-medicines")
 	@ResponseBody
-	public List<TopSellingMedicinesDTO> getTopSellingMedicines() {
-		int pharmacyid = 1; // 임시 데이터
-		return mainService.getTopSellingMedicines(pharmacyid);
+	public List<TopSellingMedicinesDTO> getTopSellingMedicines(HttpSession session) {
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+		return mainService.getTopSellingMedicines(pharmacyId);
 	}
 
 	// 월간 판매율 데이터 반환
 	@GetMapping("/api/monthly-sales")
 	@ResponseBody
-	public List<MonthlySalesDTO> getMonthlySales() {
-		int pharmacyid = 1; // 임시 데이터
-		return mainService.getMonthlySalesData(pharmacyid);
+	public List<MonthlySalesDTO> getMonthlySales(HttpSession session) {
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+		return mainService.getMonthlySalesData(pharmacyId);
 	}
 
 }

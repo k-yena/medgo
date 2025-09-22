@@ -1,5 +1,7 @@
 package com.pioneer.medgo.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +25,18 @@ public class NoticeController {
 	private NoticeService noticeService;
 
 	@GetMapping("/notice")
-	public String notice(Model model, @RequestParam(defaultValue = "1") int page) {
+	public String notice(Model model, @RequestParam(defaultValue = "1") int page, HttpSession session) {
+		
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
+		if (pharmacyId == null) {
+			return "login";
+		}
+
 		int pharmacyid = 1; // 임시
 		int pageSize = 10;
 
-		PageResult<NoticeDTO> pageResult = noticeService.getNotices(pharmacyid, page, pageSize);
+		PageResult<NoticeDTO> pageResult = noticeService.getNotices(pharmacyId, page, pageSize);
 
 		model.addAttribute("notices", pageResult.getContent());
 		model.addAttribute("currentPage", pageResult.getCurrentPage());
@@ -38,10 +47,15 @@ public class NoticeController {
 
 	// - 공지사항 등록 -//
 	@PostMapping("/notice")
-	public String createNotice(@ModelAttribute NoticeDTO notice, RedirectAttributes redirectAttributes) {
-		// @SessionAttribute("pharmacyid") int pharmacyid
-		int pharmacyid = 1; // 임시아이디
-		notice.setPharmacyid(pharmacyid);
+	public String createNotice(@ModelAttribute NoticeDTO notice, RedirectAttributes redirectAttributes, HttpSession session) {
+		
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
+		if (pharmacyId == null) {
+			return "login";
+		}
+
+		notice.setPharmacyid(pharmacyId);
 		boolean isSuccess = noticeService.insertNotice(notice);
 		redirectAttributes.addFlashAttribute("isSuccess", isSuccess);
 
@@ -51,11 +65,18 @@ public class NoticeController {
 	// - 공지사항 수정 -//
 	@PostMapping("/notice/update/{noticeid}")
 	public String editNotice(@PathVariable int noticeid, @ModelAttribute NoticeDTO notice,
-			RedirectAttributes redirectAttributes) {
-		int pharmacyid = 1; // 임시아이디
+			RedirectAttributes redirectAttributes, HttpSession session) {
+
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
+		if (pharmacyId == null) {
+			return "login";
+		}
+
+		
 		notice.setId(noticeid);
 
-		boolean isSuccess = noticeService.updateNotice(notice, pharmacyid);
+		boolean isSuccess = noticeService.updateNotice(notice, pharmacyId);
 		redirectAttributes.addFlashAttribute("isSuccess", isSuccess);
 
 		return "redirect:/pharmacy/notice";
@@ -64,9 +85,16 @@ public class NoticeController {
 	// - 공지사항 삭제 -//
 	@PostMapping("/notice/delete/{noticeid}")
 	public String deleteNotice(@ModelAttribute NoticeDTO notice, @PathVariable int noticeid,
-			RedirectAttributes redirectAttributes) {
-		int pharmacyid = 1; // 임시아이디
-		notice.setPharmacyid(pharmacyid);
+			RedirectAttributes redirectAttributes, HttpSession session) {
+		
+		Long pharmacyId = (Long) session.getAttribute("pharmacyId");
+
+		if (pharmacyId == null) {
+			return "login";
+		}
+		
+
+		notice.setPharmacyid(pharmacyId);
 
 		boolean isSuccess = noticeService.deleteNotice(noticeid);
 		redirectAttributes.addFlashAttribute("isSuccess", isSuccess);

@@ -5,12 +5,12 @@
 <mapper namespace="com.pioneer.medgo.dao.MainDAO">
 
 <!-- 약국 이름 가져오기 -->
-<select id="getPharmacyName" resultType="String" parameterType="int">
+<select id="getPharmacyName" resultType="String" parameterType="long">
     SELECT PHARMACY_NAME FROM PHARMACY WHERE ID = #{pharmacyid} 
 </select> 
 
 <!-- 입출고 차트 (입출고) -->
-<select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.domain.MonthlyTransactionDTO" parameterType="int">
+<select id="getMonthlyTransactionData" resultType="com.pioneer.medgo.domain.MonthlyTransactionDTO" parameterType="long">
   <![CDATA[
     WITH days AS (
         SELECT TRUNC(SYSDATE) - LEVEL + 1 AS transaction_date
@@ -30,7 +30,7 @@
 </select>
 
 <!--  오늘의 입고  -->
-<select id="getTodayInTransactions" resultType="int" parameterType="int">
+<select id="getTodayInTransactions" resultType="int" parameterType="long">
     SELECT NVL(SUM(QUANTITY), 0) AS today_in
     FROM STOCK_HISTORY
     WHERE PHARMACY_ID = #{pharmacyid} 
@@ -39,7 +39,7 @@
 </select>
 
 <!-- 오늘의 출고 -->
-<select id="getTodayOutTransactions" resultType="int" parameterType="int">
+<select id="getTodayOutTransactions" resultType="int" parameterType="long">
     SELECT NVL(SUM(QUANTITY), 0) AS today_out
     FROM STOCK_HISTORY
     WHERE PHARMACY_ID = #{pharmacyid} 
@@ -48,14 +48,14 @@
 </select>
 
 <!-- 현재 의약품 수 -->
-<select id="getCurrentMedicineCount" resultType="int" parameterType="int">
+<select id="getCurrentMedicineCount" resultType="int" parameterType="long">
     SELECT NVL(COUNT(*), 0) AS current_medicine_count
     FROM PHARMACY_STOCK
     WHERE PHARMACY_ID = #{pharmacyid}
 </select>
 
 <!-- 이번 달 출고 -->
-<select id="getMonthlyOutTransactions" resultType="int" parameterType="int">
+<select id="getMonthlyOutTransactions" resultType="int" parameterType="long">
     SELECT NVL(SUM(QUANTITY), 0) AS monthly_out
     FROM STOCK_HISTORY
     WHERE PHARMACY_ID = #{pharmacyid} 
@@ -64,7 +64,7 @@
 </select>   
 
 <!-- 최근 입출고기록(5개) -->
-<select id="getRecentStockHistory" resultType="com.pioneer.medgo.domain.RecentStockHistoryDTO" parameterType="int">
+<select id="getRecentStockHistory" resultType="com.pioneer.medgo.domain.RecentStockHistoryDTO" parameterType="long">
     SELECT M.PRODUCT_NAME AS medicine_name,
            SH.QUANTITY AS quantity, SH.TRANSACTION_TYPE AS transaction_type
     FROM STOCK_HISTORY SH
@@ -76,7 +76,7 @@
 
 
 <!--이번달 판매율(출고) 높은 약 3개 -->
-<select id="getTopSellingMedicines" resultType="com.pioneer.medgo.domain.TopSellingMedicinesDTO" parameterType="int">
+<select id="getTopSellingMedicines" resultType="com.pioneer.medgo.domain.TopSellingMedicinesDTO" parameterType="long">
     SELECT M.PRODUCT_NAME AS medicine_name, SUM(SH.QUANTITY) AS total_sold
     FROM STOCK_HISTORY SH
     JOIN MEDICINE M ON SH.MEDICINE_ID = M.ID
@@ -89,7 +89,7 @@
 </select>
 
 <!-- 맨 마지막 공지사항 1개-->
-<select id="getLatestNotice" resultType="NoticeDTO" parameterType="int">
+<select id="getLatestNotice" resultType="NoticeDTO" parameterType="long">
     SELECT TITLE AS title, CONTENT AS content, CREATED_AT AS createdat
     FROM PHARMACY_BOARD
     WHERE PHARMACY_ID = #{pharmacyid}
@@ -98,7 +98,7 @@
 </select>
 
 <!-- 월간 판매율(출고)-->
-<select id="getMonthlySalesData" resultType="com.pioneer.medgo.domain.MonthlySalesDTO" parameterType="int">
+<select id="getMonthlySalesData" resultType="com.pioneer.medgo.domain.MonthlySalesDTO" parameterType="long">
   <![CDATA[
     WITH months AS (
         SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -LEVEL+1), 'YYYY-MM') AS month

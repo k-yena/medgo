@@ -3,33 +3,57 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pioneer.medgo.dao.PharmacyDAO">
-   <!-- 1) 회원가입 --> 
+   	<!-- 1) 회원가입 --> 
 	<insert id="insertPharmacy"> 
 		INSERT INTO pharmacy (pharmacy_name, phone, address, user_id, latitude, longitude)
 		VALUES (#{pharmacyName}, #{phone}, #{address}, #{userId}, #{latitude}, #{longitude})   
 	</insert> 
-  <select id="findByLessThanLatAndLon"
-		resultType="com.pioneer.medgo.domain.PharmacyDTO">
- SELECT 
-    P.ID as id, 
-    P.PHARMACY_NAME as pharmacyName, 
-    P.LATITUDE as latitude,  
-    P.LONGITUDE as longitude, 
-    P.PHONE as phone, 
-    P.ADDRESS as address,
-    S.med_Count as medCount
-  	FROM 
-    PHARMACY P
-  	JOIN 
-    pharmacy_stock S ON P.ID = S.pharmacy_id
-  	WHERE
-    <if test="keyword != null and keyword != ''">
-     S.medicine_id = (SELECT ID 
+	
+	<select id="findByUserId"
+		parameterType="long" resultType="com.pioneer.medgo.domain.PharmacyDTO">
+		select * from pharmacy
+		where user_id = #{userId}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateDetailInfoPharmacy">
+		update pharmacy set  
+			pharmacy_name = #{pharmacyName}, 
+			phone = #{phone},
+			address = #{address},			
+			detail_info = #{detailInfo}
+		where user_id = #{userId} 
+	</update>
+		
+  	<select id="findByLessThanLatAndLon"
+		resultType="com.pioneer.medgo.domain.PharmacyDTO"> 
+		SELECT 
+  		  P.id as id 
+   		 ,P.PHARMACY_NAME as pharmacyName 
+  		 ,P.LATITUDE as latitude  
+   		 ,P.LONGITUDE as longitude 
+  		 ,P.PHONE as phone 
+   		 ,P.ADDRESS as address
+	<choose>
+		<when test="keyword != null and keyword != ''">
+   		 ,S.med_count as medCount
+         FROM 
+    	 PHARMACY P
+    	 JOIN 
+    	 pharmacy_stock S ON P.ID = S.pharmacy_id
+         WHERE
+     	 S.medicine_id = (SELECT ID 
        				  FROM medicine 
        				  WHERE 
          			  product_name = #{keyword})
-     AND
-    </if>
+		 AND
+		</when>
+		<otherwise> 
+     	FROM 
+    	PHARMACY P
+    	where
+		</otherwise>
+	</choose>
 	LATITUDE BETWEEN #{minLat} AND #{maxLat}
 	AND
 	LONGITUDE BETWEEN #{minLon} AND #{maxLon}

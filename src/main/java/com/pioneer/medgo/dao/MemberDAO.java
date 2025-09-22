@@ -1,6 +1,7 @@
 package com.pioneer.medgo.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.pioneer.medgo.domain.MemberDTO;
 @Mapper      
@@ -26,5 +27,11 @@ public interface MemberDAO {
 	
 	// 이메일 인증 코드 보내기
 	public void sendMail(String email);
+	
+	// id값으로 찾기 회원정보 찾기
+	public MemberDTO findById(Long id);
+	
+	 // 탈퇴하면 isDelete 0 처리
+    public int markIsDelete(@Param("userId") Long id);
 	
 }
