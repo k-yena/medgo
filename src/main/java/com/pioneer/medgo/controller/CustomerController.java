@@ -39,9 +39,7 @@ public class CustomerController {
 		}
 
 		list = customerService.nearbyPharmacyList(latitude, longitude, keyword);
-		for(PharmacyDTO item : list) {
-			System.out.println(item.toString());
-		}
+
 
 		return list;
 	}
