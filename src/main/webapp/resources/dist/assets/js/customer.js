@@ -1,4 +1,4 @@
-// --- DOM 요소 참조 // DOM이 로드된 후 할당될 변수들
+// --- DOM 요소 참조 ---
 let mainAppScreen,
   bottomPanel,
   searchInput,
@@ -19,9 +19,10 @@ let selectedMarker = null; // 현재 선택된 마커
 let currentSearchedDrug = null; // 현재 검색된 약품
 let userLocationMarker = null; // 사용자 위치 마커
 
-// API를 통해 동적으로 채워질 pharmacyDatabase
-let pharmacyDatabase = {};
-let drugDatabase = {};
+// --- 정적 데이터 ---
+let pharmacyDatabase = {}; // 약국 정보
+let drugDatabase = {}; // 약품 정보
+// 카테고리별 약품 목록
 const drugDatabaseForCategory = {
   진통제: {
     icon: "bi bi-bandaid",
@@ -127,54 +128,42 @@ const drugDatabaseForCategory = {
 
 // --- API 호출 함수 ---
 
-// 주변 약국 목록을 서버에서 가져오기
+// 주변 약국 목록을 서버에서 가져오는 함수
 async function fetchNearbyPharmacies(lat, lon, keyword = false) {
-  // GEMINI_DEBUG_START: 네트워크 시간 측정
-  console.time("fetchNearbyPharmacies execution");
-  // GEMINI_DEBUG_END: 네트워크 시간 측정
   let url;
-  console.log("여기가 문제인감11111");
   if (keyword) {
     url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}&keyword=${keyword}`;
   } else {
     url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}`;
   }
-  console.log("여기가 2222222");
   try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    console.log("여기가 문제인감3333");
     const data = await response.json();
-    // GEMINI_DEBUG_START: 네트워크 시간 측정
-    console.timeEnd("fetchNearbyPharmacies execution");
-    // GEMINI_DEBUG_END: 네트워크 시간 측정
     return data;
   } catch (error) {
     console.error("주변 약국 정보를 가져오는 데 실패했습니다:", error);
-    // GEMINI_DEBUG_START: 네트워크 시간 측정
-    console.timeEnd("fetchNearbyPharmacies execution");
-    // GEMINI_DEBUG_END: 네트워크 시간 측정
-    return []; // 오류 발생 시 빈 배열을 반환
+    return [];
   }
 }
 
+// 특정 약국의 공지사항을 가져오는 함수
 async function fetchNotice(pharmacyId) {
   const url = `${contextPath}/api/nearby/${pharmacyId}`;
   try {
     const response = await fetch(url);
     const data = await response.json();
-    return await data.content; // 공지사항은 텍스트로 처리
+    return await data.content;
   } catch (error) {
-    return "공지사항을 불러올 수 없습니다."; // 오류 발생 시 기본 메시지 반환
+    return "공지사항을 불러올 수 없습니다.";
   }
 }
 
 // --- 데이터 처리 함수 ---
 
-// API 응답(약국 배열)을 기존 코드에서 사용하는 객체 형태로 변환합니다.
-
+// API 응답(약국 배열)을 내부에서 사용하는 객체 형태로 변환하는 함수
 function processPharmacyData(pharmacies) {
   const db = {};
   pharmacies.forEach((pharmacy) => {
@@ -211,6 +200,7 @@ function initializeDOMElements() {
 
 // 이벤트 리스너를 등록하는 함수
 function initializeEventListeners() {
+  // 디바운스 함수 (과도한 이벤트 발생 방지)
   const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {
@@ -221,6 +211,7 @@ function initializeEventListeners() {
     };
   };
 
+  // 디바운스가 적용된 약품 검색 함수
   const debouncedSearch = debounce((searchTerm) => {
     if (searchTerm.length > 0) {
       fetch(`${contextPath}/api/search/${searchTerm}`)
@@ -234,7 +225,7 @@ function initializeEventListeners() {
     }
   }, 500);
 
-  // 검색창 이벤트
+  // 검색창 포커스 이벤트
   searchInput.addEventListener("focus", () => {
     resetAllMarkers();
     mainSearchBoxDisplay();
@@ -242,25 +233,26 @@ function initializeEventListeners() {
     searchBackButton.onclick = goHome;
     displaySearchResults({ query: searchInput.value });
   });
-  let isImeComposing = false;
 
+  // 한글 입력 이슈 해결을 위한 IME composition 이벤트 처리
+  let isImeComposing = false;
   searchInput.addEventListener("compositionstart", () => {
     isImeComposing = true;
   });
-
   searchInput.addEventListener("compositionend", (e) => {
     isImeComposing = false;
     debouncedSearch(e.target.value);
   });
 
-  // 검색창에 입력할 때마다 API를 호출하여 약품 목록을 가져옵니다.
+  // 검색창 입력 이벤트
   searchInput.addEventListener("input", (e) => {
     if (isImeComposing) {
       return;
     }
     debouncedSearch(e.target.value);
   });
-  // 하단 패널 이벤트
+
+  // 하단 패널 확장/축소 이벤트
   bottomPanel.addEventListener("click", (event) => {
     if (
       event.target === bottomPanel ||
@@ -270,7 +262,7 @@ function initializeEventListeners() {
     }
   });
 
-  // 하단 패널 약국 목록 클릭 이벤트
+  // 하단 패널의 약국 목록 클릭 이벤트
   document
     .querySelector(".bottom-panel .pharmacy-list")
     .addEventListener("click", function (event) {
@@ -288,7 +280,7 @@ function initializeEventListeners() {
       }
     });
 
-  // 뱃지 스트립 드래그 스크롤 이벤트
+  // 카테고리 뱃지 스트립 드래그 스크롤 이벤트
   let isDown = false;
   let startX;
   let scrollLeft;
@@ -315,8 +307,19 @@ function initializeEventListeners() {
   });
 }
 
-// 앱 시작점
 window.onload = () => {
+  // 3초 후에 랜딩 스크린을 숨깁니다.
+  setTimeout(() => {
+    const landingScreen = document.getElementById("landing-screen");
+    if (landingScreen) {
+      // 부드럽게 사라지는 효과를 위해 opacity를 먼저 변경합니다.
+      landingScreen.style.opacity = "0";
+      // 애니메이션이 끝난 후 화면에서 완전히 제거합니다.
+      setTimeout(() => {
+        landingScreen.style.display = "none";
+      }, 500); // CSS transition 시간과 일치시킵니다.
+    }
+  }, 3000);
   initializeDOMElements();
   initializeEventListeners();
 
@@ -326,89 +329,95 @@ window.onload = () => {
     );
     return;
   }
-  console.log("11111");
+
+  // 앱 시작 함수
   const startApp = (lat, lon) => {
-    // GEMINI_DEBUG_START: 로딩 시간 측정
-    console.time("startApp execution");
-    // GEMINI_DEBUG_END: 로딩 시간 측정
-    console.log("2222");
     fetchNearbyPharmacies(lat, lon).then((pharmacies) => {
       pharmacyDatabase = processPharmacyData(pharmacies);
       initializeMap();
       goHome();
       populateCapsuleStrip();
-      // GEMINI_DEBUG_START: 로딩 시간 측정
-      console.timeEnd("startApp execution");
-      // GEMINI_DEBUG_END: 로딩 시간 측정
     });
   };
-  console.log("444");
-  // GEMINI_DEBUG_START: 위치 정보 조회 시간 측정
-  console.time("geolocation execution");
-  // GEMINI_DEBUG_END: 위치 정보 조회 시간 측정
-  navigator.geolocation.getCurrentPosition(
+
+  // 사용자 위치 정보 가져오기
+  navigator.geolocation.watchPosition(
     (position) => {
-      // GEMINI_DEBUG_START: 위치 정보 조회 시간 측정
-      console.timeEnd("geolocation execution");
-      // GEMINI_DEBUG_END: 위치 정보 조회 시간 측정
       startApp(position.coords.latitude, position.coords.longitude);
     },
     (error) => {
-      // GEMINI_DEBUG_START: 위치 정보 조회 시간 측정
-      console.timeEnd("geolocation execution");
-      // GEMINI_DEBUG_END: 위치 정보 조회 시간 측정
       console.error("Geolocation error:", error);
-      startApp(37.5665, 126.978); // 서울 시청 기준
+      startApp(37.5665, 126.978); // 위치 정보 실패 시 서울 시청 기준으로 시작
     }
   );
 };
 
 // --- 지도 관련 함수 ---
 
+//사용자 현재 위치를 기준으로 지도를 중앙에 표시하는 함수
 function centerMapOnUserLocation() {
   return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          const userLocation = new kakao.maps.LatLng(lat, lon);
-          const currentImg =
-            contextPath + "/resources/dist/assets/images/myLoc.svg";
-          const currentImgSize = new kakao.maps.Size(30, 30);
-          const currentMarkerImage = new kakao.maps.MarkerImage(
-            currentImg,
-            currentImgSize
-          );
-
-          if (userLocationMarker) {
-            userLocationMarker.setPosition(userLocation);
-          } else {
-            userLocationMarker = new kakao.maps.Marker({
-              position: userLocation,
-              map: map,
-              image: currentMarkerImage,
-            });
-          }
-          map.setLevel(1);
-          map.setCenter(userLocation);
-          map.panBy(0, 50);
-
-          resolve({ lat, lon }); // Promise가 성공하면 위치 정보 객체를 반환합니다.
-        },
-        (error) => {
-          console.error("Geolocation error:", error);
-          reject(error); // 오류 발생 시 Promise를 실패 처리합니다.
-        }
-      );
-    } else {
+    if (!navigator.geolocation) {
       const errorMsg = "Geolocation is not supported by this browser.";
       console.error(errorMsg);
-      reject(errorMsg); // Geolocation을 지원하지 않을 경우 Promise를 실패 처리합니다.
+      reject(errorMsg);
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const userLocation = new kakao.maps.LatLng(lat, lon);
+
+        // 마커 이미지
+        const currentImg =
+          contextPath + "/resources/dist/assets/images/myLoc.svg";
+        const currentImgSize = new kakao.maps.Size(30, 30);
+        const currentMarkerImage = new kakao.maps.MarkerImage(
+          currentImg,
+          currentImgSize
+        );
+
+        // 마커 위치 갱신
+        if (userLocationMarker) {
+          userLocationMarker.setPosition(userLocation);
+        } else {
+          userLocationMarker = new kakao.maps.Marker({
+            position: userLocation,
+            map: map,
+            image: currentMarkerImage,
+          });
+        }
+
+        map.setLevel(1);
+
+        // 🔹 핵심: 좌표가 동일해도 강제로 맵 중앙 갱신
+        const tinyOffset = 0.000001;
+        map.setCenter(
+          new kakao.maps.LatLng(lat + tinyOffset, lon + tinyOffset)
+        );
+        setTimeout(() => {
+          map.setCenter(userLocation);
+          map.panBy(0, 50);
+        }, 50);
+
+        resolve({ lat, lon });
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        reject(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: Infinity, // 캐시된 좌표 사용 허용
+      }
+    );
   });
 }
 
+// 모든 마커를 기본 이미지로 초기화하는 함수
 function resetAllMarkers() {
   const normalImg = contextPath + "/resources/dist/assets/images/markerS.svg";
   const normalImgSize = new kakao.maps.Size(40, 40);
@@ -422,6 +431,7 @@ function resetAllMarkers() {
   selectedMarker = null;
 }
 
+// 약국 ID로 특정 마커를 선택하고 강조하는 함수
 function selectMarkerById(pharmacyId) {
   const targetMarker = markers.find(
     (marker) => marker.pharmacyId === pharmacyId
@@ -446,10 +456,8 @@ function selectMarkerById(pharmacyId) {
   map.panBy(0, 50);
 }
 
+// 카카오 지도를 초기화하고 마커를 생성하는 함수
 function initializeMap() {
-  // GEMINI_DEBUG_START: 지도 초기화 시간 측정
-  console.time("initializeMap execution");
-  // GEMINI_DEBUG_END: 지도 초기화 시간 측정
   var mapContainer = document.getElementById("map-placeholder");
   var mapOption = {
     center: new kakao.maps.LatLng(37.583802, 126.999801),
@@ -465,7 +473,6 @@ function initializeMap() {
   for (const pharmacyName in pharmacyDatabase) {
     const pharmacy = pharmacyDatabase[pharmacyName];
     if (pharmacy.latlng) {
-      var markerImage = new kakao.maps.MarkerImage(normalImg, normalImgSize);
       var clickImage = new kakao.maps.MarkerImage(clickImg, clickImgSize);
 
       var marker = new kakao.maps.Marker({
@@ -481,6 +488,7 @@ function initializeMap() {
       marker.pharmacyId = pharmacy.id;
       markers.push(marker);
 
+      // 마커 클릭 이벤트 리스너
       kakao.maps.event.addListener(
         marker,
         "click",
@@ -506,14 +514,10 @@ function initializeMap() {
             }
 
             if (!pharmacyName) {
-              console.error(
-                "ID에 해당하는 약국을 찾을 수 없습니다:",
-                pharmacyId
-              );
               return;
             }
 
-            let stock = "이게 왜 여기서?";
+            let stock = "";
             let drugNameToShow = null;
             if (currentSearchedDrug) {
               if (
@@ -537,16 +541,15 @@ function initializeMap() {
     }
   }
 
+  // 지도 클릭 시 모든 마커 초기화
   kakao.maps.event.addListener(map, "click", function (mouseEvent) {
     resetAllMarkers();
   });
-  // GEMINI_DEBUG_START: 지도 초기화 시간 측정
-  console.timeEnd("initializeMap execution");
-  // GEMINI_DEBUG_END: 지도 초기화 시간 측정
 }
 
 // --- UI 구성 요소 생성 ---
 
+// 메인 검색창 화면을 표시하는 함수
 function mainSearchBoxDisplay() {
   mapControlsContainer.style.display = "none";
   capsuleStripContainer.style.display = "none";
@@ -558,6 +561,7 @@ function mainSearchBoxDisplay() {
   searchResultsContainer.style.paddingTop = "80px";
 }
 
+// 카테고리 캡슐 스트립을 생성하는 함수
 function populateCapsuleStrip() {
   const categories = Object.keys(drugDatabaseForCategory);
   capsuleStrip.innerHTML = "";
@@ -576,7 +580,7 @@ function populateCapsuleStrip() {
   });
 }
 
-// 카테고리 약 목록 클릭
+// 카테고리별 약품 목록을 필터링하여 보여주는 함수
 function filterByCapsule(category) {
   resetAllMarkers();
   mainSearchBoxDisplay();
@@ -584,11 +588,7 @@ function filterByCapsule(category) {
   searchBackButton.onclick = goHome;
 
   const drugs = drugDatabaseForCategory[category].drugs;
-
-  // 화면에 보여줄 이름 배열
   const displayNames = drugs.map((drug) => Object.keys(drug)[0]);
-
-  // 클릭 시 fetch 요청에 사용할 이름 맵
   const fetchNameMap = {};
   drugs.forEach((drug) => {
     const displayName = Object.keys(drug)[0];
@@ -596,24 +596,23 @@ function filterByCapsule(category) {
     fetchNameMap[displayName] = fetchName;
   });
 
-  // 화면에 표시
   displaySearchResults({ drugList: displayNames });
 
-  // 클릭 이벤트 등록 (UI 이름 → fetch용 이름)
   searchResultsContainer
     .querySelectorAll(".search-result-item")
     .forEach((item) => {
       item.onclick = async () => {
         const displayName = item.textContent;
-        const fetchName = fetchNameMap[displayName]; // fetch용 이름
-        searchInput.value = displayName; // UI에는 displayName
-        await updateMainScreenForDrug(fetchName); // fetch 호출
+        const fetchName = fetchNameMap[displayName];
+        searchInput.value = displayName;
+        await updateMainScreenForDrug(fetchName);
       };
     });
 }
 
 // --- 화면 상태 변경 함수 ---
 
+// 검색 결과를 화면에 표시하는 함수
 function displaySearchResults({ query, drugList = null }) {
   searchResultsContainer.innerHTML = "";
   if (!drugList && (!query || query.trim().length === 0)) {
@@ -655,10 +654,11 @@ function displaySearchResults({ query, drugList = null }) {
       searchResultsContainer.appendChild(item);
     });
   } else {
-    searchResultsContainer.innerHTML = `<p style=\"text-align: center; color: #888; padding: 20px;\">목록이 없습니다.</p>`;
+    searchResultsContainer.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">목록이 없습니다.</p>`;
   }
 }
 
+// 홈 화면(초기 화면)으로 돌아가는 함수
 function goHome() {
   resetAllMarkers();
   currentSearchedDrug = null;
@@ -686,7 +686,7 @@ function goHome() {
   centerMapOnUserLocation();
 }
 
-//약을 가진 약국 뿌리기
+// 특정 약품을 보유한 약국 목록을 보여주는 메인 화면으로 업데이트하는 함수
 async function updateMainScreenForDrug(drugName) {
   currentSearchedDrug = drugName;
   mapControlsContainer.style.display = "flex";
@@ -744,10 +744,10 @@ async function updateMainScreenForDrug(drugName) {
   centerMapOnUserLocation();
 }
 
+// 대체 가능한 약품 목록을 보여주는 함수
 async function showAlternatives() {
   if (!currentSearchedDrug) return;
 
-  // --- UI State Changes ---
   bottomPanel.style.display = "none";
   mapControlsContainer.style.display = "none";
   capsuleStripContainer.style.display = "none";
@@ -758,7 +758,6 @@ async function showAlternatives() {
   searchBackButton.onclick = () => updateMainScreenForDrug(currentSearchedDrug);
 
   try {
-    // --- API Call ---
     const response = await fetch(
       `${contextPath}/api/comparator?keyword=${encodeURIComponent(
         currentSearchedDrug
@@ -767,18 +766,16 @@ async function showAlternatives() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const alternativeMedicines = await response.json(); // This is List<MedicineDTO>
-
-    // --- Process and Display Results ---
+    const alternativeMedicines = await response.json();
     const drugList = alternativeMedicines.map((med) => med.productName);
     displaySearchResults({ drugList: drugList });
   } catch (error) {
-    console.error("Error fetching alternative medicines:", error);
-    // Optionally, display an error message to the user in the UI
-    displaySearchResults({ drugList: [] }); // Show "No results" message
+    console.error("대체 약품을 가져오는 데 실패했습니다:", error);
+    displaySearchResults({ drugList: [] });
   }
 }
 
+// 메인 화면 하단 패널에 약국 목록을 채우는 함수
 function populateMainPharmacyList() {
   const mainList = document.querySelector(".bottom-panel .pharmacy-list");
   mainList.innerHTML = "";
@@ -795,6 +792,7 @@ function populateMainPharmacyList() {
   }
 }
 
+// 하단 패널에 약국의 상세 정보를 표시하는 함수
 async function showPharmacyDetailsInPanel(name, stock, drugName) {
   const pharmacyList = bottomPanel.querySelector(".pharmacy-list");
   pharmacyList.innerHTML =
@@ -805,7 +803,6 @@ async function showPharmacyDetailsInPanel(name, stock, drugName) {
   const pharmacy = pharmacyDatabase[name];
   if (!pharmacy) return;
 
-  // API를 통해 공지사항을 비동기적으로 가져옵니다.
   const notice = await fetchNotice(pharmacy.id);
 
   const detailView = document.createElement("div");
@@ -831,24 +828,22 @@ async function showPharmacyDetailsInPanel(name, stock, drugName) {
       stockTag = "적음";
       badgeColor = "text-bg-danger";
     }
-    stockBadge = `<span class=\"badge ${badgeColor} ms-2\">${stockTag}</span>`;
+    stockBadge = `<span class="badge ${badgeColor} ms-2">${stockTag}</span>`;
   }
 
   detailView.innerHTML = `
-    <h2 style=\"10px auto 20px auto;\">${name}${stockBadge}</h2>
-    <p><i class=\"bi bi-telephone me-2\"></i> ${
-      pharmacy.phone || "정보 없음"
-    }</p>
-    <p><i class=\"bi bi-capsule me-2\"> </i> ${pharmacy.info || "정보 없음"}</p>
-    <p><i class=\"bi bi-megaphone me-2\"></i> ${notice || "정보 없음"}</p>
-    <div class=\"d-flex justify-content-center mt-2 sticky-bottom-btn-container\">
-      <span class=\"list-badge badge text-bg-light shadow-sm\" onclick=\"${backFunction}\">
-        <i class=\"bi bi-list-task me-2\"></i>목록 보기
+    <h2 style="10px auto 20px auto;">${name}${stockBadge}</h2>
+    <p><i class="bi bi-telephone me-2"></i> ${pharmacy.phone || "정보 없음"}</p>
+    <p><i class="bi bi-capsule me-2"> </i> ${pharmacy.info || "정보 없음"}</p>
+    <p><i class="bi bi-megaphone me-2"></i> ${notice || "정보 없음"}</p>
+    <div class="d-flex justify-content-center mt-2 sticky-bottom-btn-container">
+      <span class="list-badge badge text-bg-light shadow-sm" onclick="${backFunction}">
+        <i class="bi bi-list-task me-2"></i>목록 보기
       </span>
     </div>
   `;
 
-  pharmacyList.innerHTML = ""; // 로딩 메시지 제거
+  pharmacyList.innerHTML = "";
   pharmacyList.appendChild(detailView);
   bottomPanel.classList.add("active");
 }
