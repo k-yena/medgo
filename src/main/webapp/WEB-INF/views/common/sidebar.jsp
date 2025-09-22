@@ -37,7 +37,7 @@
 						<li class="sidebar-item"><a href="/medgo/pharmacy/mypage" class="sidebar-link"> <i class="fas fa-user"></i> <span>회원정보</span>
 						</a></li>
 					</div>
-					<li class="sidebar-item" id="logout-button"><a href="/medgo/auth/login" class="sidebar-link"> <i class="fas fa-sign-out-alt"></i> <span>로그아웃</span>
+					<li class="sidebar-item" id="logout-button"><a href="/medgo/auth/logout" class="sidebar-link"> <i class="fas fa-sign-out-alt"></i> <span>로그아웃</span>
 					</a></li> 
 				</div>
 			</ul>
