@@ -25,6 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and is_delete = 1
 	</update>
 	
+	<!-- password 변경 -->
+	<update id="changePassword" parameterType="com.pioneer.medgo.domain.MemberDTO">
+		update member set
+		password = #{password}
+		where email = #{email}
+	</update>
+	
    	<!-- 1) 회원가입 -->
 	<insert id="insertMember"
 		parameterType="com.pioneer.medgo.domain.MemberDTO">

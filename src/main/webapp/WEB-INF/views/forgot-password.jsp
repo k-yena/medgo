@@ -22,14 +22,14 @@
               <div class="form-group position-relative has-icon-left mb-4">
                 <input
                   type="email"
-                  class="form-control form-control-xl"
+                  class="form-control form-control-xl email-input"
                   placeholder="Email"
                 />
                 <div class="form-control-icon">
                   <i class="bi bi-envelope"></i>
                 </div>
               </div>
-              <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">
+              <button type="button" class="submit-btn btn btn-primary btn-block btn-lg shadow-lg mt-5">
                 보내기
               </button>
             </form>
@@ -46,5 +46,12 @@
         </div>
       </div>
     </div>
+    
+    <!-- script 여기부터 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		const contextPath = "${pageContext.request.contextPath}";
+	</script>
+	<script src="${pageContext.request.contextPath}/resources/dist/assets/js/pages/forgot-password.js"></script>
   </body>
 </html>

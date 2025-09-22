@@ -114,7 +114,6 @@ onload = function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.code) {
-        	console.log("나나나ㅏㄴ코드 인증"+data.code)
         }
         return data;
       });

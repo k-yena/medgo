@@ -51,9 +51,10 @@ public class MemberController {
 	// 회원가입 이메일 중복(형식) 체크
 	@PostMapping("/check-id")
 	@ResponseBody
-	public String checkEmail(String email) {
+	public String checkEmail(String email, HttpSession session) {
 		// 이메일 사용가능 체크
-		String result = memberService.checkEmail(email);
+		String result = memberService.checkEmail(email);	
+		session.setAttribute("email",email);
 		return "{\"result\":" + "\"" + result + "\"" + "}";
 	}
 
@@ -63,7 +64,7 @@ public class MemberController {
 	public String sendMail(@RequestParam("email") String email) throws Exception {
 		String code = memberService.joinEmail(email);
 		return "{\"code\":" + "\"" + code + "\"" + "}";
-	}
+	} 
 
 	// 로그인 폼 이동
 	@GetMapping("/login")
