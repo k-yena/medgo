@@ -69,10 +69,10 @@ function sendVerificationCode(userEmail) {
               Swal.fire({
                 title: "신규 비밀번호 설정",
                 html: `
-                                <p>새로운 비밀번호를 입력해주세요</p>
-                                <input id="swal-input1" class="swal2-input" placeholder="신규 비밀번호">
-                                <input id="swal-input2" class="swal2-input" placeholder="비밀번호 확인">
-                            `,
+                        <p>새로운 비밀번호를 입력해주세요</p>
+                        <input type="password" id="swal-input1" class="swal2-input" placeholder="신규 비밀번호">
+                        <input type="password" id="swal-input2" class="swal2-input" placeholder="비밀번호 확인">
+                      `,
                 imageUrl: `${contextPath}/resources/dist/assets/images/pages/forgot-password.gif`,
                 imageWidth: 200,
                 imageHeight: 200,
@@ -104,11 +104,10 @@ function sendVerificationCode(userEmail) {
             }
           }); 
       }
-    }) 
-    
+    })    
 }
   
-  function checkPassword(password) {
+function checkPassword(password) {
     // 비밀번호 확인
     fetch(`${contextPath}/auth/forgot-password`, {
       method: "POST",
@@ -128,7 +127,5 @@ function sendVerificationCode(userEmail) {
             icon: "success",
           });
         }
-      });
-  
+      }); 
   }
-
