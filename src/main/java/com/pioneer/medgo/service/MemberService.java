@@ -8,7 +8,6 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import com.pioneer.medgo.dao.MemberDAO;
 import com.pioneer.medgo.dao.PharmacyDAO;
 import com.pioneer.medgo.domain.MemberDTO;
@@ -50,7 +49,6 @@ public class MemberService {
 		}
 		// 존재하지 않으면 ok --> 이메일 코드로
 		return "ok";
-
 	}
 
 	// 이메일 형식 확인
@@ -72,12 +70,11 @@ public class MemberService {
 		// 이메일로 회원 정보 찾기
 		MemberDTO dto = memberDAO.findByEmail(memberDTO.getEmail());
 		// pharmacy 테이블 데이터
-		pharmacyDAO.insertPharmacy(memberDTO.getName(),memberDTO.getPhone(),memberDTO.getAddress(), 
-						dto.getId(),memberDTO.getLatitude(),memberDTO.getLongitude());
-		
+		pharmacyDAO.insertPharmacy(memberDTO.getName(), memberDTO.getPhone(), memberDTO.getAddress(), dto.getId(),
+				memberDTO.getLatitude(), memberDTO.getLongitude());
+
 		// 데이터 가지고 오는 게 성공하면 memberDTO의 모든 정보 반환
 		return memberDTO;
-
 	}
 
 	// 랜덤하게 인증코드 만들기
@@ -118,35 +115,35 @@ public class MemberService {
 			e.printStackTrace();
 		}
 	}
- 
+
 	// 로그인 회원 확인
 	public long getUserByEmail(MemberDTO memberDTO) {
-		
+
 		MemberDTO dto = memberDAO.getUserbyEmail(memberDTO.getEmail());
 
-		if (dto == null || dto.getIsDelete()==0) {
+		if (dto == null || dto.getIsDelete() == 0) {
 			return 0;
 		}
 
 		boolean result = BCryptUtil.matches(memberDTO.getPassword(), dto.getPassword());
-		if(!result) {
+		if (!result) {
 			return 0;
 		}
-	
+
 		return dto.getId();
 	}
-	
+
 	// id 값으로 회원 찾기
-	public MemberDTO getMember(Long id) { 
+	public MemberDTO getMember(Long id) {
 		return memberDAO.findById(id);
 	}
-	
-	// 변경할 비밀번호 
+
+	// 변경할 비밀번호
 	public boolean changePassword(String password, String email) {
 		MemberDTO memberDTO = memberDAO.findByEmail(email);
 		memberDTO.setPassword(BCryptUtil.hash(password));
-		int result= memberDAO.changePassword(memberDTO); 
-		
+		int result = memberDAO.changePassword(memberDTO);
+
 		return result > 0;
 	}
 

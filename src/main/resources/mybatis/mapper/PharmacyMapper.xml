@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT 
   		  P.id as id 
    		 ,P.PHARMACY_NAME as pharmacyName 
+   		 ,P.detail_info as detailInfo
   		 ,P.LATITUDE as latitude  
    		 ,P.LONGITUDE as longitude 
   		 ,P.PHONE as phone 
@@ -42,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	 JOIN 
     	 pharmacy_stock S ON P.ID = S.pharmacy_id
          WHERE
-     	 S.medicine_id = (SELECT ID 
+     	 S.medicine_id in (SELECT ID 
        				  FROM medicine 
        				  WHERE 
          			  product_name = #{keyword})
