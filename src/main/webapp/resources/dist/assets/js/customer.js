@@ -131,7 +131,6 @@ const drugDatabaseForCategory = {
 // 주변 약국 목록을 서버에서 가져오는 함수
 async function fetchNearbyPharmacies(lat, lon, keyword = false) {
   let url;
-  console.log("1111");
   if (keyword) {
     url = `${contextPath}/api/nearby?latitude=${lat}&longitude=${lon}&keyword=${keyword}`;
   } else {
@@ -139,7 +138,6 @@ async function fetchNearbyPharmacies(lat, lon, keyword = false) {
   }
   try {
     const response = await fetch(url);
-    console.log("response", response);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -841,7 +839,7 @@ async function showPharmacyDetailsInPanel(name, stock, drugName) {
     <h2 style="10px auto 20px auto;">${name}${stockBadge}</h2>
     <p><i class="bi bi-telephone me-2"></i> ${pharmacy.phone || "정보 없음"}</p>
     <p><i class="bi bi-capsule me-2"> </i> ${
-      pharmacy.detailInfo || "정보 없음"
+      pharmacy.info || "정보 없음"
     }</p>
     <p><i class="bi bi-megaphone me-2"></i> ${notice || "정보 없음"}</p>
     <div class="d-flex justify-content-center mt-2 sticky-bottom-btn-container">
