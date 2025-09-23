@@ -70,24 +70,35 @@ function sendVerificationCode(userEmail) {
                 title: "신규 비밀번호 설정",
                 html: `
                         <p>새로운 비밀번호를 입력해주세요</p>
-                        <input type="password" id="swal-input1" class="swal2-input" placeholder="신규 비밀번호">
-                        <input type="password" id="swal-input2" class="swal2-input" placeholder="비밀번호 확인">
+                        <input type="password" id="swal-input1" class="swal2-input" placeholder="신규 비밀번호" required> 
+                        <input type="password" id="swal-input2" class="swal2-input" placeholder="비밀번호 확인" required>
                       `,
                 imageUrl: `${contextPath}/resources/dist/assets/images/pages/forgot-password.gif`,
                 imageWidth: 200,
                 imageHeight: 200,
                 confirmButtonColor: "#14b3ae",
                 confirmButtonText: "확인",
+                showCancelButton: true,  
+                cancelButtonText: "취소",  
                 preConfirm: () => {
-                  return [
-                    document.getElementById("swal-input1").value,
-                    document.getElementById("swal-input2").value,
-                  ];
+               
+                    const firstPassword = document.getElementById("swal-input1").value;
+                    const confirmPassword = document.getElementById("swal-input2").value;
+                    
+                    if (!firstPassword || !confirmPassword) {
+                        Swal.showValidationMessage(`비밀번호를 모두 입력해주세요`);
+                        return false; // 이걸 해야 확인 버튼이 막힘
+                      }
+
+                      return [firstPassword, confirmPassword];
+                    
                 },
                 //비밀번호 API
               }).then((data) => {
                 if(data.value[0]===data.value[1]){
                 	checkPassword(data.value[0]);
+                }else if(data.isDismissed){
+                	
                 }else{
                 	Swal.fire({
                         title: "비밀번호가 일치하지 않습니다",

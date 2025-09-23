@@ -120,6 +120,7 @@ const askPassword = () => {
         PasswordCheck(userPassword).then((isCorrect) => {
           if (!isCorrect) {
             Swal.fire("실패", "비밀번호가 틀렸습니다.", "error");
+            inputPw.value = ""; 
             return;
           }
 	        Swal.fire({
