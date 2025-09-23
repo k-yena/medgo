@@ -201,7 +201,6 @@ $(function () {
   if (delBtn.length) {
     delBtn.on('click', function () {
       if (!current || !current.id) return;
-      if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
       var stockValue = mStock.length ? $.trim(mStock.text()) : '';
       var url = '/medgo/pharmacy/drugs/delete/' + encodeURIComponent(current.id);

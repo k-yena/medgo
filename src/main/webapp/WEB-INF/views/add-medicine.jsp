@@ -81,7 +81,7 @@
 									</thead>
 									<tbody>
 										<c:if test="${list.size()==0 }">
-											<td colspan='4' style="text-align: center">데이터가 없습니다</td>
+											<td colspan='4' style="text-align: center" class="disabled">데이터가 없습니다</td>
 										</c:if>
 										<c:forEach var="item" items="${list}">
 											<tr data-id="${item.id }" data-code="${item.mainCode}" data-name="${item.productName}" data-manu="${item.manufacturerName}" data-drugType="${item.drugType}">

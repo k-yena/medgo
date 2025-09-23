@@ -205,7 +205,9 @@ $(function() {
 	// 행 클릭 → 모달 채우고 열기 (이벤트 위임)
 	table.on('click', function(e) {
 		var row = $(e.target).closest('tbody tr');
+		const disabledTd = $('.disabled')
 		if (!row.length) return;
+		if (disabledTd[0]== $(e.target)[0]) return;
 
 		current = extractRowData(row);
 
@@ -259,9 +261,6 @@ $(function() {
 
 		var v = qtyInput.length ? parseInt(qtyInput.val(), 10) : 1;
 		var qty = (!isNaN(v) && v > 0) ? v : 1;
-
-		if (!window.confirm('이 의약품을 등록하시겠습니까?'))
-			return;
 
 		var tmpForm = $('<form>', {
 			method : 'POST',
