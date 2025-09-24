@@ -386,6 +386,7 @@ function centerMapOnUserLocation() {
         // 마커 위치 갱신
         if (userLocationMarker) {
           userLocationMarker.setPosition(userLocation);
+          userLocationMarker.setMap(map);
         } else {
           userLocationMarker = new kakao.maps.Marker({
             position: userLocation,
@@ -524,14 +525,8 @@ function initializeMap() {
             let stock = "";
             let drugNameToShow = null;
             if (currentSearchedDrug) {
-              if (
-                pharmacyData &&
-                pharmacyData.drugs &&
-                pharmacyData.drugs[currentSearchedDrug]
-              ) {
-                stock = pharmacyData.drugs[currentSearchedDrug];
-                drugNameToShow = currentSearchedDrug;
-              }
+              drugNameToShow = currentSearchedDrug;
+              stock = m.stockCount || 0;
             }
 
             showPharmacyDetailsInPanel(pharmacyName, stock, drugNameToShow);
@@ -736,13 +731,17 @@ async function updateMainScreenForDrug(drugName) {
     pharmacyList.innerHTML = `<p style="text-align: center; color: #888; padding-top: 20px;">재고를 보유한 약국이 없습니다.</p>`;
   }
 
-  const pharmaciesWithDrug = new Set(pharmaciesData.map((p) => p.pharmacyName));
+  const pharmacyStockMap = new Map(
+    pharmaciesData.map((p) => [p.pharmacyName, p.medCount])
+  );
   for (const marker of markers) {
     const pharmacyName = marker.getTitle();
-    if (pharmaciesWithDrug.has(pharmacyName)) {
+    if (pharmacyStockMap.has(pharmacyName)) {
       marker.setVisible(true);
+      marker.stockCount = pharmacyStockMap.get(pharmacyName);
     } else {
       marker.setVisible(false);
+      marker.stockCount = 0;
     }
   }
   centerMapOnUserLocation();
@@ -838,9 +837,7 @@ async function showPharmacyDetailsInPanel(name, stock, drugName) {
   detailView.innerHTML = `
     <h2 style="10px auto 20px auto;">${name}${stockBadge}</h2>
     <p><i class="bi bi-telephone me-2"></i> ${pharmacy.phone || "정보 없음"}</p>
-    <p><i class="bi bi-capsule me-2"> </i> ${
-      pharmacy.info || "정보 없음"
-    }</p>
+    <p><i class="bi bi-capsule me-2"> </i> ${pharmacy.info || "정보 없음"}</p>
     <p><i class="bi bi-megaphone me-2"></i> ${notice || "정보 없음"}</p>
     <div class="d-flex justify-content-center mt-2 sticky-bottom-btn-container">
       <span class="list-badge badge text-bg-light shadow-sm" onclick="${backFunction}">
