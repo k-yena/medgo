@@ -90,8 +90,8 @@ public class MemberService {
 		makeRandomNumber();
 		String setFrom = "${mail.username}"; // email-config에 설정한 자신의 이메일 주소를 입력
 		String toMail = email;
-		String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목
-		String content = "홈페이지를 방문해주셔서 감사합니다." + "<br><br>" + "인증 번호는 " + authNumber + "입니다." + "<br>"
+		String title = "약찾Go 인증코드 이메일 입니다."; // 이메일 제목
+		String content = "약찾Go를 방문해주셔서 감사합니다." + "<br><br>" + "인증 번호는 " + authNumber + "입니다." + "<br>"
 				+ "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; // 이메일 내용 삽입
 		mailSend(setFrom, toMail, title, content);
 		return Integer.toString(authNumber);
