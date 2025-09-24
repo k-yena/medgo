@@ -89,6 +89,12 @@ function sendVerificationCode(userEmail) {
                         Swal.showValidationMessage(`비밀번호를 모두 입력해주세요`);
                         return false; // 이걸 해야 확인 버튼이 막힘
                       }
+                    
+                    if (firstPassword != confirmPassword) {
+                        Swal.showValidationMessage(`비밀번호가 일치하지 않습니다.`);
+                        return false; // 이걸 해야 확인 버튼이 막힘
+                      }
+                    
 
                       return [firstPassword, confirmPassword];
                     
@@ -99,14 +105,8 @@ function sendVerificationCode(userEmail) {
                 	checkPassword(data.value[0]);
                 }else if(data.isDismissed){
                 	
-                }else{
-                	Swal.fire({
-                        title: "비밀번호가 일치하지 않습니다",
-                        icon: "error",
-                      });
-                }
-                
-              });
+                }              
+              }); 
             } else {
               Swal.fire({
                 title: "코드가 일치하지 않습니다",
