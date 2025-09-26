@@ -4,7 +4,7 @@ onload = function () {
 
   // 중복 클릭이 일어나지 않는 경우
   let isCheckEmail = false;
-  
+ 
   // 중복 확인 버튼 클릭 이벤트
   emailCheckBtn.addEventListener("click", () => {
     const email = emailInput.value.trim();
@@ -50,6 +50,17 @@ onload = function () {
         } else {
           emailInput.classList.remove("is-invalid");
           // 메일 확인 코드 전송 API
+          let timerInterval;
+          Swal.fire({
+            title: "확인 코드를 발송 중입니다.",
+            timer: 3500,
+            imageUrl: `${contextPath}/resources/dist/assets/images/pages/sendemail.gif`,
+            imageWidth: 200,
+            imageHeight: 200,
+            willClose: () => {
+              clearInterval(timerInterval);
+            }
+          });
           sendVerificationCode(userEmail).then((authCode) => {
  
           if(authCode && authCode.code){
@@ -68,7 +79,7 @@ onload = function () {
 	          }).then((response) => {  	  
             if (response.isConfirmed) {  
               // 사용자에게 받은 코드와 서버에서 보낸 코드가 맞는지 확인 하는 API
-              if (response.value === authCode.code ) { 
+              if (response.value === authCode.code ) {
                 Swal.fire({
                   title: "확인되었습니다",
                   text: "이메일을 확인했습니다",
@@ -96,13 +107,13 @@ onload = function () {
                   title: "코드가 일치하지 않습니다",
                   icon: "error",
                 });
-              }   
+              }  
             }
 	          });
           }
           });
         }
-        
+       
       });
   }
 
@@ -118,7 +129,7 @@ onload = function () {
         return data;
       });
   }
-  
+ 
   let latitude; // 위도
   let longitude; // 경도
   // 카카오 주소 검색 이벤트(위도, 경도 저장)
@@ -177,7 +188,7 @@ onload = function () {
         hasEmpty = true;
         break;
       }
-    } 
+    }
    
     // 비밀번호 == 비밀번호 확인 체크
     if (password !== passwordConfirm) {
@@ -233,7 +244,7 @@ onload = function () {
             title: "회원가입 실패",
             text: "다시 시도해주세요",
             icon: "error",
-          }); 
+          });
         }
       });
   });

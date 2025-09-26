@@ -34,8 +34,8 @@ const drugDatabaseForCategory = {
       { 프리엔: "프리엔연질캡슐(덱시부프로펜)" },
       { 트리스펜: "트리스펜연질캡슐(이부프로펜)" },
       { 페인엔젤센: "페인엔젤센연질캡슐(나프록센)" },
-      { 확펜: "확펜연질캡슐(나프록센)" },
-    ],
+      { 확펜: "확펜연질캡슐(나프록센)" }
+    ]
   },
   소화제: {
     icon: "bi bi-heart-pulse",
@@ -53,8 +53,8 @@ const drugDatabaseForCategory = {
       { 알마겔에프: "알마겔에프정(알마게이트)" },
       { 겔포스엠: "겔포스엠현탁액" },
       { 개비스콘더블액션: "개비스콘더블액션현탁액" },
-      { 위생단Q: "위생단큐환" },
-    ],
+      { 위생단Q: "위생단큐환" }
+    ]
   },
   알레르기약: {
     icon: "bi bi-wind",
@@ -70,8 +70,8 @@ const drugDatabaseForCategory = {
       { 클리어딘: "클리어딘연질캡슐(로라타딘)" },
       { 알로스탑: "알로스탑연질캡슐(로라타딘)" },
       { 알러젯: "알러젯연질캡슐(펙소페나딘염산염)" },
-      { 쿨노즈: "쿨노즈캡슐" },
-    ],
+      { 쿨노즈: "쿨노즈캡슐" }
+    ]
   },
   종합감기약: {
     icon: "bi bi bi-virus2",
@@ -86,8 +86,8 @@ const drugDatabaseForCategory = {
       { 하디큐콜드: "하디큐콜드연질캡슐" },
       { 갈근탕: "감치원캅셀(갈근탕)" },
       { 콘택골드: "콘택골드캡슐" },
-      { 판피린: "판피린정" },
-    ],
+      { 판피린: "판피린정" }
+    ]
   },
   상처연고: {
     icon: "bi bi-bandaid",
@@ -103,8 +103,8 @@ const drugDatabaseForCategory = {
       { 버물리알파: "버물리알파액" },
       { 마데카솔케어: "마데카솔케어연고" },
       { 후시딘: "후시딘연고(퓨시드산나트륨)" },
-      { 베아로반: "베아로반연고(무피로신)" },
-    ],
+      { 베아로반: "베아로반연고(무피로신)" }
+    ]
   },
   어린이: {
     icon: "bi bi-emoji-smile",
@@ -121,9 +121,9 @@ const drugDatabaseForCategory = {
       { 텐텐츄정: "텐텐츄정" },
       { 어린이타이레놀: "어린이타이레놀현탁액(아세트아미노펜)" },
       { 소보민시럽: "소보민시럽(소아용)" },
-      { 엄마손시럽: "엄마손시럽" },
-    ],
-  },
+      { 엄마손시럽: "엄마손시럽" }
+    ]
+  }
 };
 
 // --- API 호출 함수 ---
@@ -140,14 +140,14 @@ async function fetchNearbyPharmacies(lat, lon, keyword = false) {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    };
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("주변 약국 정보를 가져오는 데 실패했습니다:", error);
     return [];
-  }
-}
+  };
+};
 
 // 특정 약국의 공지사항을 가져오는 함수
 async function fetchNotice(pharmacyId) {
@@ -158,8 +158,8 @@ async function fetchNotice(pharmacyId) {
     return await data.content;
   } catch (error) {
     return "공지사항을 불러올 수 없습니다.";
-  }
-}
+  };
+};
 
 // --- 데이터 처리 함수 ---
 
@@ -174,7 +174,7 @@ function processPharmacyData(pharmacies) {
       latlng: new kakao.maps.LatLng(pharmacy.latitude, pharmacy.longitude),
       distance: `${pharmacy.distance.toFixed(1)}m`,
       drugs: drugDatabase,
-      info: pharmacy.detailInfo,
+      info: pharmacy.detailInfo
     };
   });
   return db;
@@ -655,7 +655,7 @@ function displaySearchResults({ query, drugList = null }) {
   } else {
     searchResultsContainer.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">목록이 없습니다.</p>`;
   }
-}
+};
 
 // 홈 화면(초기 화면)으로 돌아가는 함수
 function goHome() {
@@ -745,7 +745,7 @@ async function updateMainScreenForDrug(drugName) {
     }
   }
   centerMapOnUserLocation();
-}
+};
 
 // 대체 가능한 약품 목록을 보여주는 함수
 async function showAlternatives() {
@@ -791,7 +791,7 @@ function populateMainPharmacyList() {
       showPharmacyDetailsInPanel(pharmacyName, "정보 보기", null);
     };
     item.innerHTML = `<h3>${pharmacyName}</h3><span>${pharmacy.distance}</span>`;
-    mainList.appendChild(item);
+    mainList.appendChild(item); 
   }
 }
 
@@ -849,4 +849,4 @@ async function showPharmacyDetailsInPanel(name, stock, drugName) {
   pharmacyList.innerHTML = "";
   pharmacyList.appendChild(detailView);
   bottomPanel.classList.add("active");
-}
+} 

@@ -41,6 +41,17 @@ function checkDuplicateEmail(userEmail) {
 
 // 메일 확인 코드 전송 API 호출 함수
 function sendVerificationCode(userEmail) {
+	 let timerInterval;
+     Swal.fire({
+       title: "확인 코드를 발송 중입니다.",
+       timer: 3500,
+       imageUrl: `${contextPath}/resources/dist/assets/images/pages/sendemail.gif`,
+       imageWidth: 200,
+       imageHeight: 200,
+       willClose: () => {
+         clearInterval(timerInterval);
+       }
+     });
   fetch(
     `${contextPath}/auth/send-code?email=${encodeURIComponent(userEmail)}`,
     {
