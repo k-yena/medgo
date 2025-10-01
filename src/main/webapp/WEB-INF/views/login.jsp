@@ -15,7 +15,7 @@
 					<h1 class="auth-title">Log in.</h1>
 					<p class="auth-subtitle mb-5">의약품 재고관리를 시작하세요</p>
 
-					<form action="/medgo/main" method="post">
+					<form action="${pageContext.request.contextPath}/auth/login" method="post"> 
 						<div class="form-group position-relative has-icon-left mb-4">
 							<input type="email" name="email"
 								class="form-control form-control-xl" placeholder="이메일" />
@@ -39,15 +39,15 @@
 						<button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">
 							로그인</button>
 					</form>
-					<div class="text-center mt-5 text-lg fs-4">
+					<div class="text-center mt-5 text-lg fs-4"> 
 						<p class="text-gray-600">
-							계정이 없으신가요? <a href="/medgo/register" class="font-bold">회원가입</a>.
+							계정이 없으신가요? <a href="${pageContext.request.contextPath}/auth/register" class="font-bold">회원가입</a>.
 						</p>
-						<p>
-							<a class="font-bold" href="/medgo/forgotpw">비밀번호를
+						<p> 
+							<a class="font-bold" href="${pageContext.request.contextPath}/auth/forgot-password">비밀번호를
 								잊으셨나요?</a>
 						</p>
-					</div>
+					</div> 
 				</div>
 			</div>
 			<div class="col-lg-7 d-none d-lg-block">

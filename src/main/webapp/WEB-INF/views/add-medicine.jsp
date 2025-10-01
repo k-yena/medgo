@@ -30,7 +30,7 @@
 						<div class="col-12 col-md-6 order-md-2 order-first">
 							<nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="/medgo/main">메인화면</a></li>
+									<li class="breadcrumb-item"><a href="/medgo/pharmacy/main">메인화면</a></li>
 									<li class="breadcrumb-item active" aria-current="page">신규 약 등록</li>
 								</ol>
 							</nav>
@@ -57,7 +57,8 @@
 								</div>
 
 								<!-- 상태 유지용 hidden -->
-								<input type="hidden" name="page" value="${page}" /> <input type="hidden" name="sort" value="${sort}" /> <input type="hidden" name="order" value="${orderBy}" />
+								<input type="hidden" name="page" value="${page}" /> <input type="hidden" name="sort" value="${sort}" />
+								<input type="hidden" name="order" value="${orderBy}" />
 								<button type="submit" style="display: none"></button>
 							</form>
 
@@ -80,7 +81,7 @@
 									</thead>
 									<tbody>
 										<c:if test="${list.size()==0 }">
-											<td colspan='4' style="text-align: center">데이터가 없습니다</td>
+											<td colspan='4' style="text-align: center" class="disabled">데이터가 없습니다</td>
 										</c:if>
 										<c:forEach var="item" items="${list}">
 											<tr data-id="${item.id }" data-code="${item.mainCode}" data-name="${item.productName}" data-manu="${item.manufacturerName}" data-drugType="${item.drugType}">
